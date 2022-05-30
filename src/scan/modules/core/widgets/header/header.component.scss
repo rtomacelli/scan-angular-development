@@ -1,0 +1,69 @@
+/// HeaderComponent's private SCSS styles =========================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+:host ::ng-deep {
+  .main-header {
+    $title-bg-color: color-variant(color('blue'), 700);
+    $title-fg-color: text-color($title-bg-color);
+    --title-bg-color: #{$title-bg-color};
+    --title-fg-color: #{$title-fg-color};
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+
+    .title {
+      font-size: 18px;
+    }
+  }
+
+  .reference-date-group {
+    @extend %flex-row;
+    align-items: center;
+    margin-right: calc(var(--length-gutter) / -2);
+    padding-right: var(--length-gutter);
+    box-shadow: inset -2px 0 3px -3px currentColor;
+
+    strong {
+      margin-right: 0.5em;
+    }
+
+    .reference-date-selector {
+      cursor: pointer;
+
+      .ui-calendar.ui-calendar-w-btn {
+        @extend %flex-row;
+        width: 9em;
+
+        .ui-inputtext {
+          width: 6em;
+          margin-top: 2px;
+          padding: 0;
+          font-size: 1rem;
+          text-align: center;
+          background-color: var(--title-bg-color);
+          color: var(--title-fg-color);
+          border: none;
+          border-bottom: 1px dotted transparent;
+          border-radius: 0;
+          cursor: pointer;
+          transition: $transition;
+
+          &:hover:not([disabled]) {
+            border-bottom-color: currentColor;
+          }
+
+          &[disabled] {
+            cursor: default;
+          }
+        }
+
+        .ui-calendar-button {
+          background-color: transparent;
+          border: none;
+        }
+      }
+    }
+  }
+}

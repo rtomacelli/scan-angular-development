@@ -1,0 +1,13 @@
+/// Global calendar styles ========================================================================
+
+body {
+  .ui-datepicker {
+    .ui-datepicker-buttonbar {
+      border-top: none;
+
+      & > .ui-g > div:first-child {
+        text-align: left;
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+/// TreeComponent's private SCSS styles ===========================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.scan-tree {
+  $scan-tree-node-bg-color: color-variant(color('blue-gray'), 50);
+  $scan-tree-node-fg-color: text-color($scan-tree-node-bg-color);
+  --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+  --scan-tree-node-fg-color: #{$scan-tree-node-fg-color};
+  --scan-tree-node-tag-bg-color: #{color('blue-gray')};
+  --scan-tree-node-tag-fg-color: #{color('ice')};
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  transition: $transition;
+
+  &.tree .scan-tree {
+    padding-left: $length-gutter;
+  }
+
+  .scan-tree-node {
+    .scan-tree-node-label {
+      @extend %flex-row;
+      position: relative;
+
+      .scan-tree-node-toggle {
+        margin-right: 6px;
+        cursor: pointer;
+      }
+
+      .scan-tree-node-code {
+        align-self: flex-start;
+        display: inline-block;
+        flex: 0 0 auto;
+        height: 16px;
+        min-width: 16px;
+        margin-right: 6px;
+        padding: 0 4px 1px;
+        text-align: center;
+        font-family: $font-mono;
+        font-size: 80%;
+        font-weight: bold;
+        background-color: var(--scan-tree-node-tag-bg-color);
+        color: var(--scan-tree-node-tag-fg-color);
+        border-radius: var(--length-border-radius);
+      }
+    }
+
+    &.highlight {
+      --scan-tree-node-bg-color: #{color('coal')};
+      --scan-tree-node-fg-color: #{color('ice')};
+    }
+
+    &.dimmed {
+      --scan-tree-node-bg-color: #{color('blue-gray')};
+      --scan-tree-node-fg-color: #{color('ice')};
+    }
+
+    &.marked:not(.highlight):not(.dimmed) {
+      --scan-tree-node-bg-color: var(--title-bg-color);
+      --scan-tree-node-fg-color: var(--title-fg-color);
+    }
+
+    &.primary .scan-tree-node-name::after {
+      content: 'Principal';
+      position: relative;
+      top: -1px;
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 5px;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+      font-size: 70%;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+      background-color: var(--scan-tree-node-fg-color);
+      color: var(--scan-tree-node-bg-color);
+      border-radius: var(--length-border-radius);
+      opacity: 0.75;
+    }
+
+    &.has-details {
+      & .scan-tree-node-label {
+        cursor: pointer;
+
+        &::after {
+          content: '+';
+          position: absolute;
+          display: block;
+          top: 1px;
+          right: 1px;
+          line-height: 10px;
+          font-weight: bold;
+          opacity: 0.5;
+          transition: $transition;
+        }
+
+        &:hover::after {
+          opacity: 1;
+        }
+      }
+    }
+
+    &.closed .scan-tree {
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+  }
+
+  &.tree .scan-tree-node .scan-tree-node-label,
+  &.block .scan-tree-node {
+    margin-bottom: ($length-gutter / 2) - 0.1px; // HACK margin-bottom is collapsing with child's padding-bottom
+    padding: $length-gutter / 2;
+    background-color: var(--scan-tree-node-bg-color);
+    color: var(--scan-tree-node-fg-color);
+    border-radius: var(--length-border-radius);
+    transition: $transition;
+  }
+
+  &.block .scan-tree-node {
+    margin-bottom: $length-gutter / 2;
+    padding-bottom: 0.1px; // HACK padding-bottom is collapsing with parent's margin-bottom
+
+    .scan-tree-node-label {
+      margin-bottom: $length-gutter / 2;
+    }
+  }
+
+  &.compact {
+    .scan-tree-node:not(.marked) {
+      display: none;
+    }
+  }
+}

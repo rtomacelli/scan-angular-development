@@ -1,0 +1,34 @@
+<div class="app-details">
+  <div class="app-status-text {{app.estado | toIdentifier}}">{{app.estado}}</div>
+  <div class="paths">
+    <div class="path-category primary-path">
+      <div class="header">Assunto Principal</div>
+      <ng-container *ngIf="hasPrimaryService; else noPrimaryService">
+        <scan-path-inline [path]="app.path"></scan-path-inline>
+      </ng-container>
+      <ng-template #noPrimaryService>
+        <div class="notice">Esta sigla não tem assunto principal.</div>        
+      </ng-template>
+    </div>
+    <div class="path-category secondary-paths" *ngIf="hasSecondaryServices">
+      <div class="header">Assuntos Secundários</div>
+      <ng-container *ngFor="let path of secondaryPaths | async">
+        <scan-path-inline [path]="path"></scan-path-inline>
+      </ng-container>
+    </div>
+  </div>
+  <div class="documentation">
+    <div class="section objectives">
+      <div class="header">Objetivos</div>
+      <div class="text" [innerHTML]="app.objetivos | documentation"></div>
+    </div>
+    <div class="section guidelines">
+      <div class="header">Diretrizes</div>
+      <div class="text" [innerHTML]="app.diretrizes | documentation"></div>
+    </div>
+    <div class="section observations">
+      <div class="header">Observações</div>
+      <div class="text" [innerHTML]="app.observacoes | documentation"></div>
+    </div>
+  </div>
+</div>

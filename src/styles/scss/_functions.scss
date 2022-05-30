@@ -1,0 +1,18 @@
+/// Global functions ==============================================================================
+
+@import 'color-palette';
+
+/// Converts a decimal number to hexadecimal.
+///
+/// @author Pierpaolo Cira
+/// @link https://github.com/sass/sass/issues/2419#issue-282623224
+///
+/// @param {Number} $dec The decimal number to be converted.
+/// @returns {String} The hexadecimal representation of the decimal number.
+@function dec-to-hex($dec) {
+  $hex: '0123456789ABCDEF';
+  $first: (($dec - $dec % 16) / 16) + 1;
+  $second: ($dec % 16) + 1;
+  $result: '0' + str-slice($hex, $first, $first) + str-slice($hex, $second, $second);
+  @return str-slice($result, -2);
+}

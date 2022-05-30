@@ -1,0 +1,239 @@
+/// Global colors =================================================================================
+
+$colors: (
+  // Material palette base colors
+  'red':         #f44336,
+  'pink':        #e91e63,
+  'purple':      #9c27b0,
+  'deep-purple': #673ab7,
+  'indigo':      #3f51b5,
+  'blue':        #2196f3,
+  'light-blue':  #03a9f4,
+  'cyan':        #00bcd4,
+  'teal':        #009688,
+  'green':       #4caf50,
+  'light-green': #8bc34a,
+  'lime':        #cddc39,
+  'yellow':      #ffeb3b,
+  'amber':       #ffc107,
+  'orange':      #ff9800,
+  'deep-orange': #ff5722,
+  'brown':       #795548,
+  'gray':        #9e9e9e,
+  'blue-gray':   #607d8b,
+  // Scan colors
+  'slate':       #56789a,
+  'coal':        #313335,
+  'ice':         #fafcfd,
+  'paper':       #fefefa
+);
+
+$shades: 50 100 200 300 400 500 600 700 800 900 1000 1100 A100 A200 A400 A700;
+
+$segment-colors: (
+  'G0': color('blue-gray'),   // G0 - Sem segmento
+  'G2': color('deep-purple'), // G2 - Operações de Produtos e Serviços
+  'G3': color('pink'),        // G3 - Informações Corporativas
+  'G6': color('green'),       // G6 - Suporte Empresarial
+  'G5': color('amber'),       // G5 - Gerenciamento e Controle Empresarial
+  'G4': color('blue'),        // G4 - Integração de Informações
+  'G1': color('orange')       // G1 - Acesso e Distribuição
+);
+
+$layer-colors: (
+  'internal': color('blue-gray'),
+  'negocio': color('amber'),
+  'infraestrutura-logica': color('green'),
+  'infraestrutura-fisica': color('light-blue')
+);
+
+$component-colors: (
+  'perspective': color('blue-gray'),
+  'group': color('teal'),
+  'subgroup': color('brown'),
+  'element': color('indigo')
+);
+
+$cluster-colors: (
+  // z/OS ---------------------------------------------------------------------
+  'PLEXBSB': color-variant(color('amber'), 500),
+  'PLEXBS2': color-variant(color('light-green'), 500),
+  'PLEXBS3': color-variant(color('teal'), 300),
+  'PLEXHOM': color-variant(color('purple'), 200),
+  'PLEXDES': color-variant(color('red'), 200),
+  'PLEXLAB': color-variant(color('pink'), 200),
+  'PLEXBAS': color-variant(color('brown'), 200),
+  'PLEXLUX': color-variant(color('light-blue'), 400),
+  'PLEXNPR': color-variant(color('brown'), 200),
+  'PLEXZVA': color-variant(color('light-blue'), 400),
+  // z/VM ---------------------------------------------------------------------
+  'SSIPR1':  color-variant(color('orange'), 600),
+  'SSIPR2':  color-variant(color('green'), 500),
+  'SSIPR3':  color-variant(color('blue'), 500),
+  'SSIHOM':  color-variant(color('purple'), 500),
+  'SSIDES':  color-variant(color('red'), 600),
+  'SSILAB':  color-variant(color('pink'), 300),
+  // KVM ----------------------------------------------------------------------
+  'KVMPRD':  color-variant(color('lime'), 800),
+  'KVMHOM':  color-variant(color('teal'), 500),
+  'KVMDES':  color-variant(color('indigo'), 500),
+  'KVMLAB':  color-variant(color('brown'), 500),
+  // LX -----------------------------------------------------------------------
+  'LXNB':    color-variant(color('deep-purple'), 300),
+  'LXNE':    color-variant(color('indigo'), 300),
+  'LXNG':    color-variant(color('cyan'), 500),
+  'LXSB':    color-variant(color('light-green'), 800),
+  'LXSC':    color-variant(color('yellow'), 900),
+  'LXSE':    color-variant(color('gray'), 600),
+  'LXSG':    color-variant(color('slate'), 400)
+);
+
+$application-colors: (
+  'BATCH':    color-variant(color('purple'), 200),
+  'DB2':      color-variant(color('orange'), 300),
+  'DESENV':   color-variant(color('green'), 400),
+  'DIVERSOS': color-variant(color('gray'), 300),
+  'GLOBAL':   color-variant(color('light-blue'), 400),
+  'GRI':      color-variant(color('blue-gray'), 400),
+  'HOMOLOG':  color-variant(color('yellow'), 600),
+  'LABORAT':  color-variant(color('blue'), 400),
+  'ONLINE-D': color-variant(color('light-green'), 300),
+  'SISTEMA':  color-variant(color('lime'), 400),
+  'ZLINUX':   color-variant(color('light-blue'), 200),
+);
+
+$host-status-colors: (
+  'power-POWERED_ON':         color('green'),
+  'power-POWERED_OFF':        color('red'),
+  'power-RUNNING':            color('light-green'),
+  'power-STOPPED':            color('orange'),
+  'power-SUSPENDED':          color-variant(color('brown'), 400),
+  'power-UNKNOWN':            color('gray'),
+  'power-poweredOn':          color('green'),
+  'power-poweredOff':         color('red'),
+  'power-running':            color('light-green'),
+  'power-stopped':            color('orange'),
+  'power-suspended':          color-variant(color('brown'), 400),
+  'power-unknown':            color('gray'),
+  'connection-connected':     color-variant(color('green'), 700),
+  'connection-notResponding': color('amber')
+);
+
+$tape-library-category-colors: (
+  'Utilizados':  color-variant(color('deep-orange'), 400),
+  'Fracionados': color-variant(color('indigo'), 400),
+  'Limpeza':     color-variant(color('teal'), 400),
+  'Livres':      color-variant(color('blue-gray'), 100),
+  'DB2':         color-variant(color('pink'), 400),
+  'HSM-MIG':     color-variant(color('deep-purple'), 400),
+  'HSM-BKP':     color-variant(color('purple'), 400),
+  'Outro':       color-variant(color('orange'), 400)
+);
+
+/// Calculates color variants.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+/// @link https://stackoverflow.com/a/36229022/3279029
+/// @link https://github.com/mbitson/mcg/pull/76/files#diff-374378cbfafac3af127c90d170ff0b2eR193
+///
+/// @param {Color} $color The color whose variant is to be calculated.
+/// @param {String} $variant [500] The variant to calculate.
+/// @returns {Color} The color variant.
+@function color-variant($color, $variant: 500) {
+  $base-light: #ffffff;
+  $base-dark: mix($color, darken($color, 66%), 33%);
+  @if $variant == 50 { @return mix($color, $base-light, 12%); }
+  @else if $variant == 100 { @return mix($color, $base-light, 30%); }
+  @else if $variant == 200 { @return mix($color, $base-light, 50%); }
+  @else if $variant == 300 { @return mix($color, $base-light, 70%); }
+  @else if $variant == 400 { @return mix($color, $base-light, 85%); }
+  @else if $variant == 500 { @return $color; }
+  @else if $variant == 600 { @return mix($color, $base-dark, 87%); }
+  @else if $variant == 700 { @return mix($color, $base-dark, 70%); }
+  @else if $variant == 800 { @return mix($color, $base-dark, 54%); }
+  @else if $variant == 900 { @return mix($color, $base-dark, 25%); }
+  @else if $variant == 1000 { @return mix($color, $base-dark, 12%); }
+  @else if $variant == 1100 { @return mix($color, $base-dark,  0%); }
+  @else if $variant == A100 { @return scale-color(mix($color, $base-dark, 15%), $saturation: 100%, $lightness: 65%); }
+  @else if $variant == A200 { @return scale-color(mix($color, $base-dark, 15%), $saturation: 100%, $lightness: 50%); }
+  @else if $variant == A400 { @return scale-color(mix($color, $base-dark, 15%), $saturation: 100%, $lightness: 35%); }
+  @else if $variant == A700 { @return scale-color(mix($color, $base-dark, 15%), $saturation: 100%, $lightness: 25%); }
+  @return #888888;
+}
+
+/// Returns a color from a name.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+/// @link https://www.sitepoint.com/using-sass-maps/
+///
+/// @param {String} $key The color's name.
+/// @returns {Color} The corresponding color.
+@function color($key) {
+  @if map-has-key($map: $colors, $key: $key) {
+    @return map-get($map: $colors, $key: $key);
+  }
+  @warn 'Unknown `#{$key}` in $colors.';
+  @return null;
+}
+
+/// Calculates a color's brightness.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+/// @link https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
+/// @link https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+///
+/// @param {Color} $color The color whose brightness is to be calculated.
+/// @returns {Number} The brightness value for this color.
+@function brightness($color) {
+  @return 1 - ((0.212655 * red($color) + 0.715158 * green($color) + 0.072187 * blue($color)) / 255);
+}
+
+/// Calculates text color based on the background color's brightness.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+/// @link https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
+///
+/// @param {Color} $background-color The background color.
+/// @returns {Color} The calculated text color.
+@function text-color($background-color) {
+  @if (brightness($background-color) < 0.4) {
+    @return color('coal'); // rgba(color('coal'), 0.8);
+  }
+  @else {
+    @return color('ice'); // rgba(color('ice'), 0.9);
+  }
+}
+
+/// Creates a set of color-coordinated CSS custom properties.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+///
+/// @param {Color} $color [color-variant(color('blue-gray'), 700)] The base color to use.
+@mixin coordinated-colors($color: color-variant(color('blue-gray'), 700)) {
+  $title-bg-color: color-variant($color, 500);
+  $title-fg-color: text-color($title-bg-color);
+  $system-bg-color: color-variant($color, 300);
+  $system-fg-color: text-color($system-bg-color);
+  $routine-bg-color: color-variant($color, 100);
+  $routine-fg-color: text-color($routine-bg-color);
+  $program-bg-color: color-variant($color, 100);
+  $program-fg-color: text-color($program-bg-color);
+  $panel-bg-color: color-variant($color, 50);
+  $panel-fg-color: text-color($panel-bg-color);
+  $light-border-color: color-variant($color, 200);
+  $dark-border-color: color-variant($color, 400);
+
+  --base-color: #{$color};
+  --title-bg-color: #{$title-bg-color};
+  --title-fg-color: #{$title-fg-color};
+  --system-bg-color: #{$system-bg-color};
+  --system-fg-color: #{$system-fg-color};
+  --routine-bg-color: #{$routine-bg-color};
+  --routine-fg-color: #{$routine-fg-color};
+  --program-bg-color: #{$program-bg-color};
+  --program-fg-color: #{$program-fg-color};
+  --panel-bg-color: #{$panel-bg-color};
+  --panel-fg-color: #{$panel-fg-color};
+  --light-border-color: #{$light-border-color};
+  --dark-border-color: #{$dark-border-color};
+}

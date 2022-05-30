@@ -1,0 +1,168 @@
+/// Global tab styles =============================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+body {
+  nav.scan-tabs {
+    @extend %flex-row;
+    justify-content: center;
+    height: calc(var(--length-header) - var(--length-gutter));
+    padding: 0;
+    background-color: color-variant(color('blue-gray'), 100);
+
+    &[data-palette-name='layer'] {
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+    }
+
+    &.inner {
+      margin: calc(-1 * var(--length-gutter)) calc(-1 * var(--length-gutter)) var(--length-gutter);
+    }
+
+    a,
+    div.scan-tab {
+      height: calc(100% - var(--length-gutter) * 0.3);
+      margin-top: calc(var(--length-gutter) * 0.3);
+      padding: calc(var(--length-gutter) * 0.5) 1em;
+      font-weight: bold;
+      background-color: transparent;
+      color: currentColor;
+      border-top-left-radius: var(--length-border-radius);
+      border-top-right-radius: var(--length-border-radius);
+      transition: $transition;
+      cursor: pointer;
+
+      &.active {
+        background-color: color('ice');
+        color: color('coal');
+
+        &:hover {
+          background-color: color-variant(color('blue-gray'), 50);
+        }
+      }
+
+      &:hover {
+        background-color: rgba(black, 0.1);
+      }
+    }
+  }
+
+  // TODO determine whether we'll still need this going forward
+  /* .ui-tabview {
+    &.ui-scan-tabview {
+      padding: 0;
+
+      .ui-tabview-nav {
+        height: calc(var(--length-header) - var(--length-gutter));
+        padding: 0;
+        background-color: color-variant(color('blue-gray'), 100);
+
+        li {
+          background-color: transparent;
+          border-radius: 0;
+
+          a {
+            color: color('coal');
+          }
+
+          &.ui-state-active {
+            background-color: color-variant(color('blue-gray'), 300);
+
+            a {
+              color: color('ice');
+            }
+
+            &:hover {
+              background-color: color-variant(color('blue-gray'), 400);
+            }
+          }
+
+          &:not(.ui-state-active):not(.ui-state-disabled):hover {
+            background-color: rgba(black, 0.1);
+          }
+        }
+      }
+
+      .ui-tabview-panels {
+        padding: var(--length-gutter);
+      }
+    }
+
+    &.ui-scan-panel-tabview {
+      height: $length-panel-height;
+      padding: 0;
+
+      .ui-tabview-nav {
+        @extend %flex-row;
+        justify-content: center;
+        height: var(--length-header);
+        margin-bottom: 0;
+        padding-top: var(--length-gutter);
+        background-color: var(--title-bg-color);
+        color: var(--title-fg-color);
+        border: none;
+        border-radius: 0;
+
+        li {
+          top: 0;
+          margin: 0 4px;
+          background-color: rgba(white, 0.1);
+          border: none;
+
+          a {
+            padding: 0.555em 1em;
+            color: var(--title-fg-color);
+          }
+
+          &.ui-state-active {
+            background-color: color-variant(color('blue-gray'), 100);
+            border: none;
+
+            a {
+              color: color('coal');
+            }
+
+            &:hover {
+              background-color: color-variant(color('blue-gray'), 200);
+              border: none;
+            }
+          }
+
+          &:not(.ui-state-active):not(.ui-state-disabled):hover {
+            background-color: rgba(white, 0.3);
+            border: none;
+
+            a {
+              color: var(--title-fg-color);
+            }
+          }
+        }
+      }
+
+      // Coordinate this rule with the corresponding one (&.with-tabview) in _toolbars.scss
+      &.with-toolbar {
+        > .ui-tabview-nav {
+          width: 50%;
+          margin-left: 50%;
+          padding-right: var(--length-gutter);
+          justify-content: flex-end;
+
+          li:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+      .ui-tabview-panels {
+        height: $length-panel-height;
+        padding: 0;
+        border: none;
+      }
+
+    }
+  } */
+}

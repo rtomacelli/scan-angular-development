@@ -1,0 +1,66 @@
+/// Global theme rules ============================================================================
+
+// Global imports
+@import 'color-palette';
+@import 'global-variables';
+
+// Partials
+@import 'buttons';
+@import 'calendars';
+@import 'dialogs';
+@import 'icons';
+@import 'inputs';
+@import 'menus';
+@import 'overlays';
+@import 'panels';
+@import 'tabviews';
+@import 'toolbars';
+@import 'trees';
+@import 'tables';
+
+body {
+  font-size: 14px;
+
+  input,
+  textarea {
+    font-family: inherit;
+    font-size: inherit;
+    border: 1px solid var(--light-border-color);
+    border-radius: var(--length-border-radius);
+  }
+
+  .ui-input {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .ui-widget {
+    font-family: $font-sans;
+  }
+
+  .ui-corner-all {
+    border-radius: var(--length-border-radius);
+  }
+
+  .color-coded-tag {
+    display: inline-block;
+    margin: 2px;
+    padding: 2px 8px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: var(--length-border-radius);
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+  }
+
+  .status-icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+    border-radius: var(--length-border-radius);
+  }
+}

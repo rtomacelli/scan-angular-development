@@ -1,0 +1,159 @@
+/// PaletteComponent's private styles =============================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+#palette {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  height: var(--length-panel-content-height);
+  padding: calc(var(--length-gutter) / 2) var(--length-gutter);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: white;
+
+  @include bottom-padding(var(--length-gutter) / 2);
+
+  h1.palette {
+    font-size: 26px;
+    font-weight: normal;
+    width: 100%;
+    text-transform: capitalize;
+    text-align: center;
+    color: color('coal');
+  }
+
+  .color {
+    display: flex;
+    flex-flow: column nowrap;
+    width: 230px;
+    margin: calc(var(--length-gutter) / 2);
+
+    .heading {
+      display: inline-block;
+      padding: calc(var(--length-gutter) / 4) calc(var(--length-gutter) / 2);
+      text-align: left;
+      text-transform: capitalize;
+      font-weight: bold;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-top-left-radius: var(--length-border-radius);
+      border-top-right-radius: var(--length-border-radius);
+
+      .sources {
+        @extend %flex-row;
+        justify-content: space-between;
+        font-size: 10px;
+        text-transform: uppercase;
+        opacity: 0.75;
+
+        .source-name {
+          width: 50%;
+          padding: 0 calc(var(--length-gutter) / 2);
+          text-align: right;
+
+          &:last-child {
+            padding: 0 calc(var(--length-gutter) * 0.75);
+          }
+        }
+      }
+    }
+
+    .swatches {
+      display: flex;
+      flex-flow: row wrap;
+
+      .swatch {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        width: 50%;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 8px 2px;
+        border: {
+          width: 0 0 1px 0;
+          style: solid;
+          color: rgba(black, 0.2);
+        }
+
+        &:nth-child(2n + 1) {
+          border-left-width: 1px;
+        }
+
+        &:nth-child(2n) {
+          border-right-width: 1px;
+        }
+
+        &:last-child,
+        &:nth-last-child(2) {
+          border-bottom-width: 1px;
+        }
+
+        &:nth-last-child(2) {
+          border-bottom-left-radius: var(--length-border-radius);
+        }
+
+        &:last-child {
+          border-bottom-right-radius: var(--length-border-radius);
+        }
+
+        .swatch-cell {
+          font-size: 12px;
+          letter-spacing: 0.5px;
+
+          &.hex {
+            line-height: 22px;
+            font-family: $font-mono;
+          }
+        }
+      }
+    }
+  }
+
+  @each $name, $color in $colors {
+    .color-#{$name} {
+      .heading {
+        $heading-color: color-variant(color($name), 500);
+        background-color: $heading-color;
+        color: text-color($heading-color);
+      }
+
+      .swatch.material[data-hex=''] {
+        $bg-color: color-variant(color($name), 1100);
+        $fg-color: text-color($bg-color);
+        background: {
+          size: auto auto;
+          color: $bg-color;
+          image: repeating-linear-gradient(
+            120deg,
+            transparent,
+            transparent 1px,
+            rgba($fg-color, 0.225) 2px,
+            rgba($fg-color, 0.225) 3px
+          );
+        }
+        color: $fg-color;
+      }
+
+      @each $shade in $shades {
+        .shade-#{$shade} {
+          $shade-color: color-variant(color($name), $shade);
+          $text-color: text-color($shade-color);
+          background-color: $shade-color;
+          color: $text-color;
+
+          &.scan .swatch-cell.hex::after {
+            $red-hex: dec-to-hex(red($shade-color));
+            $green-hex: dec-to-hex(green($shade-color));
+            $blue-hex: dec-to-hex(blue($shade-color));
+            content: '##{$red-hex}#{$green-hex}#{$blue-hex}';
+          }
+        }
+      }
+    }
+  }
+}

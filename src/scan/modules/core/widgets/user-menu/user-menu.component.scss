@@ -1,0 +1,50 @@
+/// UserMenuComponent's private styles ============================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+.user-menu {
+  @extend %flex-row;
+  align-items: center;
+  padding: 0 var(--length-gutter);
+  height: var(--length-header);
+  transition: $transition;
+
+  &:hover {
+    background-color: rgba(black, 0.1);
+    cursor: pointer;
+  }
+
+  .identification {
+    text-align: right;
+    font-size: 15.2px;
+
+    .uid,
+    .name {
+      font-weight: bold;
+    }
+
+    .uid {
+      margin-right: 6px;
+    }
+
+    .department {
+      font-size: 14px;
+    }
+  }
+
+  .photo {
+    width: calc(var(--length-header) - var(--length-gutter) + 2px);
+    height: calc(var(--length-header) - var(--length-gutter) + 2px);
+    margin: -1px -5px 0 10px;
+    border: 1px solid rgba(white, 0.5);
+    border-radius: var(--length-border-radius);
+
+    @include respond-to('phone') {
+      display: none;
+    }
+  }
+}

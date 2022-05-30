@@ -1,0 +1,61 @@
+/// Blobal dialog box styles ======================================================================
+
+@import 'global-variables';
+
+body {
+  .ui-dialog {
+    box-shadow: $box-shadow;
+
+    .ui-dialog-titlebar {
+      border-color: transparent;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      padding: calc(var(--length-gutter) * 0.6) var(--length-gutter);
+      font-weight: normal;
+      font-size: calc(var(--length-header) / 2);
+      height: var(--length-header);
+
+      .ui-dialog-titlebar-icon {
+        font-size: calc(var(--length-header) * 0.5);
+        color: currentColor;
+        opacity: 0.5;
+        transition: $transition;
+
+        &:hover {
+          color: unset;
+          opacity: 1;
+        }
+
+        // HACK Until we find a way to use FontAwesome with DynamicDialog
+        & .pi.pi-times::after {
+          content: '\F00D'; // fa-times
+          font-family: $font-icon;
+          font-size: 28px;
+          position: relative;
+          top: -7px;
+        }
+      }
+    }
+
+    .ui-dialog-content {
+      height: calc(100% - var(--length-header));
+      padding: var(--length-gutter);
+      border-bottom-left-radius: var(--length-border-radius);
+      border-bottom-right-radius: var(--length-border-radius);
+      border: none;
+      box-shadow: 0 -2px 0 -1px var(--title-bg-color); // HACK there's a 1px gap between the header and the content
+      overflow: hidden;
+    }
+
+    &.scan-high-end-cluster-dialog .ui-dialog-content {
+      // HACK PrimeNG removes the height property for some reason
+      height: calc(97vh * 0.94675);
+    }
+  }
+
+  p-dynamicdialog + p-dynamicdialog {
+    .ui-dialog.scan-high-end-cluster-dialog .ui-dialog-content {
+      height: calc(97vh * 0.91675);
+    }
+  }
+}

@@ -1,0 +1,136 @@
+@urlScanApi = http://scan-hm.intranet.bb.com.br:8088/scan-api
+# @urlScanApi = http://localhost:8088/scan-api
+@Authorization = Basic YWRtaW46MTIzNDU2
+@date = {{$datetime "YYYY-MM-DD" -1 d}}
+
+### SCAN-V3 ###################################################################
+
+# @name ambienteDistribuido
+GET {{urlScanApi}}/v1/ambienteDistribuido/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name ambienteDistribuido_bsb
+GET {{urlScanApi}}/v1/ambienteDistribuido/bsb/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name interfaceAplicativo_detalhar
+#GET {{urlScanApi}}/v1/interfaceAplicativo/detalhar/id/86074
+GET {{urlScanApi}}/v1/interfaceAplicativo/detalhar/id/88357
+Authorization: {{Authorization}}
+
+###
+
+# @name rede_detalhar
+GET {{urlScanApi}}/v1/rede/detalhar/id/101956
+Authorization: {{Authorization}}
+
+###
+
+# @name mainframe
+GET {{urlScanApi}}/v1/mainframe/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name servidorVirtual_buscarPorServidoresFisicos
+POST  {{urlScanApi}}/v1/servidorVirtual/buscarPorServidoresFisicos
+Authorization: {{Authorization}}
+
+[ 22030,22047,22029,22031,22032,22050,22049,22052,22048,22051,22053 ]
+
+###
+
+# @name servidorFisico_buscarPorIds
+POST  {{urlScanApi}}/v1/servidorFisico/buscarPorIds
+Authorization: {{Authorization}}
+
+# [ 22030,22047,22029,22031,22032,22050,22049,22052,22048,22051,22053 ]
+#[ 37858, 37876, 37865, 37866, 37867, 37877 ]
+[ 39235,39230,39425,39227,39226,39233,39229,39424,39215,39228,39231,39225,39216,39217,39232,39234,39410,39423]
+
+###
+
+# @name matrizReferencia_camadas
+GET  {{urlScanApi}}/v1/matrizReferencia/camadas/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name matrizReferencia_portfolio
+GET  {{urlScanApi}}/v1/matrizReferencia/portfolio/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name listarExecucoesProcessamentoBatchPorSiglas
+POST   {{urlScanApi}}/v1/jobBatch/listarExecucoesProcessamentoBatchPorSiglas/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "AAI", "APF", "APJ", "GFP", "HBK", "IBA", "IBJ", "MOV", "IMA", "VIP" ]
+
+###
+
+# @name storageDiscos
+GET  {{urlScanApi}}/v1/storageDiscos/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name armazenamento_adabas
+POST   {{urlScanApi}}/v1/armazenamento/adabas/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "BEC", "BID", "CAF" ]
+
+###
+
+# @name armazenamento_db2
+POST   {{urlScanApi}}/v1/armazenamento/db2/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "BEC", "BID", "CAF" ]
+
+###
+
+# @name cics_listarProcessamentoPorSiglas
+POST   {{urlScanApi}}/v1/cics/listarProcessamentoPorSiglas/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "AAR", "BID", "CAF" ]
+
+###
+
+# @name marcacao_interface
+GET   {{urlScanApi}}/v1/marcacao/interface/104099/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name marcacao_siglas
+POST   {{urlScanApi}}/v1/marcacao/siglas/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "AAI", "APF", "APJ", "GFP", "HBK", "IBA", "IBJ", "MOV", "IMA", "VIP", "SVIP" ]
+
+###
+
+# @name fitoteca
+GET   {{urlScanApi}}/v1/fitoteca/data/{{date}}
+Authorization: {{Authorization}}
+
+###
+
+# @name image_buscarPorNomes
+POST   {{urlScanApi}}/v1/image/buscarPorNomes/data/{{date}}
+Authorization: {{Authorization}}
+
+[ "BSBA", "BSBB", "BSBC", "BSBD", "BS2A" ]
+
+###
+
+GET {{urlScanApi}}/v1/aplicacao/versao
+Authorization: {{Authorization}}

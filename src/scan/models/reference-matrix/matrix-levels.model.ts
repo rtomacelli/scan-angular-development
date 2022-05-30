@@ -1,0 +1,7 @@
+export const MATRIX_LEVELS = {
+  LAYER: 0,
+  PERSPECTIVE: 1,
+  GROUP: 2,
+  SUBGROUP: 3,
+  ELEMENT: 3
+};

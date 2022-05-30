@@ -1,0 +1,102 @@
+<ng-container *ngIf="dataIsLoaded; else dataIsLoading">
+  <div class="jobs-panel">
+    <p-table #jobsTable [value]="jobs" sortField="dataExecucao" sortOrder="-1" [globalFilterFields]="fields" [paginator]="true"
+      [rows]="rowsPerPage">
+      <ng-template pTemplate="caption">
+        <div class="caption-content">
+          <div>
+            <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down"></p-dropdown>
+            <strong style="margin-left: 6px">jobs por página</strong>
+          </div>
+          <div>
+            <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+            <input #filter type="text" pInputText size="50" placeholder="Buscar"
+              (input)="jobsTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let column of columns" [ngSwitch]="column.field" class="{{column.header | toIdentifier}}-column">
+            <div class="filter-header">
+              <i class="fa fa-fw fa-filter"></i>
+              <input #filter *ngSwitchCase="'rotinaExecutora'" pInputText type="text"
+                (input)="jobsTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'job'" pInputText type="text"
+                (input)="jobsTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-calendar #filter *ngSwitchCase="'dataExecucao'" [(ngModel)]="dateFilter" dateFormat="yy-mm-dd"
+                [locale]="primeLocalePt" [minDate]="minimumDate" [maxDate]="today" showButtonBar="true" [readonlyInput]="true"
+                (onClose)="onCalendarClose(jobsTable)" class="filter-field"></p-calendar>
+              <input #filter *ngSwitchCase="'ultimaMensagem'" pInputText type="text"
+                (input)="jobsTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-multiSelect #filter *ngSwitchCase="'jobStatus'" [options]="statuses" [filter]="false" defaultLabel="&nbsp;"
+                dropdownIcon="fa fa-chevron-down" maxSelectedLabels="1" selectedItemsLabel="Seleção: {0}"
+                (onChange)="jobsTable.filter($event.value, column.field, 'in')" class="filter-field"></p-multiSelect>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-job>
+        <tr class="status-{{job.jobStatus}}">
+          <td class="rotina-executora-column">{{job.rotinaExecutora}}</td>
+          <td class="job-column">
+            <div class="job-description">{{getJobDescription(job)}}</div>
+            <div class="job-name">{{getJobName(job)}}</div>
+          </td>
+          <td class="execucao-column">
+            <div class="cell-content">
+              <div class="interval">
+                <div class="start time" *ngIf="job.inicioExecucao">{{job.inicioExecucao}}</div>
+                <div class="end time" *ngIf="job.finalExecucao && isDone(job)">{{job.finalExecucao}}</div>
+              </div>
+              <div class="duration" *ngIf="isDone(job)">
+                <strong>Duração da última execução: </strong>
+                <span class="text">{{job.duracao}}</span>
+              </div>
+            </div>
+          </td>
+          <td class="mensagem-column">
+            <div class="cell-content">
+              <div class="observation message" *ngIf="isMessageAvailable(job.ultimaMensagemObservacao)">
+                <i class="fa fa-fw fa-exclamation-triangle"></i>
+                <span class="text" [innerHTML]="job.ultimaMensagemObservacao | optionalLineBreaks : messageRegex"></span>
+              </div>
+              <div class="error message" *ngIf="isMessageAvailable(job.ultimaMensagemErro)">
+                <i class="fa fa-fw fa-times-circle"></i>
+                <span class="text" [innerHTML]="job.ultimaMensagemErro | optionalLineBreaks : messageRegex"></span>
+              </div>
+            </div>
+          </td>
+          <td class="status-column">
+            <div class="cell-content">
+              <i class="fa fa-fw fa-{{statusDescriptors[job.jobStatus].icon}} {{job.jobStatus}}"></i>
+              <span class="text">{{statusDescriptors[job.jobStatus].description}}</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="summary-content">
+          <button type="button" pButton icon="fa fa-eraser" label="Limpar filtros" (click)="onResetTable($event, jobsTable)"></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-template #dataIsLoading>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>

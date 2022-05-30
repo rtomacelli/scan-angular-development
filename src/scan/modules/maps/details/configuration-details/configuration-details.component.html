@@ -1,0 +1,50 @@
+<ng-container *ngIf="isDataLoaded; else dataIsLoading">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="configuration-details" *ngIf="itemsAvailable; else itemsNotFound">
+      <!-- TODO Create a component for this -->
+      <div class="element-path">
+        <div class="element-path-level layer {{element.path.layer.name | toIdentifier}}"><span class="name">{{element.path.layer.name}}</span></div>
+        <div class="element-path-level perspective {{element.path.perspective.name | toIdentifier}}"><span class="name">{{element.path.perspective.name}}</span></div>
+        <div class="element-path-level group {{element.path.group.name | toIdentifier}}"><span class="name">{{element.path.group.name}}</span></div>
+        <div class="element-path-level subgroup {{element.path.subgroup.name | toIdentifier}}"><span class="name">{{element.path.subgroup.name}}</span></div>
+        <div class="element-path-level element {{element.path.element.name | toIdentifier}}">
+          <span class="name">
+            {{element.path.element.name}}
+            <span class="nickname" *ngIf="element.apelido">({{element.apelido}})</span>
+          </span>
+        </div>
+      </div>
+      <div class="configuration-item-types">
+        <ng-container *ngFor="let itemType of details | keyvalue">
+          <div class="configuration-item-type" *ngIf="!isItemTypeEmpty(itemType.key)">
+            <div class="configuration-item-type-header">{{typeDescriptors[itemType.key].description}}</div>
+            <div class="configuration-items">
+              <div class="configuration-item" *ngFor="let item of itemType.value | keyvalue : itemSorter"
+                (mouseenter)="hoverItem(item, $event)" (mouseleave)="leaveItem()">
+                <div class="configuration-item-icon">
+                  <i class="fa fa-fw fa-{{typeDescriptors[itemType.key].icon}}"></i>
+                </div>
+                <div class="configuration-item-name" [innerHTML]="item.value | optionalLineBreaks : '/(\\W|_|[^\\W|_]{12})/g'"></div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-template #itemsNotFound>
+      <scan-notice-panel [noticeIcon]="'exclamation-circle'" [message]="'Nenhum registro encontrado'"></scan-notice-panel>
+    </ng-template>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="false" [noticeIcon]="'exclamation-circle'" [severity]="'danger'"
+      [message]="errorMessage" [message2]="'Escolha outra data ou tente novamente mais tarde'">
+    </scan-notice-panel>
+  </ng-template>
+</ng-container>
+<ng-template #dataIsLoading>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opItem styleClass="item-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredItemMetadata" *ngIf="hoveredItem"></scan-overlay-metadata>
+</p-overlayPanel>

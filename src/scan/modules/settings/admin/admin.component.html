@@ -1,0 +1,8 @@
+<nav class="scan-tabs">
+    <a [routerLink]="[routes.settings.children.admin.children.features.path]" routerLinkActive="active">{{routes.settings.children.admin.children.features.label}}</a>
+    <a [routerLink]="[routes.settings.children.admin.children.profiles.path]" routerLinkActive="active">{{routes.settings.children.admin.children.profiles.label}}</a>
+    <a [routerLink]="[routes.settings.children.admin.children.users.path]" routerLinkActive="active">{{routes.settings.children.admin.children.users.label}}</a>
+    <a [routerLink]="[routes.settings.children.admin.children.departments.path]" routerLinkActive="active">{{routes.settings.children.admin.children.departments.label}}</a>
+    <a [routerLink]="[routes.settings.children.admin.children.jobs.path]" routerLinkActive="active">{{routes.settings.children.admin.children.jobs.label}}</a>
+</nav>
+<router-outlet></router-outlet>

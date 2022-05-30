@@ -1,0 +1,26 @@
+<nav class="scan-tabs inner" [attr.data-palette-name]="'layer'" [attr.data-palette-key]="layer.id">
+  <div *ngFor="let view of views; index as i" class="scan-tab" [class.active]="activeIndex === i"
+    (click)="activeIndex = i">{{view}}</div>
+</nav>
+<!-- SUMMARY -->
+<div class="tab-panel panel-content inner active" [class.active]="activeIndex == 0">
+  <scan-under-construction></scan-under-construction>
+</div>
+<!-- PERSPECTIVES -->
+<div class="tab-panel panel-content inner" [class.active]="activeIndex == 1">
+  <div class="map-modes" [attr.data-palette-name]="'layer'" [attr.data-palette-key]="layer.id" *ngIf="!!type">
+    <strong>Modo</strong>
+    <input type="radio" name="map-mode-{{layer.id}}" id="compact-mode-{{layer.id}}" value="compact" [(ngModel)]="mapMode">
+    <label for="compact-mode-{{layer.id}}" (click)="updateMapMode('compact')"><i class="fa fa-fw fa-cube"></i> Compacto</label>
+    <input type="radio" name="map-mode-{{layer.id}}" id="complete-mode-{{layer.id}}" value="complete" [(ngModel)]="mapMode">
+    <label for="complete-mode-{{layer.id}}" (click)="updateMapMode('complete')"><i class="fa fa-fw fa-cubes"></i> Completo</label>
+  </div>
+  <div class="perspectives">
+    <div class="perspective" *ngFor="let perspective of filteredPerspectives">
+      <scan-perspective-header [icon]="perspective.icon" [text]="perspective.nome"></scan-perspective-header>
+      <div class="content">
+        <scan-tree [nodes]="perspectiveTrees[perspective.nome]" (nodeClick)="nodeClick($event)" [markedIds]="mapComponentIds" [mode]="mapMode"></scan-tree>
+      </div>
+    </div>
+  </div>
+</div>

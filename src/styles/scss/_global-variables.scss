@@ -1,0 +1,42 @@
+/// Global variables ==============================================================================
+
+// Fonts
+$font-sans: 'Roboto', 'Arial', 'Helvetica', sans-serif;
+$font-mono: 'Roboto Mono', 'Consolas', 'Courier New', 'Courier', monospace;
+$font-icon: 'FontAwesome', serif;
+
+// Lengths
+$length-gutter: 15px;
+$length-header: 50px;
+$length-app-bar: 100px;
+$length-app-bar-wide: 400px;
+$length-inner-nav: 35px;
+$length-panel-height: calc(100% - #{$length-header});
+$length-panel-content-height: calc(100% - 2 * #{$length-header});
+$length-panel-inner-content-height: calc(100% - 2 * #{$length-gutter} - 5px); // HACK why 5px?
+$length-panel-inner-tab-height: calc(100% - 2 * var(--length-header) - #{$length-inner-nav});
+$length-border-radius: 3px;
+
+:root {
+  --length-gutter: #{$length-gutter};
+  --length-header: #{$length-header};
+  --length-panel-height: #{$length-panel-height};
+  --length-panel-content-height: #{$length-panel-content-height};
+  --length-inner-panel-content-height: #{$length-panel-inner-content-height};
+  --length-border-radius: #{$length-border-radius};
+}
+
+// Miscellaneous
+$transition: all 0.25s ease;
+$box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$white-border: -1px -1px 0 color('ice'), 1px -1px 0 color('ice'), -1px 1px 0 color('ice'), 1px 1px 0 color('ice');
+
+// Media types
+$media-types: (
+  'phone': '(max-width: 480px)',
+  'tablet-portrait': '(max-width: 768px)',
+  'tablet-landscape-desktop': '(min-width: 769px) and (max-width: 1199px)',
+  'large-desktop': '(min-width: 1200px)',
+  'non-retina': 'screen and (-webkit-max-device-pixel-ratio: 1)',
+  'retina': 'screen and (-webkit-min-device-pixel-ratio: 2)'
+);

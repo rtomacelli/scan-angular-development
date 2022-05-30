@@ -1,0 +1,110 @@
+<div class="outer" *ngIf="isDataLoaded; else dataIsNotLoaded" [class.dialog]="inDynamicDialog">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="disk-storage-subsystem">
+      <p-toolbar *ngIf="!inDynamicDialog">
+        <div class="ui-toolbar-group-left">
+          <span class="subject">Ambiente Mainframe</span>
+          <h1 class="title">Subsistema de Discos</h1>
+        </div>
+      </p-toolbar>
+      <div class="panel-content">
+        <div class="applications" *ngIf="diskStorageSubsystem.applications">
+          <div class="legend">Aplicações</div>
+          <ng-container *ngFor="let application of diskStorageSubsystem.applications">
+            <ng-container *ngIf="applicationHasApps(application); then hasApps; else noApps"></ng-container>
+            <ng-template #hasApps>
+              <div class="application" [scanRelatedApps]="application.apps" [attr.data-palette-name]="'application'"
+                [attr.data-palette-key]="application.name" (click)="showApplicationApps(application)"
+                (mouseenter)="hoverApplication(application, $event)" (mouseleave)="leaveApplication()"
+                [class.highlight]="isApplicationHighlighted(application.name)"
+                [class.clickable]="areApplicationAppsAvailable(application)">
+                {{application.name}}
+              </div>
+            </ng-template>
+            <ng-template #noApps>
+              <div class="application" [attr.data-palette-name]="'application'" [attr.data-palette-key]="application.name"
+                (click)="showApplicationApps(application)" (mouseenter)="hoverApplication(application, $event)"
+                (mouseleave)="leaveApplication()" [class.highlight]="isApplicationHighlighted(application.name)"
+                [class.clickable]="areApplicationAppsAvailable(application)">
+                {{application.name}}
+              </div>
+            </ng-template>
+          </ng-container>
+        </div>
+        <div class="data-centers">
+          <div class="data-center" *ngFor="let dataCenter of diskStorageSubsystem.dataCenters">
+            <div class="name">{{dataCenter.complexo}} &ndash; {{dataCenter.predio}}</div> <!-- TODO Make these prettier later -->
+            <div class="sysplexes">
+              <div class="sysplex" *ngFor="let sysplex of dataCenter.clusters" [attr.data-palette-name]="'cluster'"
+                [attr.data-palette-key]="sysplex.name" [class.highlight]="isSysplexHighlighted(sysplex)">
+                <div class="sysplex-header">
+                  <div class="sysplex-name">{{sysplex.name}}</div>
+                  <div class="sysplex-capacity">
+                    <ng-container *ngIf="isSysplexHighlighted(sysplex); else sysplexNotHighlighted">
+                      <span class="tag">Capacidade:</span>
+                      <span class="figure">{{getHighlightedSysplexCapacity(sysplex) | bytes : 'TB'}}</span>
+                    </ng-container>
+                    <ng-template #sysplexNotHighlighted>
+                      <span class="tag">Total:</span>
+                      <span class="figure">{{sysplex.capacity | bytes : 'TB'}}</span>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="disk-storages">
+                  <ng-container *ngFor="let storage of sysplex.storages">
+                    <ng-container *ngIf="storageHasApps(storage); then hasApps; else noApps"></ng-container>
+                    <ng-template #hasApps>
+                      <div class="disk-storage" [scanRelatedApps]="storage.listaSiglasArmazenadas"
+                        (mouseenter)="hoverStorage(storage, $event)" (mouseleave)="leaveStorage()" (click)="showStorageApps(storage)"
+                        [attr.data-palette-name]="'application'" [attr.data-palette-key]="storage.codigoAplicacao"
+                        [class.highlight]="isStorageHighlighted(storage)" [class.clickable]="areStorageAppsAvailable(storage)">
+                        <div class="range">{{storage.rangeMemoria}}</div>
+                        <div class="serial">{{storage.codigoSerial}}</div>
+                      </div>
+                    </ng-template>
+                    <ng-template #noApps>
+                      <div class="disk-storage" (mouseenter)="hoverStorage(storage, $event)" (mouseleave)="leaveStorage()"
+                        (click)="showStorageApps(storage)" [attr.data-palette-name]="'application'"
+                        [attr.data-palette-key]="storage.codigoAplicacao" [class.highlight]="isStorageHighlighted(storage)"
+                        [class.clickable]="areStorageAppsAvailable(storage)">
+                        <div class="range">{{storage.rangeMemoria}}</div>
+                        <div class="serial">{{storage.codigoSerial}}</div>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <scan-app-bar [appPortfolio]="appPortfolio" [editable]="!inInfrastructureMap"></scan-app-bar>
+    </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="!inDynamicDialog" [subject]="'Ambiente Mainframe'" [title]="'Subsistema de Discos'"
+      [noticeIcon]="'exclamation-circle'" [severity]="'danger'" [message]="errorMessage"
+      [message2]="'Escolha outra data ou tente novamente mais tarde'"></scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <p-toolbar *ngIf="!inDynamicDialog">
+    <div class="ui-toolbar-group-left">
+      <span class="subject">Ambiente Mainframe</span>
+      <h1 class="title">Subsistema de Discos</h1>
+    </div>
+  </p-toolbar>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opApplication styleClass="storage-overlay application-overlay" [hideTransitionOptions]="'0ms'"
+  [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredApplicationMetadata" *ngIf="hoveredApplication"></scan-overlay-metadata>
+  <scan-interaction [button]="1" [text]="'Siglas armazenadas'" *ngIf="areApplicationAppsAvailable(hoveredApplication)"></scan-interaction>
+</p-overlayPanel>
+
+<p-overlayPanel #opStorage styleClass="storage-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredStorageMetadata" *ngIf="hoveredStorage"></scan-overlay-metadata>
+  <scan-interaction [button]="1" [text]="'Siglas armazenadas'" *ngIf="areStorageAppsAvailable(hoveredStorage)">
+  </scan-interaction>
+</p-overlayPanel>

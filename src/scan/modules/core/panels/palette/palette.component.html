@@ -1,0 +1,30 @@
+<div id="palette">
+  <ng-container *ngFor="let palette of palettes | keyvalue">
+    <h1 class="palette">{{palette.key}}</h1>
+    <ng-container class="color" *ngFor="let color of palette.value | keyvalue : colorSorter">
+      <div class="color color-{{color.key.replace(' ', '-')}}">
+        <div class="heading">
+          {{color.key}}
+          <div class="sources">
+            <span class="source-name">Material</span>
+            <span class="source-name">Scan</span>
+          </div>
+        </div>
+        <div class="swatches">
+          <ng-container *ngFor="let swatch of color.value | keyvalue : shadeSorter">
+            <div class="material swatch shade-{{swatch.key}}"
+              [attr.data-hex]="swatch.value"
+              [ngStyle]="{ backgroundColor: palettes[palette.key][color.key][swatch.key] }">
+              <span class="swatch-cell shade {{swatch.key}}">{{swatch.key}}</span>
+              <span class="swatch-cell hex">{{swatch.value}}</span>
+            </div>
+            <div class="scan swatch shade-{{swatch.key}}">
+              <span class="swatch-cell shade"></span>
+              <span class="swatch-cell hex {{swatch.key}}"></span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

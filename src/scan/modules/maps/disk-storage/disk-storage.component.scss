@@ -1,0 +1,195 @@
+/// DiskStorageComponent's private SCSS styles ====================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.panel-content {
+  @extend %flex-column;
+
+  .applications {
+    @extend %flex-row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: calc(var(--length-gutter) / -2) calc(var(--length-gutter) / -2) calc(var(--length-gutter) / 2);
+    text-align: center;
+
+    .legend,
+    .application {
+      display: inline-block;
+      width: 90px;
+      height: 24px;
+      margin: calc(var(--length-gutter) / 2);
+      line-height: 24px;
+      font-weight: bold;
+    }
+
+    .legend {
+      text-align: right;
+      opacity: 0.54;
+    }
+
+    .application {
+      text-align: center;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      border-radius: var(--length-border-radius);
+      cursor: default;
+      transition: $transition;
+
+      &.clickable {
+        cursor: pointer;
+      }
+
+      &.highlight {
+        background-color: color('coal');
+        color: color('ice');
+      }
+    }
+  }
+
+  .data-centers {
+    @extend %flex-row;
+    margin: 0 calc(var(--length-gutter) / -2) calc(var(--length-gutter) * -1);
+
+    .data-center {
+      @extend %flex-column;
+      flex: 1 0 0;
+      height: 100%;
+      margin: 0 calc(var(--length-gutter) / 2);
+      padding: 0;
+      overflow: hidden;
+      background-color: color-variant(color('blue-gray'), 50);
+      border-radius: var(--length-border-radius);
+
+      .name {
+        padding: calc(var(--length-gutter) / 2);
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .sysplexes {
+        @extend %flex-column;
+        height: 100%;
+        padding: 0 calc(var(--length-gutter) / 1.5) calc(var(--length-gutter) / 1.5);
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .sysplex {
+          @extend %flex-column;
+          margin: calc(var(--length-gutter) * 0.33) 0;
+
+          &:first-child {
+            margin-top: 0;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          .sysplex-header {
+            @extend %flex-row;
+            justify-content: space-between;
+            height: 28px;
+            padding: 1px calc(var(--length-gutter) / 1.5);
+            font-weight: bold;
+            line-height: 28px;
+            background-color: var(--title-bg-color);
+            color: var(--title-fg-color);
+            border-top-left-radius: var(--length-border-radius);
+            border-top-right-radius: var(--length-border-radius);
+            transition: $transition;
+
+            .sysplex-capacity {
+              @extend %flex-row;
+              justify-content: space-between;
+              width: 33%;
+              margin-right: calc(1px + var(--length-gutter) / -1.5);
+              padding: 0 calc(var(--length-gutter) / 1.5);
+              background-color: var(--system-bg-color);
+              color: var(--system-fg-color);
+              transition: $transition;
+            }
+          }
+
+          &.highlight .sysplex-header {
+            background-color: color('coal');
+            color: color('ice');
+
+            .sysplex-capacity {
+              $bg-color: color-variant(color('coal'), 300);
+              $fg-color: text-color($bg-color);
+              background-color: #{$bg-color};
+              color: #{$fg-color};
+            }
+          }
+
+          .disk-storages {
+            @extend %flex-row;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: calc(var(--length-gutter) / 4);
+            background-color: color('ice');
+            border: solid color-variant(color('blue-gray'), 100);
+            border-width: 0 1px 1px;
+            border-bottom-left-radius: var(--length-border-radius);
+            border-bottom-right-radius: var(--length-border-radius);
+
+            .disk-storage {
+              width: 80px;
+              margin: calc(var(--length-gutter) / 4);
+              padding: 2px 0;
+              text-align: center;
+              font-size: 14px;
+              font-weight: bold;
+              background-color: var(--title-bg-color);
+              color: var(--title-fg-color);
+              border-radius: var(--length-border-radius);
+              cursor: default;
+              transition: $transition;
+
+              &.clickable {
+                cursor: pointer;
+              }
+
+              &.highlight {
+                background-color: color('coal');
+                color: color('ice');
+              }
+
+              .range {
+                margin-top: 1px;
+                margin-bottom: -1px;
+                line-height: 12px;
+                font-family: $font-mono;
+                font-size: 10px;
+                opacity: 0.8;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.outer {
+  @extend %flex-row;
+  height: 100%;
+
+  &.dialog {
+    margin: calc(-1 * var(--length-gutter));
+    height: calc(100% + 2 * var(--length-gutter));
+
+    .panel-content {
+      height: 100%;
+    }
+  }
+
+  .disk-storage-subsystem {
+    flex: 0 0 auto;
+    width: calc(100% - #{$length-app-bar});
+    height: 100%;
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "todo-tree.filtering.excludeGlobs": [
+    "node_modules/**"
+  ],
+  "todo-tree.regex.regex": "(( \\* |//|#|<!--|;|/\\*|^)\\s*($TAGS)|^\\s*- \\[ \\])",
+  "todo-tree.general.tags": [
+    "TODO",
+    "FIXME",
+    "NOTE",
+    "BUG",
+    "DEBUG",
+    "HACK",
+    "OPTIMIZE",
+    "XXX"
+  ],
+  "todo-tree.highlights.defaultHighlight": {
+    "type": "tag"
+  },
+  "todo-tree.tree.showInExplorer": false,
+  "todo-tree.highlights.customHighlight": {
+    "TODO": {
+      "icon": "checklist",
+      "iconColour": "mediumseagreen",
+      "foreground": "mediumseagreen",
+    },
+    "FIXME": {
+      "icon": "alert",
+      "iconColour": "goldenrod",
+      "foreground": "goldenrod"
+    },
+    "NOTE": {
+      "icon": "bell",
+      "iconColour": "cadetblue",
+      "foreground": "cadetblue"
+    },
+    "BUG": {
+      "icon": "bug",
+      "iconColour": "indianred",
+      "foreground": "indianred"
+    },
+    "DEBUG": {
+      "icon": "pulse",
+      "iconColour": "orange",
+      "foreground": "orange"
+    },
+    "HACK": {
+      "icon": "beaker",
+      "iconColour": "peru",
+      "foreground": "peru"
+    },
+    "OPTIMIZE": {
+      "icon": "dashboard",
+      "iconColour": "orchid",
+      "foreground": "orchid"
+    },
+    "XXX": {
+      "icon": "eye",
+      "iconColour": "navajowhite",
+      "foreground": "navajowhite"
+    }
+  },
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "restUrl": "http://scan-hm.intranet.bb.com.br:8020/scan/api"
+    }
+  },
+  "rest-client.defaultHeaders": {
+    "User-Agent": "vscode-restclient",
+    "Accept-Encoding": "gzip",
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  },
+  "rest-client.requestNameAsResponseTabTitle": true,
+  "stylelint.enable": true,
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "scssFormatter.singleQuote": true,
+  "scssFormatter.printWidth": 140,
+  "editor.tabSize": 2,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "workbench.iconTheme": "material-icon-theme",
+  "material-icon-theme.folders.theme": "specific",
+  "material-icon-theme.folders.associations": {
+    "modules": "components",
+    "scan": "app"
+  }
+}

@@ -1,0 +1,69 @@
+/// TapeLibraryBarGraphComponent's private SCSS styles ============================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+:host {
+  @extend %flex-column;
+  $length-row-height: 24px;
+
+  .header,
+  .segments,
+  .segment {
+    height: $length-row-height;
+  }
+
+  .header {
+    $header-bg-color: color-variant(color('gray'), 300);
+    $header-fg-color: text-color($header-bg-color);
+    background-color: #{$header-bg-color};
+    color: #{$header-fg-color};
+    padding: 4px;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: var(--length-border-radius);
+    border-top-right-radius: var(--length-border-radius);
+  }
+
+  .segments {
+    @extend %flex-row;
+    background-color: var(--title-bg-color); // HACK To remedy the eventual rounding error of the last segment's right edge
+    border-bottom-left-radius: var(--length-border-radius);
+    border-bottom-right-radius: var(--length-border-radius);
+
+    .segment {
+      padding: 4px 0;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      transition: $transition;
+      cursor: default;
+
+      &:first-child {
+        border-bottom-left-radius: var(--length-border-radius);
+      }
+
+      &:last-child {
+        border-bottom-right-radius: var(--length-border-radius);
+      }
+
+      &.highlight {
+        background-color: color('coal');
+        color: color('ice');
+      }
+    }
+  }
+
+  .error {
+    height: 2 * $length-row-height;
+    line-height: 2 * $length-row-height;
+    text-align: center;
+    background-color: color('red');
+    color: color('ice');
+    border-radius: var(--length-border-radius);
+  }
+}

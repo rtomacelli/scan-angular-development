@@ -1,0 +1,64 @@
+<div class="outer" *ngIf="isDataLoaded; else dataIsNotLoaded" [class.dialog]="inDynamicDialog">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="high-end-environment">
+      <p-toolbar *ngIf="!inDynamicDialog">
+        <div class="ui-toolbar-group-left">
+          <span class="subject">Processamento</span>
+          <h1 class="title">Ambiente Distribuído – x86</h1>
+        </div>
+      </p-toolbar>
+      <div class="panel-content">
+        <div class="data-centers">
+          <div class="data-center" *ngFor="let dataCenter of highEndEnvironment.dataCenters">
+            <!-- TODO make this prettier later -->
+            <div class="data-center-name">{{dataCenter.complexo}} &ndash; {{dataCenter.predio}}</div>
+            <div class="clusters">
+              <div class="cluster" *ngFor="let cluster of dataCenter.listaClusterDistribuido"
+                [attr.data-palette-name]="'cluster'" [attr.data-palette-key]="cluster.nome">
+                <div class="cluster-header" (mouseenter)="hoverCluster(cluster)" (mouseleave)="leaveCluster(cluster)"
+                  (click)="showCluster(dataCenter, cluster)">
+                  <div class="cluster-name">{{cluster.nome}}</div>
+                  <!-- TODO differentiate singular and plural -->
+                  <div class="cluster-hosts">{{cluster.listaServidorFisico.length}} hosts</div>
+                </div>
+                <div class="hosts">
+                  <div class="host" *ngFor="let host of cluster.listaServidorFisico"
+                    (mouseenter)="hoverHost(host, $event)" (mouseleave)="leaveHost()"
+                    (click)="showCluster(dataCenter, cluster, host)">
+                    <span class="host-name" [attr.data-palette-name]="'host-status'"
+                      [attr.data-palette-key]="'power-' + host.powerStatus">
+                      {{host.nome}}
+                    </span>
+                    <span class="host-connection status-icon" [attr.data-palette-name]="'host-status'"
+                      [attr.data-palette-key]="'connection-' + host.connectionStatus">
+                      <i class="fa fa-fw" [class.fa-chain]="isHostConnected(host)"
+                        [class.fa-chain-broken]="!isHostConnected(host)"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="!inDynamicDialog" [subject]="'Ambiente Distribuído'" [title]="'x86'"
+      [noticeIcon]="'exclamation-circle'" [severity]="'danger'" [message]="errorMessage" [message2]="''">
+    </scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <p-toolbar *ngIf="!inDynamicDialog">
+    <div class="ui-toolbar-group-left">
+      <span class="subject">Processamento</span>
+      <h1 class="title">Ambiente Distribuído – x86</h1>
+    </div>
+  </p-toolbar>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opHost styleClass="host-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredHostMetadata" *ngIf="hoveredHost"></scan-overlay-metadata>
+</p-overlayPanel>

@@ -1,0 +1,29 @@
+/// Global overlay styles =========================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'placeholders';
+
+body {
+  .ui-overlaypanel {
+    max-width: 500px;
+
+    &.text-overlay .ui-overlaypanel-content {
+      text-align: center;
+      line-height: 166%;
+
+      .ratio-term {
+        margin: 0 4px;
+      }
+    }
+
+    &.path-overlay {
+      width: 25em;
+    }
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}

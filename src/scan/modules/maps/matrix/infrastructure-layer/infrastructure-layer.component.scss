@@ -1,0 +1,105 @@
+/// InfrastructureLayer's private SCSS styles =====================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.map-modes {
+  @extend %flex-row;
+  align-items: center;
+  position: absolute;
+  top: calc(-1 * (var(--length-header) - var(--length-gutter)));
+  right: 0;
+  height: calc(var(--length-header) - var(--length-gutter));
+  margin: 0;
+  padding: 0 15px;
+  background-color: transparent;
+  color: var(--title-fg-color);
+
+  label {
+    display: inline-block;
+    padding: 0 8px;
+    height: 20px;
+    line-height: 20px;
+    background-color: var(--system-bg-color);
+    color: var(--system-fg-color);
+    transition: $transition;
+    cursor: pointer;
+
+    &:first-of-type {
+      margin-left: 8px;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  input[type='radio'] {
+    display: none;
+
+    &:checked + label {
+      background-color: var(--program-bg-color);
+      color: var(--program-fg-color);
+    }
+  }
+}
+
+.perspectives {
+  @extend %flex-row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  margin: 0 ($length-gutter / -2);
+
+  .perspective {
+    flex: 1 0 0;
+    height: 100%;
+    margin: 0 ($length-gutter / 2);
+    overflow: auto;
+    @extend %flex-column;
+
+    .content {
+      max-height: calc(100% - 60px); // 120px = header height
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      margin: $length-gutter 0 0;
+    }
+  }
+}
+
+$component-colors: (
+  'group': color('teal'),
+  'subgroup': color('brown'),
+  'element': color('indigo')
+);
+
+:host ::ng-deep .scan-tree {
+  &,
+  .scan-tree {
+    @each $level, $color in $component-colors {
+      .scan-tree-node.#{$level} {
+        $scan-tree-node-tag-bg-color: $color;
+        --scan-tree-node-tag-bg-color: #{$scan-tree-node-tag-bg-color};
+        --scan-tree-node-tag-fg-color: #{text-color($scan-tree-node-tag-bg-color)};
+        $scan-tree-node-bg-color: color-variant($color, 100);
+        --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+        --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+
+        &.marked:not(.highlight):not(.dimmed) {
+          $scan-tree-node-bg-color: $color;
+          --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+          --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+          $scan-tree-node-tag-bg-color: color-variant($color, 100);
+          --scan-tree-node-tag-bg-color: #{$scan-tree-node-tag-bg-color};
+          --scan-tree-node-tag-fg-color: #{text-color($scan-tree-node-tag-bg-color)};
+        }
+      }
+    }
+  }
+}

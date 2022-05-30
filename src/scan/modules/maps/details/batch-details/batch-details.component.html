@@ -1,0 +1,81 @@
+<div class="batch-panel" *ngIf="isDataLoaded; else dataIsNotLoaded">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <ng-container *ngIf="batchRecords.length > 0; else dataIsEmpty">
+      <p-table #batchTable [value]="batchRecords" sortField="nomeJob" sortOrder="1" [globalFilterFields]="fields"
+        [paginator]="true" [rows]="rowsPerPage" (onPage)="currentPage = $event.page">
+        <ng-template pTemplate="caption">
+          <div class="caption-content">
+            <div>
+              <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down">
+              </p-dropdown>
+              <strong style="margin-left: 6px">registros por página</strong>
+            </div>
+            <div>
+              <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+              <input #filter type="text" pInputText size="50" placeholder="Buscar"
+                (input)="batchTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+              class="{{column.header | toIdentifier}}-column column">
+              {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let column of columns" class="{{column.header | toIdentifier}}-column column">
+              <div class="filter-header">
+                <i class="fa fa-fw fa-filter"></i>
+                <input type="text" pInputText (input)="batchTable.filter($event.target.value, column.field, 'contains')"
+                  class="filter-field">
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+          <tr>
+            <td class="nome-job-column column">{{record.nomeJob}}</td>
+            <td class="nome-sigla-column column">
+              <scan-app [app]="record.app" [showName]="true" [showStatus]="true" [showPathOnHover]="true"
+                [nonInteractive]="true">
+              </scan-app>
+            </td>
+            <td class="codigo-silo-column column">{{record.codigoSilo}}</td>
+            <td class="nome-centro-producao-column column">{{record.nomeCentroProducao}}</td>
+            <td class="qtd-execucoes-column column">{{record.qtdExecucoes}}</td>
+            <td class="qtd-abendados-column column">{{record.qtdAbendados}}</td>
+            <td class="qtd-tempo-cpu-column column">{{record.qtdTempoCpu}}</td>
+            <td class="qtd-tempo-sala-column column">{{record.qtdTempoSala}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+              class="{{column.header | toIdentifier}}-column column">
+              {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="column">
+            <em>Mostrando {{recordsOnCurrentPage}} de {{batchRecords.length}} registros</em>
+          </div>
+        </ng-template>
+      </p-table>
+    </ng-container>
+    <ng-template #dataIsEmpty>
+      <scan-notice-panel [noticeIcon]="'exclamation-circle'" [message]="'Nenhum registro encontrado'">
+      </scan-notice-panel>
+    </ng-template>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [noticeIcon]="'exclamation-circle'" [severity]="'danger'" [message]="errorMessage"
+      [message2]="'Escolha outra data ou tente novamente mais tarde'">
+    </scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <scan-loading-notice></scan-loading-notice>
+</ng-template>

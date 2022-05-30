@@ -1,0 +1,232 @@
+/// AppBarComponent's private SCSS styles =========================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.app-bar {
+  $app-bar-bg-color: color-variant(color('blue-gray'), 900);
+  $app-bar-fg-color: text-color($app-bar-bg-color);
+  --length-counter-height: 34px;
+  --length-selector-height: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: $length-app-bar;
+  height: 100%;
+  background-color: $app-bar-bg-color;
+  color: $app-bar-fg-color;
+  transition: $transition;
+
+  &.editable {
+    --length-selector-height: 64px;
+  }
+
+  .expander {
+    position: absolute;
+    top: calc(50% - #{$length-header / 2});
+    left: -10px;
+    width: 10px;
+    height: $length-header;
+    padding-left: 4px;
+    line-height: 44.5px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    border-top-left-radius: $length-header;
+    border-bottom-left-radius: $length-header;
+    background-color: $app-bar-bg-color;
+    color: $app-bar-fg-color;
+    transition: $transition;
+    cursor: pointer;
+
+    &::before {
+      content: '\ab';
+      opacity: 0.5;
+      transition: $transition;
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  &:hover .expander {
+    width: 20px;
+    left: -20px;
+  }
+
+  &.wide {
+    width: $length-app-bar-wide;
+    box-shadow: $box-shadow;
+
+    .expander::before {
+      content: '\bb';
+    }
+  }
+
+  .apps,
+  .areas-services {
+    @extend %flex-column;
+    position: absolute;
+    top: 0;
+    height: calc(100% - #{$length-header});
+    padding: $length-gutter ($length-gutter / 2);
+
+    .counters {
+      @extend %flex-column;
+      justify-content: center;
+      align-content: center;
+      height: var(--length-counter-height);
+    }
+
+    .selector {
+      @extend %flex-column;
+      justify-content: center;
+      align-items: center;
+      height: var(--length-selector-height);
+
+      &.spacer::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 56px;
+        border-radius: var(--length-border-radius);
+        border: 1px dotted rgba(255, 255, 255, 0.2);
+      }
+
+      .clear-apps {
+        display: inline-block;
+        margin-top: 6px;
+        width: 22px;
+        height: 22px;
+        line-height: 21px;
+        text-align: center;
+        font-size: 16px;
+        background-color: color-variant(color('gray'), 50);
+        color: color-variant(color('gray'), 800);
+        border-radius: 50%;
+        cursor: pointer;
+        opacity: 0.54;
+        transition: $transition;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    .list {
+      @extend %flex-column;
+      justify-content: flex-start;
+      align-items: center;
+      height: calc(100% - var(--length-counter-height) - var(--length-selector-height) + (var(--length-gutter) / 2));
+      margin-top: $length-gutter / 2;
+      margin-bottom: -$length-gutter;
+      margin-right: $length-gutter / -2;
+      padding-right: $length-gutter / 2;
+      padding-top: 1px;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      &.area-list {
+        align-items: stretch;
+      }
+
+      .list-row {
+        @extend %flex-row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: $length-gutter / 2;
+
+        .remove-app {
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 0;
+          margin-right: -20px;
+          text-align: center;
+          font-size: 13px;
+          background-color: transparent;
+          border-radius: var(--length-border-radius);
+          opacity: 0;
+          transition: $transition;
+          cursor: pointer;
+        }
+
+        &:hover .remove-app {
+          background-color: rgba(white, 0.2);
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  .apps {
+    left: 0;
+    width: $length-app-bar;
+  }
+
+  .areas-services {
+    left: $length-app-bar;
+    width: $length-app-bar-wide - $length-app-bar;
+    border-left: 1px dotted color-variant(color('blue-gray'), 800);
+  }
+}
+
+:host ::ng-deep {
+  .app-bar-selector {
+    --length-selector-width: calc((2 * var(--length-header)) - var(--length-gutter));
+    min-width: var(--length-selector-width);
+    width: var(--length-selector-width);
+    max-width: var(--length-selector-width);
+    margin: 0 calc(var(--length-gutter) / 2);
+    background-color: transparent;
+    border-color: transparent;
+
+    .ui-dropdown-label,
+    .ui-dropdown-trigger {
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+    }
+
+    .app-bar-selector-list {
+      min-width: 300px;
+    }
+  }
+
+  .app-list .list-row .app .code {
+    // box-shadow: inset 0 0 0 1px var(--system-bg-color);
+    cursor: pointer;
+  }
+
+  .list.area-list .scan-tree {
+    &,
+    .scan-tree {
+      .scan-tree-node {
+        &.area-of-interest.marked:not(.highlight):not(.dimmed),
+        &.area-of-interest.marked.highlight {
+          $scan-tree-node-bg-color: color('blue-gray');
+          --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+          --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+        }
+      }
+
+      @each $segment, $color in $segment-colors {
+        [data-palette-name='segment'][data-palette-key='#{$segment}'] {
+          --scan-tree-node-tag-bg-color: #{$color};
+          --scan-tree-node-tag-fg-color: #{text-color($color)};
+
+          &.business-service:not(.highlight) {
+            $scan-tree-node-bg-color: color-variant($color, 200);
+            --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+            --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+          }
+        }
+      }
+    }
+  }
+}

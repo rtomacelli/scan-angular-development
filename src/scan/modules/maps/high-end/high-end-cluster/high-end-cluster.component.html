@@ -1,0 +1,72 @@
+<ng-container *ngIf="isDataLoaded; else dataIsNotLoaded">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="summary">
+      <scan-counter
+        [selected]="hosts.length" [separator]="' de '" [total]="totalHosts"
+        [label]="'host'" [plural]="'hosts'">
+      </scan-counter>
+    </div>
+    <div class="hosts">
+      <div class="host" *ngFor="let host of hosts">
+        <div class="header">
+          <div class="header-row identification">
+            <span class="name">{{host.nome}}</span>
+            <span class="make-model">{{host.vendor}} {{host.modelo}}</span>
+            <span class="serial"><strong>Serial:</strong> {{host.serial}}</span>
+          </div>
+          <div class="header-row specs">
+            <span class="guest-count"><strong>{{host.qtdServidoresVirtuais}}</strong> guests</span>
+            <span class="cores"><strong>{{host.qtdCores}}</strong> núcleos</span>
+            <span class="memory"><strong>Memória:</strong> {{host.memoria | bytes : 'GB'}}</span>
+          </div>
+          <div class="header-row ip-addresses">
+            <div><strong>Endereços IP:</strong></div>
+            <div class="ip-address" *ngFor="let ip of host.listaEnderecoIP">{{ip.idAddress}}</div>
+          </div>
+          <div class="header-row status">
+            <div class="power-status">
+              <span class="color-coded-tag" [attr.data-palette-name]="'host-status'"
+                [attr.data-palette-key]="'power-' + host.powerStatus">
+                {{host.powerStatus}}
+              </span>
+            </div>
+            <div class="connection-status">
+              <span class="color-coded-tag" [attr.data-palette-name]="'host-status'"
+                [attr.data-palette-key]="'connection-' + host.connectionStatus">
+                <i class="fa fa-fw" [class.fa-chain]="host.connectionStatus === 'connected'"
+                  [class.fa-chain-broken]="host.connectionStatus !== 'connected'"></i>
+                {{host.connectionStatus}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="guests">
+          <ng-container *ngIf="hostHasGuests(host); else hostHasNoGuests">
+            <div class="guest" *ngFor="let guest of host.listaServidorVirtual"
+              (mouseenter)="hoverGuest(host, guest, $event)" (mouseleave)="leaveGuest()">
+              <span class="guest-name" title="{{guest.nome}}" [attr.data-palette-name]="'host-status'"
+                [attr.data-palette-key]="'power-' + guest.powerStatus">
+                {{guest.nome}}
+              </span>
+            </div>
+          </ng-container>
+          <ng-template #hostHasNoGuests>
+            <div class="notice">Nenhum guest encontrado</div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="false" [subject]="'Processamento'" [severity]="'danger'"
+      [message]="errorMessage" [message2]="'Escolha outra data ou tente novamente mais tarde'">
+    </scan-notice-panel>
+  </ng-template>
+</ng-container>
+<ng-template #dataIsNotLoaded>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opGuest styleClass="guest-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredGuestMetadata" *ngIf="hoveredGuest"></scan-overlay-metadata>
+</p-overlayPanel>

@@ -1,0 +1,36 @@
+/// Global icon conversion rules ==================================================================
+
+/// The rules below are for icons that PrimeNG doesn't natively allow changing. This way we avoid
+/// downloading yet another font.
+
+.pi::after {
+  font-family: 'FontAwesome', serif;
+  font-style: normal;
+  font-weight: normal;
+  position: relative;
+  top: -2px;
+}
+
+.pi.pi-angle-double-left::after { content: '\f100' }
+.pi.pi-angle-double-right::after { content: '\f101' }
+.pi.pi-angle-double-up::after { content: '\f102' }
+.pi.pi-angle-double-down::after { content: '\f103' }
+.pi.pi-angle-left::after { content: '\f104' }
+.pi.pi-angle-right::after { content: '\f105' }
+.pi.pi-angle-up::after { content: '\f106' }
+.pi.pi-angle-down::after { content: '\f107' }
+.pi.pi-caret-down::after { content: '\f0d7' }
+.pi.pi-caret-up::after { content: '\f0d8' }
+.pi.pi-caret-left::after { content: '\f0d9'; top: -7px }
+.pi.pi-caret-right::after { content: '\f0da'; top: -7px }
+.pi.pi-check::after { content: '\f00c'; top: 2px }
+.pi.pi-chevron-left::after { content: '\f053' }
+.pi.pi-chevron-right::after { content: '\f054' }
+.pi.pi-chevron-up::after { content: '\f077' }
+.pi.pi-chevron-down::after { content: '\f078'; top: -6px }
+.pi.pi-search::after { content: '\f002' }
+.pi.pi-sort::after { content: '\f0dc' }
+.pi.pi-sort-down::after { content: '\f0dd' }
+.pi.pi-sort-up::after { content: '\f0de' }
+.pi.pi-step-forward::after { content: '\f051'; font-size: 75%; top: -9px }
+.pi.pi-step-backward::after { content: '\f048'; font-size: 75%; top: -9px }

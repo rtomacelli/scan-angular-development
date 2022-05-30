@@ -1,0 +1,9 @@
+/// ToolButtonGroup's private styles ==============================================================
+
+@import 'global-variables';
+@import 'placeholders';
+
+:host {
+  @extend %flex-line;
+  margin-left: var(--length-gutter);
+}

@@ -1,0 +1,14 @@
+<p-toolbar *ngIf="withToolbar">
+  <div class="ui-toolbar-group-left">
+    <span class="subject">{{subject}}</span>
+    <h1 class="title">{{title}}</h1>
+  </div>
+</p-toolbar>
+<div [ngClass]="{'notice-panel': true, 'with-toolbar': withToolbar}">
+  <div class="text">
+    <i class="notice-icon fa fa-fw fa-{{noticeIcon}} {{severity}}"></i>
+    <h1>{{message}}</h1>
+    <h2 *ngIf="message2">{{message2}}</h2>
+    <p *ngIf="routerLink"><a [routerLink]="[routerLink]"><i class="fa fa-fw fa-{{linkIcon}}"></i> {{linkText}}</a></p>
+  </div>
+</div>

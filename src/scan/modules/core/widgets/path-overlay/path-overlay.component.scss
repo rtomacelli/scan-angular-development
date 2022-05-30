@@ -1,0 +1,127 @@
+/// PathOverlayComponent's private SCSS styles ====================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.level {
+  @extend %flex-column;
+  $length-path-gutter: 4px;
+  margin-top: $length-path-gutter;
+  padding: $length-path-gutter;
+  border-radius: var(--length-border-radius);
+
+  &.layer {
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+  }
+
+  &.perspective {
+    background-color: color-variant(color('blue-gray'), 400);
+    color: color-variant(color('blue-gray'), 50);
+  }
+
+  &.group {
+    background-color: color-variant(color('teal'), 400);
+    color: color-variant(color('teal'), 50);
+  }
+
+  &.subgroup {
+    background-color: color-variant(color('brown'), 400);
+    color: color-variant(color('brown'), 50);
+  }
+
+  &.element {
+    background-color: color-variant(color('indigo'), 400);
+    color: color-variant(color('indigo'), 50);
+  }
+
+  &.segment {
+    background-color: var(--routine-bg-color);
+    color: var(--routine-fg-color);
+  }
+
+  &.grouping {
+    background-color: var(--light-border-color);
+    color: var(--program-fg-color);
+  }
+
+  &.area-of-interest {
+    background-color: color('ice');
+    color: var(--program-fg-color);
+  }
+
+  &.business-service {
+    background-color: var(--system-bg-color);
+    color: var(--system-fg-color);
+  }
+
+  .tag {
+    @extend %flex-row;
+    align-items: flex-start;
+
+    .code {
+      display: inline-block;
+      margin-right: $length-path-gutter;
+      font-family: $font-mono;
+      font-size: 80%;
+      font-weight: bold;
+      padding: 0 $length-path-gutter 1px;
+      border-radius: var(--length-border-radius);
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+    }
+
+    .name {
+      font-weight: bold;
+      padding-right: $length-path-gutter;
+    }
+  }
+
+  &.app {
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+
+    .tag .code {
+      border: 1px solid var(--system-bg-color);
+    }
+  }
+
+  &.layer .tag {
+    .code {
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      font-family: $font-sans;
+      font-size: 80%;
+      text-align: center;
+      border-radius: var(--length-border-radius);
+      background-color: rgba(black, 0.2);
+      // text-shadow:
+      //     1px 1px 0 rgba(black, 0.1),
+      //     2px 2px 0 rgba(black, 0.2),
+      //     3px 3px 0 rgba(black, 0.3);
+      box-shadow: none;
+    }
+
+    .name {
+      position: relative;
+      top: 2px;
+    }
+  }
+}
+
+.alert {
+  $bg-color: color('red');
+  $fg-color: text-color($bg-color);
+  display: inline-block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 4px 8px;
+  font-weight: bold;
+  text-align: center;
+  background-color: $bg-color;
+  color: $fg-color;
+  border-radius: var(--length-border-radius);
+}

@@ -1,0 +1,23 @@
+<div class="scan-overlay-metadata" *ngIf="isThereMetadata">
+  <div class="scan-overlay-metadata-record" *ngFor="let record of metadata">
+    <div class="scan-overlay-metadata-key">
+      {{record.key}}
+    </div>
+    <div class="scan-overlay-metadata-values">
+      <div *ngFor="let item of record.values"
+        class="scan-overlay-metadata-values-item {{record.class}}"
+        [attr.data-palette-name]="record.paletteName"
+        [attr.data-palette-key]="record.paletteKey || item">
+        <i class="scan-overlay-metadata-values-item-icon fa fa-fw fa-{{record.icon}}" *ngIf="record.icon"></i>
+        <span class="scan-overlay-metadata-values-prefix" *ngIf="record.prefix">
+          {{record.prefix}}
+        </span>
+        <!-- TODO Look into a way to use `DecimalPipe` and `BytesPipe` here -->
+        <span class="scan-overlay-metadata-values-data">{{item}}</span>
+        <span class="scan-overlay-metadata-values-suffix" *ngIf="record.suffix">
+          {{record.suffix}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

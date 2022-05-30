@@ -1,0 +1,135 @@
+/// AreaDetailsComponent's private SCSS styles ====================================================
+
+@import 'global-variables';
+
+$length-area-description-height: 32px;
+
+.area-description {
+  height: $length-area-description-height;
+  margin: calc(-1 * var(--length-gutter));
+  margin-bottom: var(--length-gutter);
+  padding: calc(var(--length-gutter) / 2) var(--length-gutter);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: var(--system-bg-color);
+  color: var(--system-fg-color);
+}
+
+.area-details {
+  height: calc(100% + 2 * var(--length-gutter) - #{$length-area-description-height});
+  margin: calc(var(--length-gutter) * -1);
+  padding: var(--length-gutter);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .business-service {
+    .business-service-header {
+      position: relative;
+      margin-bottom: calc(var(--length-gutter) / 2);
+      padding: calc(var(--length-gutter) / 2);
+      border-radius: var(--length-border-radius);
+      background-color: var(--routine-bg-color);
+      color: var(--routine-fg-color);
+
+      .identification {
+        margin-bottom: calc(var(--length-gutter) / 2);
+        font-size: 18px;
+
+        .code {
+          position: relative;
+          display: inline-block;
+          top: -1px;
+          margin-right: 6px;
+          padding: 0 6px 1px;
+          font-family: $font-mono;
+          font-size: 80%;
+          font-weight: bold;
+          background-color: var(--title-bg-color);
+          color: var(--title-fg-color);
+          border: 1px solid var(--system-bg-color);
+          border-radius: var(--length-border-radius);
+        }
+      }
+
+      .service-description {
+        margin: calc(var(--length-gutter) / -2);
+        padding: calc(var(--length-gutter) / 2);
+        margin-top: calc(var(--length-gutter) / 2);
+        background-color: rgba(white, 0.33);
+      }
+    }
+
+    .service-app .map-link {
+      line-height: 20px;
+    }
+
+    .business-service-header,
+    .service-app {
+      .map-link {
+        margin-left: 8px;
+        opacity: 0;
+        cursor: default;
+        pointer-events: none;
+        transition: $transition;
+      }
+
+      &:hover .map-link {
+        opacity: 1;
+        cursor: pointer;
+        pointer-events: visible;
+      }
+    }
+
+    .apps {
+      .service-apps {
+        margin: calc(var(--length-gutter) / 2);
+
+        .counter {
+          font-weight: bold;
+          margin-bottom: calc(var(--length-gutter) / 4);
+        }
+
+        .service-app {
+          display: flex;
+          padding: calc(var(--length-gutter) / 4) calc(var(--length-gutter) / 2);
+          margin: 0 calc(var(--length-gutter) / -2);
+          border-radius: var(--length-border-radius);
+          cursor: pointer;
+          transition: $transition;
+
+          &:hover {
+            background-color: var(--panel-bg-color);
+          }
+        }
+      }
+
+      hr {
+        margin: calc(var(--length-gutter) / 2);
+        border: dotted var(--program-bg-color);
+        border-width: 1px 0 0;
+      }
+    }
+
+    &.marked .business-service-header {
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+    }
+
+    .notice {
+      padding: calc(var(--length-gutter) / 2);
+      opacity: 0.75;
+      font-style: italic;
+      margin-bottom: calc(var(--length-gutter) / 2);
+    }
+  }
+}
+
+:host ::ng-deep .service-app .unmarked > .app .code {
+  background-color: var(--program-bg-color);
+  color: var(--program-fg-color);
+}
+
+:host ::ng-deep .service-app .marked > .app .name {
+  font-weight: bold;
+}

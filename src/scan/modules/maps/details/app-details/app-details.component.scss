@@ -1,0 +1,104 @@
+/// AppDetailsComponent's private SCSS styles =====================================================
+
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+:host ::ng-deep .text {
+  h3 {
+    margin-top: 0;
+  }
+
+  h4 {
+    margin: 0;
+  }
+
+  p,
+  li {
+    text-align: justify;
+  }
+
+  ul,
+  ol {
+    margin-top: 0;
+    padding-left: var(--length-gutter);
+  }
+
+  ol.letters {
+    list-style-type: lower-alpha;
+  }
+
+  li {
+    padding-left: calc(var(--length-gutter) / 2);
+  }
+
+  em {
+    opacity: 0.75;
+  }
+}
+
+.app-details {
+  @extend %flex-column;
+  height: 100%;
+
+  .header {
+    margin-bottom: calc(var(--length-gutter) / 4);
+    font-weight: bold;
+  }
+
+  .notice {
+    padding: calc(var(--length-gutter) / 4) 0;
+    font-style: italic;
+    opacity: 0.75;
+  }
+
+  .app-status-text {
+    width: calc(100% + 2 * var(--length-gutter));
+    height: 28px;
+    margin: calc(-1 * var(--length-gutter)) calc(-1 * var(--length-gutter)) var(--length-gutter);
+    padding-left: var(--length-gutter);
+    line-height: 25px;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    border-radius: 0;
+    letter-spacing: 0.5px;
+
+    &::before {
+      margin-right: 8px;
+    }
+  }
+
+  .paths {
+    @extend %flex-row;
+    flex: 0 0 auto;
+    margin-bottom: $length-gutter;
+
+    .path-category {
+      flex: 1 1 0;
+      align-self: flex-start;
+    }
+  }
+
+  .documentation {
+    @extend %flex-row;
+    flex: 1 1 0;
+    margin: 0 calc(var(--length-gutter) / -2);
+
+    .section {
+      @extend %flex-column;
+      flex: 1 1 0;
+      margin: 0 calc(var(--length-gutter) / 2);
+
+      .text {
+        flex: 1 1 0;
+        margin-top: calc(var(--length-gutter) / 4);
+        padding: calc(var(--length-gutter) / 1);
+        line-height: 1.75;
+        overflow: auto;
+        background-color: color-variant(color('blue-gray'), 50);
+        border-radius: var(--length-border-radius);
+      }
+    }
+  }
+}

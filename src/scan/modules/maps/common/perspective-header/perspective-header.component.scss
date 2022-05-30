@@ -1,0 +1,41 @@
+/// PerspectiveHeaderComponent's private SCSS styles ==============================================
+
+@import 'global-variables';
+@import 'placeholders';
+
+.header {
+  @extend %flex-row;
+  text-align: center;
+  background-color: var(--title-bg-color);
+  color: var(--title-fg-color);
+  border-radius: var(--length-border-radius);
+
+  $length-header-height: 60px;
+
+  .icon {
+    display: block;
+    flex: 0 0 auto;
+    width: 50px;
+    height: $length-header-height;
+    line-height: $length-header-height;
+    font-size: 30px;
+    text-align: center;
+    background-color: rgba(white, 0.125);
+  }
+
+  .text {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    height: $length-header-height;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+
+    span {
+      align-self: center;
+      text-align: left;
+    }
+  }
+}

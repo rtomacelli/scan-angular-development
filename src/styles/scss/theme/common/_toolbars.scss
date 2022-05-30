@@ -1,0 +1,166 @@
+/// Global toolbar styles =========================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+body {
+  .ui-toolbar {
+    @extend %flex-row;
+    justify-content: space-between;
+    align-items: stretch;
+    height: var(--length-header);
+    padding: 0;
+    font-family: $font-sans;
+    border: none;
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+    transition: $transition;
+
+    &.ui-corner-all {
+      border-radius: 0;
+    }
+
+    // Coordinate this rule with the corresponding one (&.with-toolbar) in _tabviews.scss
+    &.with-tabview {
+      width: 50%;
+      margin-bottom: calc(-1 * var(--length-header));
+    }
+
+    .ui-toolbar-group-left,
+    .ui-toolbar-group-right {
+      align-items: center;
+      flex: 1 1 auto;
+    }
+
+    .ui-toolbar-group-left {
+      @extend %flex-row;
+      justify-content: flex-start;
+      float: unset;
+    }
+
+    .ui-toolbar-group-right {
+      @extend %flex-row;
+      justify-content: flex-end;
+      float: unset;
+    }
+
+    a {
+      text-decoration: none;
+      color: color-variant(color('blue'), 50);
+    }
+
+    .logo {
+      width: var(--length-header);
+      height: var(--length-header);
+      background-color: color-variant(color('blue'), 800);
+
+      img {
+        width: var(--length-header);
+        height: var(--length-header);
+        transition: $transition;
+      }
+    }
+
+    .subject,
+    .title {
+      margin: 0;
+      padding: 0 var(--length-gutter);
+      height: var(--length-header);
+      line-height: var(--length-header);
+      font: {
+        family: $font-sans;
+        size: calc(var(--length-header) / 2);
+        weight: normal;
+      }
+
+      small {
+        opacity: 0.66;
+      }
+    }
+
+    .subject {
+      align-self: center;
+      height: 50%;
+      line-height: 100%;
+      padding-right: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0.66;
+    }
+
+    .title {
+      @include respond-to('phone') {
+        display: none;
+      }
+
+      .subtitle {
+        margin-left: 0.325em;
+        font-style: normal;
+        opacity: 0.7;
+      }
+    }
+
+    nav {
+      display: flex;
+      flex-flow: row nowrap;
+      padding: var(--length-gutter) var(--length-gutter) 0 0;
+
+      a,
+      div.tab-header {
+        --length-tab-height: calc(var(--length-header) - var(--length-gutter));
+        display: inline-block;
+        margin-left: var(--length-gutter);
+        padding: calc(var(--length-gutter) * 0.6) 1em;
+        height: var(--length-tab-height);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: bold;
+        background-color: rgba(white, 0.1);
+        color: var(--title-fg-color);
+        border-top-left-radius: var(--length-border-radius);
+        border-top-right-radius: var(--length-border-radius);
+        transition: $transition;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(white, 0.3);
+        }
+
+        &.active {
+          background-color: color-variant(color('blue-gray'), 100);
+          color: color('coal');
+
+          &:hover {
+            background-color: color-variant(color('blue-gray'), 200);
+          }
+        }
+
+        &[data-palette-name='layer'] {
+          background-color: var(--title-bg-color);
+          color: var(--title-fg-color);
+          box-shadow: inset 0 0 0 var(--length-tab-height) transparent, inset 0 -3px 5px -4px rgba(0, 0, 0, 0.8);
+
+          &:hover {
+            box-shadow: inset 0 0 0 var(--length-tab-height) rgba(black, 0.1),
+              inset 0 -3px 5px -4px rgba(0, 0, 0, 0.8);
+          }
+
+          &.active {
+            background-color: var(--title-bg-color);
+            color: var(--title-fg-color);
+            box-shadow: inset 0 0 0 var(--length-tab-height) transparent;
+
+            &:hover {
+              box-shadow: inset 0 0 0 var(--length-tab-height) transparent;
+            }
+          }
+        }
+      }
+    }
+  }
+}

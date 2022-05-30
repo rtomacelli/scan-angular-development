@@ -1,0 +1,98 @@
+/// SearchItemComponent's private SCSS styles =====================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+.search-item {
+  @extend %flex-row;
+  $length-tag-width: 100px;
+  $length-name-height: 30px;
+  $length-description-height: 20px;
+  $length-tag-height: $length-name-height + $length-description-height;
+
+  .tag {
+    @extend %flex-column;
+    justify-content: center;
+    align-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: $length-tag-width;
+    height: $length-tag-height;
+    margin-right: $length-gutter / 2;
+    text-align: center;
+    line-height: $length-tag-height;
+    font-family: $font-mono;
+    font-weight: bold;
+    border-radius: var(--length-border-radius);
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+
+    .tag-type {
+      height: 15px;
+      line-height: 15px;
+      letter-spacing: 1px;
+      font-family: $font-sans;
+      font-size: 12px;
+      font-weight: normal;
+      font-variant: small-caps;
+      text-transform: lowercase;
+      opacity: 0.75;
+    }
+
+    .tag-value {
+      height: 25px;
+      line-height: 25px;
+      font-size: 150%;
+    }
+
+    .app-status-icon {
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 20px;
+      height: 20px;
+      line-height: 18px;
+      font-size: 14px;
+      background-color: var(--app-status-color);
+      color: var(--app-status-text-color);
+      border: 1px solid rgba(color('ice'), 0.25);
+      border-radius: var(--length-border-radius);
+      box-shadow: 1px 1px 2px rgba(color('coal'), 0.25);
+
+      &::after {
+        font-family: $font-icon;
+      }
+    }
+  }
+
+  .text {
+    @extend %flex-column;
+    width: calc(100% - #{$length-tag-width});
+
+    .name,
+    .description {
+      overflow: hidden;
+    }
+
+    .name {
+      height: $length-name-height;
+      line-height: $length-name-height;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 135%;
+    }
+
+    .description {
+      @include prefix((
+        line-clamp: 1
+      ), webkit);
+      height: $length-description-height;
+      line-height: $length-description-height;
+      font-style: italic;
+      opacity: 0.66;
+    }
+  }
+}

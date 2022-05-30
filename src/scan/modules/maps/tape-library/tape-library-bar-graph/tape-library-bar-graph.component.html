@@ -1,0 +1,9 @@
+<div class="header">{{categoryDescription}}: {{categoryValue}}</div>
+<div class="segments">
+  <div class="segment" *ngFor="let segment of data.segments | keyvalue : segmentSorter"
+    [attr.data-palette-name]="'tape-library-category'" [attr.data-palette-key]="segment.value.name"
+    [class.highlight]="segment.value.name === highlightKey" [style.width]="getSegmentPercentage(segment.value) + '%'"
+    title="{{getSegmentTitle(segment.value)}}">
+    {{getSegmentText(segment.value)}}
+  </div>
+</div>

@@ -1,0 +1,72 @@
+/// UsersComponent's private SCSS styles ==========================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+.users-panel {
+  height: $length-panel-inner-tab-height;
+  padding: var(--length-gutter);
+  overflow: hidden auto;
+}
+
+:host ::ng-deep {
+  .tipo-column,
+  .lotacao-column,
+  .ultimo-acesso-column,
+  .perfis-column {
+    text-align: center;
+  }
+
+  .ultimo-acesso-column {
+    width: 30em;
+  }
+
+  .perfis-column {
+    width: 25em;
+
+    .profile-name-tag {
+      display: inline-block;
+      margin-bottom: 5px;
+      padding: 2px 8px;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      border-radius: var(--length-border-radius);
+
+      & + .profile-name-tag {
+        margin-left: 5px;
+      }
+
+      &:nth-child(odd) {
+        $bg-color: color-variant(color('teal'), 100);
+        $fg-color: text-color($bg-color);
+        --title-bg-color: #{$bg-color};
+        --title-fg-color: #{$fg-color};
+      }
+
+      &:nth-child(even) {
+        $bg-color: color-variant(color('slate'), 100);
+        $fg-color: text-color($bg-color);
+        --title-bg-color: #{$bg-color};
+        --title-fg-color: #{$fg-color};
+      }
+    }
+  }
+
+  .ui-picklist {
+    width: 100%;
+    height: 100%;
+
+    .ui-picklist-listwrapper {
+      height: 100%;
+
+      .ui-picklist-list {
+        height: calc(100% - 44px - 34px); // 100% - filterHeight - captionHeight
+      }
+
+      .ui-picklist-caption + .ui-picklist-list {
+        height: calc(100% - 34px); // 100% - captionHeight
+      }
+    }
+  }
+}

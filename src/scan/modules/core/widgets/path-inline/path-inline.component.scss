@@ -1,0 +1,36 @@
+/// PathInlineComponent's private SCSS styles =====================================================
+
+@import 'global-variables';
+@import 'placeholders';
+
+.path-inline {
+  @extend %flex-row;
+  padding: calc(var(--length-gutter) / 4) 0;
+  cursor: default;
+
+  .level {
+    .code {
+      display: inline-block;
+      height: 18px;
+      margin-right: 3px;
+      padding: 0 6px;
+      line-height: 16px;
+      font-family: $font-mono;
+      font-size: 90%;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      border-radius: var(--length-border-radius);
+    }
+
+    .name {
+      margin-left: calc(var(--length-gutter) / 4);
+    }
+  }
+
+  .separator {
+    position: relative;
+    line-height: 18px;
+  }
+}

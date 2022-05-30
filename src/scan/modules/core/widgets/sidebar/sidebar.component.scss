@@ -1,0 +1,96 @@
+/// Sidebar's private styles ======================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+
+.ui-scan-sidebar {
+  position: absolute;
+  top: var(--length-header);
+  left: 0;
+  z-index: 1002;
+  width: var(--length-header);
+  height: calc(100% - var(--length-header));
+  background-color: color-variant(color('blue-gray'), 900);
+  transition: $transition;
+
+  &:hover {
+    width: 300px;
+    box-shadow: $box-shadow;
+  }
+}
+
+:host ::ng-deep {
+  .ui-menu {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+
+    .ui-submenu-header {
+      height: 1px;
+      padding: 0 0.625em;
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-size: 14px;
+      background-color: rgba(color('ice'), 0.195);
+      color: rgba(color('ice'), 0);
+      transition: $transition;
+      pointer-events: none;
+
+      &:first-child {
+        display: none;
+      }
+    }
+
+    .ui-menu-separator {
+      border-color: rgba(color('ice'), 0.25);
+    }
+
+    .ui-menuitem {
+      .ui-menuitem-link {
+        padding: 0.714em calc(var(--length-gutter) * 0.4);
+        white-space: nowrap;
+        color: color('ice');
+        box-shadow: inset -5px 0 0 transparent;
+        transition: $transition;
+
+        &:hover {
+          background-color: color-variant(color('blue-gray'), 1100);
+        }
+
+        .ui-menuitem-icon {
+          margin-right: 8px;
+          font-size: calc(var(--length-header) * 0.56);
+          color: inherit;
+        }
+
+        .ui-menuitem-text {
+          color: inherit;
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: $transition;
+        }
+      }
+
+      @each $layer, $color in $layer-colors {
+        &.#{$layer} .ui-menuitem-link:hover {
+          box-shadow: inset -5px 0 0 $color;
+        }
+      }
+    }
+  }
+
+  &:hover .ui-menu {
+    .ui-submenu-header {
+      height: unset;
+      padding: 0.714em 0.625em;
+      background-color: transparent;
+      color: rgba(color('ice'), 0.54);
+    }
+
+    .ui-menuitem-link .ui-menuitem-text {
+      opacity: 1;
+    }
+  }
+}

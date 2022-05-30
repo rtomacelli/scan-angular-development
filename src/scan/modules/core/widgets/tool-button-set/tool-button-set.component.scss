@@ -1,0 +1,14 @@
+/// ToolButtonSet's private styles ================================================================
+
+@import 'global-variables';
+@import 'placeholders';
+
+:host,
+.tool-button-set {
+  @extend %flex-line;
+  line-height: var(--length-header);
+}
+
+:host:last-child {
+  padding-right: var(--length-gutter);
+}

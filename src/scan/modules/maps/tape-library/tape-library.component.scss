@@ -1,0 +1,196 @@
+/// TapeLibraryComponent's private SCSS styles ====================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+.panel-content {
+  @extend %flex-column;
+
+  .views {
+    @extend %flex-row;
+    justify-content: center;
+    margin: calc(-1 * var(--length-gutter)) calc(-1 * var(--length-gutter)) var(--length-gutter);
+    height: 32px;
+    line-height: 32px;
+    background-color: color-variant(color('gray'), 300);
+
+    strong {
+      margin-right: 10px;
+    }
+
+    label {
+      align-self: center;
+      height: 22px;
+      margin: 0;
+      padding: 0 16px;
+      line-height: 22px;
+      font-weight: bold;
+      background-color: color-variant(color('gray'), 50);
+      color: color-variant(color('gray'), 800);
+      cursor: pointer;
+      transition: $transition;
+
+      &:first-of-type {
+        border-top-left-radius: var(--length-border-radius);
+        border-bottom-left-radius: var(--length-border-radius);
+      }
+
+      &:last-of-type {
+        border-top-right-radius: var(--length-border-radius);
+        border-bottom-right-radius: var(--length-border-radius);
+      }
+    }
+
+    input[type='radio'] {
+      display: none;
+
+      &:checked + label {
+        background-color: color-variant(color('gray'), 800);
+        color: color-variant(color('gray'), 50);
+      }
+    }
+  }
+
+  .legend {
+    @extend %flex-row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-bottom: var(--length-gutter);
+
+    .legend-group {
+      @extend %flex-row;
+      flex-wrap: wrap;
+
+      .legend-group-label {
+        padding: 2px 4px;
+        opacity: 0.75;
+      }
+
+      .legend-group-item {
+        display: inline-block;
+        margin: 0 4px;
+        padding: 2px 10px;
+        font-weight: bold;
+        background-color: var(--title-bg-color);
+        color: var(--title-fg-color);
+        border-radius: var(--length-border-radius);
+        cursor: default;
+        transition: $transition;
+
+        &[data-palette-name='cluster'] {
+          background-color: var(--light-border-color);
+        }
+
+        &.highlight {
+          background-color: color('coal');
+          color: color('ice');
+        }
+      }
+    }
+  }
+
+  .data-centers {
+    @extend %flex-row;
+    height: 100%;
+    margin: 0 calc(var(--length-gutter) / -2);
+
+    .data-center {
+      @extend %flex-column;
+      flex: 1 0 0;
+      height: 100%;
+      margin: 0 calc(var(--length-gutter) / 2);
+      padding: 0;
+      overflow: hidden;
+      background-color: color-variant(color('blue-gray'), 50);
+      border-radius: var(--length-border-radius);
+
+      .data-center-name {
+        padding: calc(var(--length-gutter) / 2);
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .tape-libraries {
+        @extend %flex-column;
+        align-content: flex-start;
+        height: 100%;
+        margin-top: calc(var(--length-gutter) / -4);
+        padding: 0 calc(var(--length-gutter) / 1.5) calc(var(--length-gutter) / 1.5);
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .tape-library {
+          @extend %flex-column;
+          margin: calc(var(--length-gutter) / 4) 0;
+          padding: calc(var(--length-gutter) / 1.5);
+          background-color: color('ice');
+          border: 1px solid color-variant(color('blue-gray'), 100);
+          border-radius: var(--length-border-radius);
+
+          .tape-library-header {
+            margin-bottom: calc(var(--length-gutter) / 1.5);
+            text-align: center;
+            font-weight: bold;
+          }
+
+          .clusters {
+            @extend %flex-column;
+            margin: calc(var(--length-gutter) / 2) 0 calc(var(--length-gutter) / -2);
+
+            .cluster {
+              @extend %flex-column;
+              margin: calc(var(--length-gutter) / 2) 0;
+              padding: calc(var(--length-gutter) / 1.5);
+              background-color: color-variant(color('gray'), 50);
+              border: 1px solid var(--light-border-color);
+              border-radius: var(--length-border-radius);
+              transition: $transition;
+
+              .cluster-name {
+                margin: calc(-1px + var(--length-gutter) / -1.5) calc(-1px + var(--length-gutter) / -1.5) calc(var(--length-gutter) / 1.5);
+                padding: 4px;
+                text-align: center;
+                font-weight: bold;
+                background-color: var(--light-border-color);
+                color: var(--title-fg-color);
+                border-top-left-radius: var(--length-border-radius);
+                border-top-right-radius: var(--length-border-radius);
+                transition: $transition;
+              }
+
+              &.highlight {
+                border-color: var(--title-bg-color);
+
+                .cluster-name {
+                  background-color: color('coal');
+                  color: color('ice');
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.outer {
+  @extend %flex-row;
+  height: 100%;
+
+  &.dialog {
+    margin: calc(-1 * var(--length-gutter));
+    height: calc(100% + 2 * var(--length-gutter));
+
+    .panel-content {
+      height: 100%;
+    }
+  }
+
+  .tape-library-system {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 100%;
+  }
+}

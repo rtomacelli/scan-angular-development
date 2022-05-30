@@ -1,0 +1,38 @@
+/// Global input styles ===========================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+
+body {
+  .ui-inputtext {
+    border-color: color-variant(color('blue-gray'), 100);
+
+    &:enabled:hover:not(.ui-state-error) {
+      border-color: color-variant(color('blue-gray'), 200);
+    }
+
+    &:enabled:focus:not(.ui-state-error) {
+      border-color: color-variant(color('blue'), 200);
+    }
+  }
+
+  .ui-dropdown-panel {
+    .ui-dropdown-label {
+      display: block;
+      margin: auto;
+    }
+
+    .ui-dropdown-empty-message {
+      text-align: center;
+      font-style: italic;
+      font-size: 1.1rem;
+      color: color('blue-gray');
+      opacity: 0.54;
+    }
+  }
+}
+
+.cdk-virtual-scroll-orientation-vertical .cdk-virtual-scroll-content-wrapper {
+  max-width: 100%;
+}

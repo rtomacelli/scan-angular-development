@@ -1,0 +1,127 @@
+/// ConfigurationDetailsComponent's private SCSS styles ===========================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+$layer-colors: (
+  'internal': color('blue-gray'),
+  'negocio': color('amber'),
+  'infraestrutura-logica': color('green'),
+  'infraestrutura-fisica': color('light-blue')
+);
+
+$component-colors: (
+  'perspective': color('blue-gray'),
+  'group': color('teal'),
+  'subgroup': color('brown'),
+  'element': color('indigo')
+);
+
+.configuration-details {
+  height: calc(100% + 2 * var(--length-gutter));
+  margin: calc(-1 * var(--length-gutter));
+  padding: var(--length-gutter);
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  .element-path {
+    @extend %flex-row;
+    flex-wrap: wrap;
+
+    .element-path-level {
+      .name {
+        $bg-color: color-variant(color('blue-gray'), 100);
+        $fg-color: text-color($bg-color);
+        padding: 4px 12px;
+        font-weight: bold;
+        letter-spacing: 0.25px;
+        background-color: $bg-color;
+        color: $fg-color;
+        border-radius: var(--length-border-radius);
+      }
+
+      .nickname {
+        margin-left: 0.5ex;
+      }
+
+      &:not(:last-child)::after {
+        content: '\f0da';
+        font-family: $font-icon;
+        margin: 0 8px;
+      }
+
+      @each $layer, $color in $layer-colors {
+        &.layer.#{$layer} .name {
+          $bg-color: $color;
+          $fg-color: text-color($bg-color);
+          background-color: $bg-color;
+          color: $fg-color;
+        }
+      }
+
+      @each $level, $color in $component-colors {
+        &.#{$level} .name {
+          $bg-color: $color;
+          $fg-color: text-color($bg-color);
+          background-color: $bg-color;
+          color: $fg-color;
+        }
+      }
+    }
+  }
+
+  .configuration-item-types {
+    .configuration-item-type-header {
+      $bg-color: color-variant(color('blue-gray'), 50);
+      $fg-color: text-color($bg-color);
+      margin: var(--length-gutter) 0 calc(var(--length-gutter) / 2);
+      padding: calc(var(--length-gutter) / 4) calc(var(--length-gutter) / 2);
+      font-size: 115%;
+      font-weight: bold;
+      background-color: $bg-color;
+      color: $fg-color;
+      border-radius: var(--length-border-radius);
+    }
+
+    .configuration-items {
+      @extend %flex-row;
+      flex-wrap: wrap;
+      margin: 0 calc(var(--length-gutter) / -2);
+
+      .configuration-item {
+        @extend %flex-column;
+        justify-content: flex-start;
+        align-content: center;
+        align-items: center;
+        width: 120px;
+        margin: calc(var(--length-gutter) / 2);
+        padding: calc(var(--length-gutter) / 2);
+        border-radius: var(--length-border-radius);
+        cursor: default;
+        transition: $transition;
+
+        div {
+          text-align: center;
+        }
+
+        .configuration-item-icon {
+          height: 42px;
+          margin: calc(var(--length-gutter) / 2);
+          font-size: 42px;
+          color: var(--dark-border-color);
+          text-align: center;
+          text-shadow: 0 1px 2px var(--light-border-color);
+        }
+
+        .configuration-item-name {
+          font-family: $font-mono;
+        }
+
+        &:hover {
+          background-color: color-variant(color('blue-gray'), 50);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+/// HighEndComponent's private SCSS styles =========================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+.panel-content {
+  @extend %flex-column;
+
+  .data-centers {
+    @extend %flex-row;
+    height: 100%;
+    margin: 0 calc(var(--length-gutter) / -2);
+
+    .data-center {
+      @extend %flex-column;
+      flex: 1 0 0;
+      height: 100%;
+      margin: 0 calc(var(--length-gutter) / 2);
+      padding: 0;
+      overflow: hidden;
+      background-color: color-variant(color('blue-gray'), 50);
+      border-radius: var(--length-border-radius);
+
+      .data-center-name {
+        padding: calc(var(--length-gutter) / 2);
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .clusters {
+        @extend %flex-row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: center;
+        height: 100%;
+        margin-top: calc(var(--length-gutter) / -2);
+        padding: 0 calc(var(--length-gutter) / 2) calc(var(--length-gutter) / 2);
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        .cluster {
+          @extend %flex-column;
+          flex: 0 0 auto;
+          order: 1;
+          width: calc(50% - var(--length-gutter));
+          margin: calc(var(--length-gutter) / 2);
+
+          &[data-palette-name='cluster'][data-palette-key='Gerenciamento'] {
+            order: 0;
+            width: calc(100% - var(--length-gutter));
+          }
+
+          .cluster-header {
+            $cluster-name-bg-color: color-variant(color('teal'), 100);
+            $cluster-name-fg-color: text-color($cluster-name-bg-color);
+
+            @extend %flex-row;
+            justify-content: space-between;
+            padding: calc(var(--length-gutter) / 4) calc(var(--length-gutter) / 2);
+            background-color: $cluster-name-bg-color;
+            color: $cluster-name-fg-color;
+            border-top-left-radius: var(--length-border-radius);
+            border-top-right-radius: var(--length-border-radius);
+            cursor: pointer;
+            transition: $transition;
+
+            &:hover {
+              background-color: color-variant(color('teal'), 200);
+            }
+
+            .cluster-name {
+              text-align: left;
+              font-weight: bold;
+            }
+
+            .cluster-hosts {
+              margin: calc(1px + var(--length-gutter) / -4) calc(1px + var(--length-gutter) / -2);
+              padding: calc(var(--length-gutter) / 4) calc(var(--length-gutter) / 2);
+              background-color: color-variant(color('teal'), 50);
+            }
+          }
+
+          .hosts {
+            @extend %flex-row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            align-content: flex-start;
+            height: 100%;
+            padding: calc(var(--length-gutter) / 4);
+            background-color: color('ice');
+            border: solid color-variant(color('blue-gray'), 100);
+            border-width: 0 1px 1px;
+            border-bottom-left-radius: var(--length-border-radius);
+            border-bottom-right-radius: var(--length-border-radius);
+
+            .host {
+              @extend %flex-row;
+              justify-content: center;
+              flex: 1 0 0;
+              margin: 4px;
+              padding: 0;
+              cursor: pointer;
+
+              .host-name {
+                width: calc(100% - 21px); // TODO extract this constant
+                padding: 0 5px 2px 6px;
+                text-align: center;
+                font-family: $font-mono;
+                background-color: var(--title-bg-color);
+                color: var(--title-fg-color);
+                // border: 0px solid rgba(color('ice'), 0.25);
+              }
+
+              span {
+                flex-shrink: 0;
+                border-radius: 0;
+                transition: $transition;
+                // border-width: 0 1px !important;
+
+                &:first-child {
+                  // border-left-width: 0;
+                  border-top-left-radius: var(--length-border-radius);
+                  border-bottom-left-radius: var(--length-border-radius);
+                }
+
+                &:last-child {
+                  // border-right-width: 0;
+                  border-top-right-radius: var(--length-border-radius);
+                  border-bottom-right-radius: var(--length-border-radius);
+                }
+              }
+
+              &:hover {
+                span {
+                  box-shadow: inset 0 0 0 20px rgba(color('coal'), 0.2);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.outer {
+  @extend %flex-row;
+  height: 100%;
+
+  &.dialog {
+    margin: calc(-1 * var(--length-gutter));
+    height: calc(100% + 2 * var(--length-gutter));
+
+    .panel-content {
+      height: 100%;
+    }
+  }
+
+  .high-end-environment {
+    flex: 0 0 auto;
+    width: 100%; // TODO subtract the app bar's width from this
+    height: 100%;
+  }
+}

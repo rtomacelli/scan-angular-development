@@ -1,0 +1,83 @@
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+
+$check-circle:   '\f058';
+$check:          '\f00c';
+$pause-circle-o: '\f28c';
+$pause-circle:   '\f28b';
+$pencil:         '\f040';
+$plus-square-o:  '\f196';
+$plus-square:    '\f0fe';
+$times-circle:   '\f057';
+
+$app-statuses: (
+  'em-registro-cadastramento':   (icon: $plus-square-o,  color: color-variant(color('blue-gray'), 400)),
+  'registrado':                  (icon: $plus-square,    color: color-variant(color('blue-gray'), 400)),
+  'em-desenvolvimento':          (icon: $pencil,         color: color-variant(color('indigo'), 300)),
+  'em-homologacao':              (icon: $check-circle,   color: color-variant(color('cyan'), 500)),
+  'em-producao-sem-homologacao': (icon: $check,          color: color-variant(color('brown'), 500)),
+  'em-producao-com-homologacao': (icon: $check,          color: color-variant(color('teal'), 400)),
+  'em-desativacao':              (icon: $pause-circle-o, color: color-variant(color('orange'), 600)),
+  'desativado':                  (icon: $pause-circle,   color: color-variant(color('red'), 500)),
+  'cancelado':                   (icon: $times-circle  , color: color-variant(color('brown'), 500)),
+);
+
+.app-status-icon {
+  &::after {
+    content: '?';
+    display: block;
+    font-family: $font-icon;
+    font-weight: normal;
+  }
+
+  @each $status, $attributes in $app-statuses {
+    &.#{$status} {
+      $app-status-color: map-get($attributes, color);
+      $app-status-text-color: text-color($app-status-color);
+      --app-status-color: #{$app-status-color};
+      --app-status-text-color: #{$app-status-text-color};
+
+      &::after {
+        content: map-get($attributes, icon);
+      }
+    }
+  }
+}
+
+.app-status-text {
+  display: inline-block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 2px 8px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 12px;
+  border: 1px solid rgba(color('ice'), 0.5);
+  border-radius: var(--length-border-radius);
+
+  &::before {
+    display: inline-block;
+    margin-right: 4px;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    font-family: $font-icon;
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  @each $status, $attributes in $app-statuses {
+    &.#{$status} {
+      $color: map-get($attributes, color);
+      background-color: $color;
+      color: text-color($color);
+    }
+
+    &.#{$status}::before {
+      content: map-get($attributes, icon);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+/// MatrixComponent's private SCSS styles =========================================================
+
+@import 'global-variables';
+@import 'placeholders';
+
+.outer {
+  @extend %flex-row;
+  height: 100%;
+
+  #matrix {
+    flex: 0 0 auto;
+    width: calc(100% - #{$length-app-bar});
+    height: 100%;
+  }
+}

@@ -1,0 +1,13 @@
+<ng-container *ngIf="userIsValid; else userNotValid">
+  <img class="avatar" src="{{avatarUrl}}" alt="{{uid}}">
+  <div class="text">
+    <a class="name" href="{{orgchartUrl}}" target="humanograma" title="{{name}}">{{name}}</a>
+    <span class="uid">{{uid}}</span>
+  </div>
+</ng-container>
+<ng-template #userNotValid>
+  <i class="avatar fa fa-fw fa-question"></i>
+  <div class="text">
+    <span class="invalid name">Usuário Desconhecido</span>
+  </div>
+</ng-template>

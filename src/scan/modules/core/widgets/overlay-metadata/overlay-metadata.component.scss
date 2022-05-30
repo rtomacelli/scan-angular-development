@@ -1,0 +1,67 @@
+/// OverlayMetadata's private SCSS styles =========================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+.scan-overlay-metadata {
+  @extend %flex-column;
+  min-width: 250px;
+
+  .scan-overlay-metadata-record {
+    @extend %flex-row;
+    padding: 4px;
+
+    &:nth-child(odd) {
+      background-color: transparent;
+    }
+
+    &:nth-child(even) {
+      background-color: color-variant(color('blue-gray'), 50);
+    }
+
+    .scan-overlay-metadata-key,
+    .scan-overlay-metadata-values {
+      @extend %flex-column;
+      width: 50%;
+      justify-content: center;
+    }
+
+    .scan-overlay-metadata-key {
+      padding-right: 4px;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    .scan-overlay-metadata-values {
+      padding-left: 4px;
+      text-align: left;
+
+      .scan-overlay-metadata-values-item {
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.color-coded-tag {
+          display: inline-block;
+          margin: 2px;
+          padding: 2px 8px;
+          text-align: center;
+          font-weight: bold;
+          border-radius: var(--length-border-radius);
+          background-color: var(--title-bg-color);
+          color: var(--title-fg-color);
+        }
+
+        .scan-overlay-metadata-values-item-icon {
+          margin-right: 4px;
+          font-weight: normal;
+        }
+      }
+
+      .scan-overlay-metadata-values-prefix,
+      .scan-overlay-metadata-values-suffix {
+        opacity: 0.75;
+      }
+    }
+  }
+}

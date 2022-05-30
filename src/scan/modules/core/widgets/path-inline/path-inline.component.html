@@ -1,0 +1,24 @@
+<div class="path-inline" [attr.data-palette-name]="'segment'" [attr.data-palette-key]="path.segment.code">
+  <div class="level" title="{{path.segment.name}}"><span class="code">{{path.segment.code}}</span></div>
+  <i class="separator fa fa-fw fa-caret-right"></i>
+  <div class="level" title="{{path.grouping.name}}"><span class="code">{{path.grouping.code}}</span></div>
+  <i class="separator fa fa-fw fa-caret-right"></i>
+  <div class="level" title="{{path.areaOfInterest.name}}"><span class="code">{{path.areaOfInterest.code}}</span></div>
+  <i class="separator fa fa-fw fa-caret-right"></i>
+  <ng-container *ngIf="showApp; else hideApp">
+    <div class="level" title="{{path.businessService.name}}">
+      <span class="code">{{path.businessService.code}}</span>
+    </div>
+    <i class="separator fa fa-fw fa-caret-right"></i>
+  </ng-container>
+  <ng-template #hideApp>
+    <div class="level">
+      <span class="code">{{path.businessService.code}}</span>
+      <span class="name">{{path.businessService.name}}</span>
+    </div>
+  </ng-template>
+  <div class="level" *ngIf="showApp">
+    <span class="code">{{path.app.code}}</span>
+    <span class="name">{{path.app.name}}</span>
+  </div>
+</div>

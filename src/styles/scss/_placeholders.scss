@@ -1,0 +1,25 @@
+/// Global placeholders ===========================================================================
+
+%flex-line {
+  display: flex;
+  flex-flow: inherit nowrap;
+  align-items: stretch;
+}
+
+%flex-row {
+  @extend %flex-line;
+  flex-direction: row;
+}
+
+%flex-column {
+  @extend %flex-line;
+  flex-direction: column;
+}
+
+%screen-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  text-align: center;
+}

@@ -1,0 +1,22 @@
+/// AdabasDetailsComponent's private SCSS styles ==================================================
+
+.adabas-panel {
+  height: calc(100% + 2 * var(--length-gutter));
+  margin: calc(-1 * var(--length-gutter));
+  padding: var(--length-gutter);
+  overflow: hidden auto;
+}
+
+:host ::ng-deep {
+  .column {
+    text-align: center;
+  }
+
+  .cluster-tag {
+    padding: 3px 10px 2px;
+    font-weight: bold;
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+    border-radius: var(--length-border-radius);
+  }
+}

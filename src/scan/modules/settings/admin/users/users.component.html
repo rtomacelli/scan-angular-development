@@ -1,0 +1,105 @@
+<ng-container *ngIf="dataIsLoaded; else dataIsLoading">
+  <div class="users-panel">
+    <p-table #usersTable [value]="users" sortField="usuario" sortOrder="1" [globalFilterFields]="fields"
+      [paginator]="true" [rows]="rowsPerPage" dataKey="matricula" editMode="row">
+      <ng-template pTemplate="caption">
+        <div class="caption-content">
+          <div>
+            <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down"></p-dropdown>
+            <strong style="margin-left: 6px">usuários por página</strong>
+          </div>
+          <div>
+            <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+            <input #filter type="text" pInputText size="50" placeholder="Buscar"
+              (input)="usersTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+          <th class="edit-buttons-cell">Editar</th>
+        </tr>
+        <tr>
+          <th *ngFor="let column of columns" [ngSwitch]="column.field" class="{{column.header | toIdentifier}}-column">
+            <div class="filter-header">
+              <i class="fa fa-fw fa-filter"></i>
+              <input #filter *ngSwitchCase="'usuario'" pInputText type="text"
+                (input)="usersTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'tipoFunc'" pInputText type="text"
+                (input)="usersTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'lotacao'" pInputText type="text"
+                (input)="usersTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-calendar #filter *ngSwitchCase="'ultimoAcesso'" [(ngModel)]="dateFilter" dateFormat="yy-mm-dd"
+                [locale]="primeLocalePt" [minDate]="minimumDate" [maxDate]="today" showButtonBar="true" [readonlyInput]="true"
+                (onClose)="onCalendarClose(usersTable)" class="filter-field"></p-calendar>
+              <input #filter *ngSwitchCase="'nomesPerfis'" pInputText type="text"
+                (input)="usersTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+            </div>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-user let-editing="editing" let-rowIndex="rowIndex">
+        <tr [pEditableRow]="user">
+          <td class="usuario-column">
+            <scan-user-tag [uid]="user.matricula" [name]="user.nomePessoa"></scan-user-tag>
+          </td>
+          <td class="tipo-column">{{user.tipoFunc}}</td>
+          <td class="lotacao-column">{{user.lotacao}}</td>
+          <td class="ultimo-acesso-column">{{user.ultimoAcesso}}</td>
+          <td class="perfis-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <div style="height: 50vh">
+                  <p-pickList filterBy="nome" [responsive]="true"
+                    [source]="getAvailableProfiles(user)" [target]="user.perfis"
+                    [sourceHeader]="'Disponíveis'" [targetHeader]="'No Usuário'"
+                    [showSourceControls]="false" [showTargetControls]="false">
+                    <ng-template let-profile pTemplate="item">
+                      <div class="profile-item">
+                        <div class="profile-name">{{profile.nome}}</div>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <div style="text-align: center">
+                  <span class="profile-name-tag" *ngFor="let profileName of getProfileNames(user)">
+                    {{profileName}}
+                  </span>
+                </div>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="editar-column">
+            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="fa fa-pencil" class="ui-button-info" (click)="onRowEditInit(user)"></button>
+            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="fa fa-check" class="ui-button-success" (click)="onRowEditSave(user, rowIndex)"></button>
+            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="fa fa-times" class="ui-button-danger" (click)="onRowEditCancel(user, rowIndex)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+          <th class="edit-buttons-cell">Editar</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="summary-content">
+          <button type="button" pButton icon="fa fa-eraser" label="Limpar Filtros" (click)="onResetTable($event, usersTable)"></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-template #dataIsLoading>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>

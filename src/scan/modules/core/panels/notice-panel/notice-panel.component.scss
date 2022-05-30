@@ -1,0 +1,51 @@
+/// NoticePanelComponent's private styles =========================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+$severity-colors: (
+  'success': 'green',
+  'info':    'blue',
+  'warning': 'amber',
+  'danger':  'red'
+);
+
+// HACK Why is this necessary?
+:host {
+  width: 100%;
+}
+
+.notice-panel {
+  position: relative;
+  height: 100%; // var(--length-panel-height); // HACK
+
+  &.with-toolbar {
+    height: var(--length-panel-height); // var(--length-panel-content-height); // HACK
+  }
+
+  .text {
+    @extend %screen-center;
+    line-height: 40px;
+    font-size: 18px;
+    color: color-variant(color('coal'), 400);
+
+    .notice-icon {
+      font-size: 128px;
+      opacity: 0.75;
+
+      @each $severity, $color in $severity-colors {
+        &.#{$severity} {
+          color: color($color);
+        }
+      }
+    }
+
+    h2 {
+      // font-variant: small-caps;
+      // text-transform: lowercase;
+      opacity: 0.54;
+    }
+  }
+}

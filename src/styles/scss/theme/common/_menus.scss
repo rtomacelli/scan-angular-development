@@ -1,0 +1,50 @@
+/// Global menu styles ============================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+body {
+  .ui-menu {
+    &.ui-shadow {
+      border: none;
+      box-shadow: $box-shadow;
+    }
+
+    &.user-menu-items {
+      min-width: 288px;
+    }
+
+    .ui-submenu-header {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    .ui-menuitem-link {
+      &.ui-state-disabled,
+      &:disabled {
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+
+    .ui-menuitem.text .ui-menuitem-link {
+      padding: 0 0.857em;
+    }
+
+    .ui-submenu-header + .ui-menuitem.text .ui-menuitem-link {
+      padding-top: 0.714em;
+    }
+
+    .ui-menuitem.text + .ui-menu-separator {
+      margin-top: 0.714em;
+    }
+  }
+}

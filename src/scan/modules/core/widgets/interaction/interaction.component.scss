@@ -1,0 +1,35 @@
+/// InteractionComponent's private SCSS styles ====================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+:host {
+  @extend %flex-row;
+  justify-content: center;
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+  font-size: 13px;
+
+  .key {
+    width: 40px;
+    height: 26px;
+    margin: 3px 4px 3px 0;
+    padding: 0 5px;
+    line-height: 22px;
+    text-align: center;
+    font-weight: bold;
+    background-color: color-variant(color('blue-gray'), 50);
+    color: color-variant(color('blue-gray'), 800);
+    border: 1.5px solid color-variant(color('blue-gray'), 800);
+    border-radius: 4px;
+  }
+
+  .button {
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+  }
+}

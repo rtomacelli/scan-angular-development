@@ -1,0 +1,25 @@
+/// Global panel styles ===========================================================================
+
+@import 'global-variables';
+@import 'mixins';
+
+.panel-content {
+  position: relative;
+  display: flex;
+  height: $length-panel-content-height;
+  padding: $length-gutter $length-gutter 0;
+  @include bottom-padding();
+
+  &.inner {
+    height: $length-panel-inner-content-height;
+    margin: -1 * $length-gutter;
+  }
+}
+
+.tab-panel {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

@@ -1,0 +1,10 @@
+<div class="counter">
+  <ng-container *ngIf="partial">
+    <span class="selected">{{selected}}</span>
+    <span class="separator">{{separator}}</span>
+  </ng-container>
+  <span class="total" [class.partial]="partial">{{total}}</span>
+  <ng-container *ngIf="lineBreak; else oneLine"><br *ngIf="lineBreak"></ng-container>
+  <ng-template #oneLine>&nbsp;</ng-template>
+  <span class="label">{{labelText}}</span>
+</div>

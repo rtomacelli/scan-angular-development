@@ -1,0 +1,189 @@
+/// Global table styles ===========================================================================
+
+@import 'color-palette';
+
+body {
+  .ui-table {
+    .caption-content {
+      display: flex;
+      justify-content: space-between;
+
+      div {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .filter-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      i.fa-filter {
+        margin-left: -6px;
+        margin-right: 6px;
+      }
+
+      .filter-field {
+        width: 100%;
+      }
+    }
+
+    td.toggle-button-cell {
+      text-align: center;
+
+      i.fa {
+        font-size: 32px;
+        height: 25px;
+        line-height: 27px;
+        width: 40px;
+        border-radius: 20px;
+        background-color: white;
+        cursor: pointer;
+
+        &.fa-toggle-on {
+          color: color('green');
+        }
+
+        &.fa-toggle-off {
+          color: color('gray');
+        }
+      }
+    }
+
+    .ui-sortable-column.ui-state-highlight {
+      $bg-color: color-variant(color('blue'), 600);
+      $fg-color: text-color($bg-color);
+      background-color: $bg-color;
+      color: $fg-color;
+    }
+
+    td {
+      button {
+        z-index: 0; // HACK fix for <button>s scrolling on top of <th>s
+      }
+    }
+
+    .status-column {
+      text-align: center;
+
+      .status {
+        display: inline-block;
+        padding: 2px 8px;
+        font-weight: bold;
+        background-color: var(--title-bg-color);
+        color: var(--title-fg-color);
+
+        &.status-S {
+          --title-bg-color: #{color('green')};
+          --title-fg-color: #{text-color(color('green'))};
+        }
+
+        &.status-N {
+          --title-bg-color: #{color('red')};
+          --title-fg-color: #{text-color(color('red'))};
+        }
+
+        &:first-of-type {
+          border-top-left-radius: var(--length-border-radius);
+          border-bottom-left-radius: var(--length-border-radius);
+        }
+
+        &:last-of-type {
+          border-top-right-radius: var(--length-border-radius);
+          border-bottom-right-radius: var(--length-border-radius);
+        }
+      }
+
+      label {
+        cursor: pointer;
+        transition: $transition;
+      }
+
+      input[type='radio'] {
+        display: none;
+
+        &:not(:checked) + label {
+          $bg-color: color-variant(color('blue-gray'), 100);
+          $fg-color: text-color($bg-color);
+          --title-bg-color: #{$bg-color};
+          --title-fg-color: #{$fg-color};
+        }
+      }
+    }
+
+    .edit-buttons-cell,
+    .status-column {
+      width: 10em;
+      text-align: center;
+    }
+
+    .editar-column {
+      width: 12em;
+      text-align: center;
+
+      button + button {
+        margin-left: 12px;
+      }
+    }
+
+    .ui-table-tfoot {
+      & > tr > th {
+        padding: 0.571em 0.857em;
+        border: 1px solid #c8c8c8;
+        font-weight: bold;
+        color: #333333;
+        background-color: #f4f4f4;
+      }
+    }
+
+    .ui-table-thead {
+      & > tr {
+        > th {
+          position: sticky;
+          top: calc(-1 * var(--length-gutter) - 1px + 36px); // Offset the filter row by the height of the header row
+          box-shadow: 0 1px 0 0 #c8c8c8;
+          z-index: 1; // HACK fix for <button>s scrolling on top of <th>s
+        }
+
+        &:first-child > th {
+          top: calc(-1 * var(--length-gutter) - 1px);
+        }
+      }
+    }
+
+    .ui-table-tbody > tr {
+      &.ui-state-highlight {
+        $bg-color: color-variant(color('light-blue'), 700);
+        $fg-color: text-color($bg-color);
+        background-color: $bg-color;
+        color: $fg-color;
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      input[type='text'],
+      textarea {
+        padding: 6px 4px;
+        margin: 0 -5px;
+        width: calc(100% + 10px);
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .summary-content {
+      display: flex;
+      justify-content: center;
+
+      button + button {
+        margin-left: 12px;
+      }
+    }
+  }
+}

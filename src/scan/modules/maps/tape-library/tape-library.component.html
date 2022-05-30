@@ -1,0 +1,112 @@
+<div class="outer" *ngIf="isDataLoaded; else dataIsNotLoaded" [class.dialog]="inDialog">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="tape-library-system">
+      <p-toolbar *ngIf="!inDialog">
+        <div class="ui-toolbar-group-left">
+          <span class="subject">Armazenamento</span>
+          <h1 class="title">Fitoteca</h1>
+        </div>
+      </p-toolbar>
+      <div class="panel-content">
+        <div class="views">
+          <strong>Visão</strong>
+          <input type="radio" id="capacity-selector" name="tape-library-view" value="capacidade" [(ngModel)]="currentView">
+          <label for="capacity-selector">Capacidade</label>
+          <input type="radio" id="cartridge-selector" name="tape-library-view" value="cartuchos" [(ngModel)]="currentView">
+          <label for="cartridge-selector">Cartuchos</label>
+        </div>
+        <div class="legend">
+          <div class="categories legend-group">
+            <strong class="legend-group-label">Categorias</strong>
+            <ng-container *ngFor="let category of tapeLibrarySystem.categories | keyvalue : legendSorter">
+              <div class="category legend-group-item" *ngIf="category.value[currentView] > 0"
+                (mouseenter)="hoverCategory(category.value, $event)" (mouseleave)="leaveCategory()"
+                [class.highlight]="category.value.nome === highlightKey"
+                [attr.data-palette-name]="'tape-library-category'" [attr.data-palette-key]="category.value.nome">
+                {{category.value.nome}}
+              </div>
+            </ng-container>
+          </div>
+          <div class="clusters legend-group">
+            <strong class="legend-group-label">Clusters</strong>
+            <ng-container *ngFor="let cluster of tapeLibrarySystem.clusters | keyvalue : legendSorter">
+              <div class="cluster legend-group-item" *ngIf="cluster.value[currentView] > 0"
+                (mouseenter)="hoverCluster(cluster.value, $event)" (mouseleave)="leaveCluster()"
+                [class.highlight]="cluster.value.nome === highlightKey"
+                [attr.data-palette-name]="'cluster'" [attr.data-palette-key]="cluster.value.nome">
+                {{cluster.value.nome}}
+              </div>
+          </ng-container>
+          </div>
+          <div class="applications legend-group">
+            <strong class="legend-group-label">Aplicações</strong>
+            <ng-container *ngFor="let application of tapeLibrarySystem.applications | keyvalue : legendSorter">
+              <div class="application legend-group-item" *ngIf="application.value[currentView] > 0"
+                (mouseenter)="hoverApplication(application.value, $event)" (mouseleave)="leaveApplication()"
+                [class.highlight]="application.value.nome === highlightKey"
+                [attr.data-palette-name]="'tape-library-category'" [attr.data-palette-key]="application.value.nome">
+                {{application.value.nome}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="data-centers">
+          <div class="data-center" *ngFor="let dataCenter of tapeLibrarySystem.dataCenters">
+            <div class="data-center-name">{{dataCenter.complexo}} &ndash; {{dataCenter.predio}}</div> <!-- TODO make this prettier later -->
+            <div class="tape-libraries">
+              <div class="tape-library" *ngFor="let tapeLibrary of dataCenter.listaFitoteca">
+                <div class="tape-library-header">{{tapeLibrary.nome}}</div>
+                <scan-tape-library-bar-graph [data]="getTapeLibraryGraphData(tapeLibrary)" [category]="currentView"
+                  [highlightKey]="highlightKey"
+                  [attr.data-palette-name]="'tape-library-category'" [attr.data-palette-key]="'Livres'"> <!-- HACK To remedy the eventual rounding error of the last segment's right edge -->
+                </scan-tape-library-bar-graph>
+                <div class="clusters">
+                  <div class="cluster" *ngFor="let cluster of tapeLibrary.clusters | keyvalue : legendSorter"
+                    [class.highlight]="cluster.value.nome === highlightKey"
+                    [attr.data-palette-name]="'cluster'" [attr.data-palette-key]="cluster.value.nome">
+                    <div class="cluster-name">
+                      {{cluster.value.nome}}
+                    </div>
+                    <scan-tape-library-bar-graph [data]="getTapeLibraryClusterGraphData(tapeLibrary, cluster.value.nome)" [category]="currentView"
+                      [highlightKey]="highlightKey"
+                      [attr.data-palette-name]="'tape-library-category'" [attr.data-palette-key]="'Outro'"> <!-- HACK To remedy the eventual rounding error of the last segment's right edge -->
+                    </scan-tape-library-bar-graph>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+      <scan-notice-panel [withToolbar]="true" [subject]="'Fitoteca'" [noticeIcon]="'exclamation-circle'" [severity]="'danger'"
+        [message]="errorMessage" [message2]="'Escolha outra data ou tente novamente mais tarde'"></scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <p-toolbar *ngIf="!inDialog">
+    <div class="ui-toolbar-group-left">
+      <span class="subject">Armazenamento</span>
+      <h1 class="title">Fitoteca</h1>
+    </div>
+  </p-toolbar>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opLegend styleClass="text-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <ng-container *ngIf="currentView === 'capacidade'; else cartridges">
+    <strong class="ratio-term value">{{hoveredValue | bytes : 'GB'}}</strong>
+    de
+    <strong class="ratio-term total">{{hoveredTotal | bytes : 'GB'}}</strong>
+    <br>
+  </ng-container>
+  <ng-template #cartridges>
+    <strong class="ratio-term value">{{hoveredValue | number : '1.0-0'}}</strong>
+    de
+    <strong class="ratio-term total">{{hoveredTotal | number : '1.0-0'}}</strong>
+    <br>
+  </ng-template>
+  {{hoveredValue / hoveredTotal | percent : '1.0-2'}}
+</p-overlayPanel>

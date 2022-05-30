@@ -1,0 +1,146 @@
+/// HighEndClusterComponent's private SCSS styles ==================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+:host {
+  @extend %flex-column;
+  width: calc(100% + 2 * var(--length-gutter));
+  height: calc(100% + 2 * var(--length-gutter));
+  margin: calc(-1 * var(--length-gutter));
+  padding: 0;
+
+  .summary {
+    width: 100%;
+    height: 24px;
+    padding: 0 var(--length-gutter);
+    line-height: 24px;
+    text-align: left;
+    background-color: var(--system-bg-color);
+    color: var(--system-fg-color);
+  }
+
+  .hosts {
+    @extend %flex-row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: calc(var(--length-gutter) / 2);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .host {
+      @extend %flex-column;
+      margin: calc(var(--length-gutter) / 2);
+
+      @include respond-to('phone') {
+        width: calc(100% - var(--length-gutter));
+      }
+
+      @include respond-to('tablet-portrait') {
+        width: calc(50% - var(--length-gutter));
+      }
+
+      @include respond-to('tablet-landscape-desktop') {
+        width: calc(33.33333% - var(--length-gutter));
+      }
+
+      @include respond-to('large-desktop') {
+        width: calc(25% - var(--length-gutter));
+      }
+
+      .header {
+        @extend %flex-column;
+        background-color: color-variant(color('blue-gray'), 100);
+        border-top-left-radius: var(--length-border-radius);
+        border-top-right-radius: var(--length-border-radius);
+
+        .header-row {
+          @extend %flex-row;
+          flex-wrap: wrap;
+          font-size: 90%;
+          justify-content: space-evenly;
+          align-items: center;
+          padding: 2px calc(var(--length-gutter) / 2);
+          border-bottom: 1px dotted rgba(color('coal'), 0.2);
+
+          &.identification {
+            justify-content: space-between;
+          }
+
+          &.ip-addresses,
+          &.status {
+            justify-content: center;
+
+            div {
+              margin: 0 4px;
+            }
+          }
+
+          .name {
+            font-size: 120%;
+            font-weight: bold;
+          }
+
+          .make-model {
+            font-style: italic;
+            opacity: 0.75;
+          }
+
+          strong {
+            opacity: 0.75;
+          }
+        }
+      }
+
+      &.highlight .header {
+        background-color: color-variant(color('blue'), 100);
+      }
+
+      .guests {
+        @extend %flex-row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: center;
+        height: 100%;
+        max-height: 300px;
+        padding: calc(var(--length-gutter) / 2);
+        overflow-x: hidden;
+        overflow-y: auto;
+        background-color: color-variant(color('gray'), 100);
+        border-bottom-left-radius: var(--length-border-radius);
+        border-bottom-right-radius: var(--length-border-radius);
+
+        .guest {
+          flex: 1 1 0;
+          max-width: calc(100% - var(--length-gutter) / 2);
+          margin: calc(var(--length-gutter) / 4);
+          cursor: default;
+
+          &:hover {
+            span {
+              box-shadow: inset 0 0 0 20px rgba(color('coal'), 0.2);
+            }
+          }
+
+          .guest-name {
+            display: inline-block;
+            width: 100%;
+            padding: 0 8px 2px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: $font-mono;
+            background-color: var(--title-bg-color);
+            color: var(--title-fg-color);
+            border-radius: var(--length-border-radius);
+          }
+        }
+      }
+    }
+  }
+}

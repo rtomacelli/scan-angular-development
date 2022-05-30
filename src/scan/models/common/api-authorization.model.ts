@@ -1,0 +1,1 @@
+export const API_AUTHORIZATION = 'Basic YWRtaW46MTIzNDU2';

@@ -1,0 +1,66 @@
+/// Global mixins =================================================================================
+
+@import 'global-variables';
+
+/// Write media queries for responsive design.
+///
+/// @author Chris Eppstein
+/// @link https://github.com/sass/sass/issues/554#issuecomment-18307019
+///
+/// @param {String} $media The media type to target.
+@mixin respond-to($media) {
+  @if not map-has-key($media-types, $media) {
+    @warn '#{$media} is not a known media type. Using large-desktop instead.';
+    $media: large-desktop;
+  }
+  @media #{map-get($media-types, $media)} {
+    @content;
+  }
+}
+
+/// Prefix several properties at once.
+///
+/// @author Hugo Giraudel
+/// @link https://css-tricks.com/snippets/sass/mixin-prefix-properties/#article-header-id-1
+///
+/// @param {Map} $declarations Declarations to prefix.
+/// @param {List} $prefixes [()] List of prefixes to print.
+@mixin prefix($declarations, $prefixes: ()) {
+  @each $property, $value in $declarations {
+    @each $prefix in $prefixes {
+      #{'-' + $prefix + '-' + $property}: $value;
+    }
+    #{$property}: $value;
+  }
+}
+
+/// Forces a bottom padding to deal with vertical padding/margin collapse.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+///
+/// @param {Length} $padding [var(--length-gutter)] The amount of padding to use.
+@mixin bottom-padding($padding: var(--length-gutter)) {
+  &::after {
+    content: '';
+    width: 100%;
+    height: $padding;
+  }
+}
+
+/// Renders text as hollow.
+///
+/// @author Pedro Araújo Chaves Júnior (C1207435)
+///
+/// @param {Color} $text-color The color for the characters.
+/// @param {Color} $stroke-color The color for the characters' stroke.
+@mixin hollow-text($text-color: white, $stroke-color: black) {
+  color: $text-color;
+  text-shadow: -1px -1px $stroke-color,
+    1px 1px $stroke-color,
+    1px -1px $stroke-color,
+    -1px 1px $stroke-color,
+    2px 0 $stroke-color,
+    0 2px $stroke-color,
+    -2px 0 $stroke-color,
+    0 -2px $stroke-color;
+}

@@ -1,0 +1,5 @@
+<div class="code" *ngIf="title.code" [attr.data-palette-name]="'segment'" [attr.data-palette-key]="title.segment">
+  {{title.code}}
+</div>
+<div class="text">{{title.name}}</div>
+<i class="fa fa-fw fa-info-circle" title="{{title.hint}}" *ngIf="title.hint"></i>

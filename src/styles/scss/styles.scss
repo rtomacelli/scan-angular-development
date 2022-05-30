@@ -1,0 +1,95 @@
+/// Global application styles =====================================================================
+
+// Paths
+$modules-path: '../../../node_modules';
+$fa-font-path: '#{$modules-path}/font-awesome/fonts/';
+$roboto-font-path: '#{$modules-path}/roboto-fontface/fonts/';
+
+// Fonts
+@import '~font-awesome/scss/font-awesome.scss';
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface-regular.scss';
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface-regular-italic.scss';
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface-bold.scss';
+@import '~roboto-fontface/css/roboto/sass/roboto-fontface-bold-italic.scss';
+@import '~typeface-roboto-mono/index.css';
+
+// Utilities
+@import 'app-status';
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+// Widget library and themes
+@import '~primeng/resources/primeng.min.css';
+@import '~primeng/resources/themes/nova-light/theme.css';
+@import 'theme/common/base';
+
+:root {
+  @include coordinated-colors();
+}
+
+@each $segment, $color in $segment-colors {
+  [data-palette-name='segment'][data-palette-key='#{$segment}'],
+  body .segment-#{$segment},
+  svg g[data-codigo='#{$segment}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+@each $layer, $color in $layer-colors {
+  [data-palette-name='layer'][data-palette-key='#{$layer}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+@each $cluster, $color in $cluster-colors {
+  [data-palette-name='cluster'][data-palette-key='#{$cluster}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+@each $application, $color in $application-colors {
+  [data-palette-name='application'][data-palette-key='#{$application}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+@each $status, $color in $host-status-colors {
+  [data-palette-name='host-status'][data-palette-key='#{$status}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+@each $category, $color in $tape-library-category-colors {
+  [data-palette-name='tape-library-category'][data-palette-key='#{$category}'] {
+    @include coordinated-colors($color);
+  }
+}
+
+*, *::before, *::after {
+  @include prefix((
+    box-sizing: border-box
+  ), webkit moz ms o);
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  @extend html;
+  overflow: hidden;
+  font-family: $font-sans;
+  background-color: color('ice');
+  color: color('coal');
+
+  &.compact {
+    --length-header: 40px;
+    --length-gutter: 10px;
+  }
+}

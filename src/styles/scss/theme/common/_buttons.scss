@@ -1,0 +1,45 @@
+/// Global button styles ==========================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'mixins';
+@import 'placeholders';
+
+body {
+  .ui-button {
+    &:enabled:focus {
+      box-shadow: 0 0 0 2px rgba(white, 0.25);
+    }
+
+    &.ui-state-default {
+      &.ui-button-transparent {
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--title-fg-color);
+
+        &.ui-button-hollow-icon {
+          @include hollow-text(var(--title-bg-color), var(--title-fg-color));
+        }
+
+        &:hover {
+          background-color: rgba(black, 0.1);
+        }
+
+        &.ui-button-icon-only {
+          .ui-button-icon-left {
+            font-size: 24px;
+
+            &.fa.fa-map {
+              font-size: 20px;
+            }
+
+            &.fa.fa-search {
+              font-size: 22px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

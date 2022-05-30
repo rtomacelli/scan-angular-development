@@ -1,0 +1,268 @@
+/// BusinessLayerComponent's private SCSS styles ==================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.map-modes {
+  @extend %flex-row;
+  align-items: center;
+  position: absolute;
+  top: calc(-1 * (var(--length-header) - var(--length-gutter)));
+  right: 0;
+  height: calc(var(--length-header) - var(--length-gutter));
+  margin: 0;
+  padding: 0 15px;
+  background-color: transparent;
+  color: var(--title-fg-color);
+
+  label {
+    display: inline-block;
+    padding: 0 8px;
+    height: 20px;
+    line-height: 20px;
+    background-color: var(--system-bg-color);
+    color: var(--system-fg-color);
+    transition: $transition;
+    cursor: pointer;
+
+    &:first-of-type {
+      margin-left: 8px;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  input[type='radio'] {
+    display: none;
+
+    &:checked + label {
+      background-color: var(--program-bg-color);
+      color: var(--program-fg-color);
+    }
+  }
+}
+
+.segments {
+  @extend %flex-row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+  margin: 0 calc(var(--length-gutter) / -2);
+
+  &.with-serviceless-apps {
+    height: calc(100% - var(--length-header) - var(--length-gutter));
+  }
+
+  .segment {
+    flex: 1 0 0;
+    height: 100%;
+    margin: 0 calc(var(--length-gutter) / 2);
+    overflow: auto;
+    @extend %flex-column;
+
+    .content {
+      height: calc(100% - 60px); // 120px = header height
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      margin: $length-gutter 0 0;
+    }
+  }
+}
+
+.diagram-scroll {
+  width: calc(100% + 2 * var(--length-gutter));
+  height: calc(100% + 2 * var(--length-gutter));
+  // height: 100%;
+  margin: -$length-gutter;
+  padding: 0;
+  overflow: auto;
+
+  &.with-serviceless-apps {
+    height: calc(100% + var(--length-gutter) - var(--length-header));
+  }
+
+  .portfolio-diagram {
+    height: 100%;
+    padding: $length-gutter;
+    text-align: center;
+  }
+}
+
+.zoom-toggle {
+  position: absolute;
+  bottom: 0;
+  right: $length-gutter;
+  display: block;
+  width: $length-header;
+  height: $length-header;
+  line-height: 48px;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 50%;
+  background-color: color('amber');
+  color: text-color(color('amber'));
+  box-shadow: $box-shadow;
+  opacity: 0.33;
+  transition: $transition;
+  cursor: pointer;
+
+  &.with-serviceless-apps {
+    bottom: calc(var(--length-gutter) + var(--length-header));
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.serviceless-apps {
+  --length-padding: calc(var(--length-gutter) / 2);
+  @extend %flex-row;
+  height: calc(var(--length-gutter) + var(--length-header));
+  margin: var(--length-gutter) calc(-1 * var(--length-gutter)) 0;
+  padding: var(--length-padding);
+  background-color: color-variant(color('blue-gray'), 100);
+
+  .header {
+    flex: 0 1 0;
+    align-self: center;
+    min-width: 5em;
+    margin-right: var(--length-padding);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  .serviceless-app-list {
+    --length-margin: calc(-1 * var(--length-padding));
+    @extend %flex-row;
+    flex: 1 0 0;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    margin: var(--length-margin) var(--length-margin) var(--length-margin) 0;
+    padding: calc(var(--length-padding) - var(--length-padding) / 2) 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    scan-app {
+      margin: calc(var(--length-padding) / 2) calc(var(--length-gutter) / 2);
+    }
+  }
+}
+
+:host ::ng-deep {
+  .portfolio-diagram {
+    $length-svg-width: 1277px;
+
+    svg#apa {
+      width: 100%;
+      height: 100%;
+
+      g.area-interesse {
+        cursor: pointer;
+
+        rect,
+        text tspan {
+          transition: $transition;
+        }
+
+        &.marked {
+          rect {
+            fill: var(--title-bg-color) !important; /* stylelint-disable-line declaration-no-important */
+          }
+
+          text tspan {
+            fill: var(--title-fg-color) !important; /* stylelint-disable-line declaration-no-important */
+          }
+        }
+
+        &.highlight {
+          rect {
+            /* stylelint-disable declaration-no-important */
+            fill: color('coal') !important;
+            stroke: color('ice') !important;
+            stroke-opacity: 1 !important;
+            stroke-width: 1.5 !important;
+            /* stylelint-enable declaration-no-important */
+          }
+
+          text tspan {
+            fill: color('ice') !important; /* stylelint-disable-line declaration-no-important */
+          }
+        }
+
+        &.secondary-highlight {
+          rect {
+            fill: color('coal') !important; /* stylelint-disable-line declaration-no-important */
+          }
+
+          text tspan {
+            fill: color('ice') !important; /* stylelint-disable-line declaration-no-important */
+          }
+        }
+      }
+    }
+
+    &.zoom {
+      svg#apa {
+        width: 100%;
+        height: auto;
+      }
+
+      @media (max-width: #{$length-svg-width + 2 * $length-gutter + $length-header + $length-app-bar - 1}) {
+        svg#apa {
+          width: auto;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  .scan-tree {
+    @each $segment, $color in $segment-colors {
+      &[data-palette-name='segment'][data-palette-key='#{$segment}'] {
+        .scan-tree-node {
+          $scan-tree-node-tag-bg-color: $color;
+          --scan-tree-node-tag-bg-color: #{$scan-tree-node-tag-bg-color};
+          --scan-tree-node-tag-fg-color: #{text-color($scan-tree-node-tag-bg-color)};
+
+          &.grouping:not(.highlight) {
+            $scan-tree-node-bg-color: color-variant($color, 200);
+            --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+            --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+          }
+
+          &.area-of-interest:not(.highlight) {
+            $scan-tree-node-bg-color: color-variant($color, 100);
+            --scan-tree-node-bg-color: #{$scan-tree-node-bg-color};
+            --scan-tree-node-fg-color: #{text-color($scan-tree-node-bg-color)};
+          }
+
+          &.marked:not(.highlight) {
+            --scan-tree-node-bg-color: var(--title-bg-color);
+            --scan-tree-node-fg-color: var(--title-fg-color);
+            --scan-tree-node-tag-bg-color: var(--program-bg-color);
+            --scan-tree-node-tag-fg-color: var(--program-fg-color);
+          }
+        }
+      }
+    }
+
+    .scan-tree .scan-tree-node.area-of-interest.highlight {
+      --scan-tree-node-bg-color: #{color('coal')};
+      --scan-tree-node-fg-color: #{color('ice')};
+    }
+  }
+
+  .serviceless-apps .serviceless-app-list .app .code {
+    cursor: pointer;
+  }
+}

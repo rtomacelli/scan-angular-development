@@ -1,0 +1,18 @@
+<div *ngIf="user; else elseBlock" class="user-menu" (click)="menu.toggle($event)">
+  <div class="identification">
+    <span class="uid">{{user.uid}}</span>
+    <span class="name">{{user.shortName}}</span><br>
+    <span class="department">{{user.department}}</span>
+  </div>
+  <img src="{{user.photoUrl}}" alt="{{user.shortName}}" class="photo">
+</div>
+<ng-template #elseBlock>
+  <div class="user-menu">
+    <div class="identification">
+      <span class="name">Carregando...</span><br>
+      <span class="department">Por favor, aguarde.</span>
+    </div>
+  </div>
+</ng-template>
+
+<p-menu #menu styleClass="user-menu-items" [model]="menuItems" [popup]="true"></p-menu>

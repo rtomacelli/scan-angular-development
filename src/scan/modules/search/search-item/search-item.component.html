@@ -1,0 +1,13 @@
+<div class="search-item" [attr.data-palette-name]="'segment'" [attr.data-palette-key]="item.value.segment">
+  <div class="tag {{item.value.type}}">
+    <span class="tag-type">{{item.value.typeTag}}</span>
+    <span class="tag-value" *ngIf="item.value.typeTag !== item.value.tag">{{item.value.tag}}</span>
+    <ng-container *ngIf="item.value.type == 'app'">
+      <div class="app-status-icon {{item.value.status | toIdentifier}}"></div>
+    </ng-container>
+  </div>
+  <div class="text">
+    <div class="name">{{item.value.name}}</div>
+    <div class="description" title="{{item.value.description}}">{{item.value.description}}</div>
+  </div>
+</div>

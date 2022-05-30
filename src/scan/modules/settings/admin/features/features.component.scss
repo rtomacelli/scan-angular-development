@@ -1,0 +1,21 @@
+/// FeaturesComponent's private SCSS styles =======================================================
+
+@import 'color-palette';
+@import 'global-variables';
+
+.features-panel {
+  height: $length-panel-inner-tab-height;
+  padding: var(--length-gutter);
+  overflow: hidden auto;
+}
+
+:host ::ng-deep {
+  .cadastro-column {
+    width: 30em;
+    text-align: center;
+  }
+
+  td.rota-column {
+    font-family: $font-mono;
+  }
+}

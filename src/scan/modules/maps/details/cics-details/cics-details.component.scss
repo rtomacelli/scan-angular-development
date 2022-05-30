@@ -1,0 +1,46 @@
+/// Db2DetailsComponent's private SCSS styles =====================================================
+
+@import 'color-palette';
+@import 'global-variables';
+
+.cics-panel {
+  height: calc(100% + 2 * var(--length-gutter));
+  margin: calc(-1 * var(--length-gutter));
+  padding: var(--length-gutter);
+  overflow: hidden auto;
+}
+
+:host ::ng-deep {
+  .column {
+    text-align: center;
+  }
+
+  .image-tag {
+    span {
+      display: inline-block;
+      padding: 2px 8px;
+      font-weight: bold;
+    }
+
+    .cluster-name {
+      width: 6em;
+      background-color: var(--title-bg-color);
+      color: var(--title-fg-color);
+      border-right: 1px solid rgba(color('ice'), 0.25);
+      border-top-left-radius: var(--length-border-radius);
+      border-bottom-left-radius: var(--length-border-radius);
+    }
+
+    .image-name {
+      width: 4em;
+      background-color: var(--system-bg-color);
+      color: var(--system-fg-color);
+      border-top-right-radius: var(--length-border-radius);
+      border-bottom-right-radius: var(--length-border-radius);
+    }
+  }
+
+  scan-app:not(:last-child) .app {
+    margin-bottom: 0.571em;
+  }
+}

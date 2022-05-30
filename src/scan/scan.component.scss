@@ -1,0 +1,11 @@
+/// Aplication styles =============================================================================
+
+@import 'global-variables';
+
+#content {
+  position: absolute;
+  top: var(--length-header);
+  left: var(--length-header);
+  width: calc(100% - var(--length-header));
+  height: 100%;
+}

@@ -1,0 +1,52 @@
+<div class="app-bar" [class.wide]="wide" [class.editable]="editable">
+  <div class="apps">
+    <div class="counters">
+      <!-- <scan-counter [selected]="highlightedAppCount" [total]="apps.length" [label]="'Sigla'" [plural]="'Siglas'"
+        [lineBreak]="true"></scan-counter> -->
+      <scan-counter [selected]="apps.length" [total]="apps.length" [label]="'Sigla'" [plural]="'Siglas'"
+        [lineBreak]="true"></scan-counter>
+    </div>
+    <div class="app-selector selector" *ngIf="editable">
+      <p-dropdown #appSelector *ngIf="appsLoaded" [options]="appOptions" [(ngModel)]="selectedAppOption"
+        placeholder="Siglas&hellip;" filterPlaceholder="Código ou nome" [virtualScroll]="true" itemSize="46"
+        [filter]="true" filterBy="label,value.codigo,value.nome" dropdownIcon="fa fa-chevron-down"
+        styleClass="app-bar-selector" panelStyleClass="app-bar-selector-list"
+        (onChange)="selectApp($event, appSelector)" (onHide)="clearValues(appSelector)">
+        <ng-template let-app pTemplate="item">
+          <scan-app [app]="app.value" [showName]="true" [nonInteractive]="true"></scan-app>
+        </ng-template>
+      </p-dropdown>
+      <i class="fa fa-fw fa-times clear-apps" title="Limpar siglas" (click)="clearApps()"></i>
+    </div>
+    <div class="app-list list">
+      <ng-container *ngFor="let app of apps">
+        <div class="list-row">
+          <scan-app [app]="app" [showPathOnHover]="!wide" (click)="appClick(app)"></scan-app>
+          <ng-container *ngIf="editable">
+            <i class="fa fa-fw fa-times remove-app" title="Remover sigla" (click)="removeApp(app)"></i>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="areas-services">
+    <div class="counters">
+      <!-- <scan-counter [selected]="highlightedAreasSubset.length" [total]="areas.length" [label]="'Área de Interesse'"
+        [plural]="'Áreas de Interesse'"></scan-counter>
+      <scan-counter [selected]="highlightedServicesSubset.length" [total]="services.length" [label]="'Assunto'"
+        [plural]="'Assuntos'"> -->
+      <scan-counter [selected]="areas.length" [total]="areas.length" [label]="'Área de Interesse'"
+        [plural]="'Áreas de Interesse'"></scan-counter>
+      <scan-counter [selected]="services.length" [total]="services.length" [label]="'Assunto'"
+        [plural]="'Assuntos'">
+      </scan-counter>
+    </div>
+    <div class="spacer selector" *ngIf="editable">
+      <!-- TODO Add an Area of Interest/Business Service selector -->
+    </div>
+    <div class="area-list list">
+      <scan-tree [nodes]="areas" [styleClass]="'block'"></scan-tree>
+    </div>
+  </div>
+  <div class="expander" (click)="wide = !wide" [attr.title]="wide ? 'Reduzir' : 'Ampliar'"></div>
+</div>

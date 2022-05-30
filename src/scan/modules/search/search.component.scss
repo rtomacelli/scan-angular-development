@@ -1,0 +1,109 @@
+/// SearchComponent's private SCSS styles =========================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+.panel-content {
+  @extend %flex-column;
+  align-content: center;
+  justify-content: center;
+
+  h1 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    color: color-variant(color('blue-gray'), 400);
+  }
+
+  .suggestions {
+    @extend %flex-row;
+    align-content: flex-start;
+    justify-content: center;
+    margin: 0 ($length-gutter / -2);
+
+    .type {
+      @extend %flex-column;
+      flex: 1 0 0;
+      margin: ($length-gutter / -2) ($length-gutter / 2);
+
+      &:empty {
+        display: none;
+      }
+
+      .search-item {
+        margin: ($length-gutter / 2) 0;
+        padding: $length-gutter / 2;
+        border-radius: var(--length-border-radius);
+        background-color: color-variant(color('blue-gray'), 50);
+        transition: $transition;
+        cursor: pointer;
+
+        &:hover {
+          background-color: color-variant(color('blue-gray'), 100);
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  p-dropdown {
+    width: 100%;
+
+    .search-field {
+      width: calc(100vw - var(--length-header));
+      height: var(--length-header);
+      background-color: var(--title-bg-color);
+      border: none;
+      border-radius: 0;
+
+      .ui-dropdown-filter-container {
+        height: var(--length-header);
+        padding: 0.609em 0.857em;
+      }
+
+      .ui-dropdown-items .ui-dropdown-item-group {
+        border-top: 1px dotted color-variant(color('blue-gray'), 100);
+        margin-bottom: -1px;
+      }
+
+      .ui-dropdown-label {
+        height: var(--length-header);
+        padding: var(--length-gutter);
+        font-size: 17px;
+        border-radius: 0;
+        background-color: var(--title-bg-color);
+        color: var(--title-fg-color);
+
+        &::before {
+          content: '\f002';
+          font-family: $font-icon;
+          margin-right: var(--length-gutter);
+        }
+      }
+
+      .ui-dropdown-trigger {
+        background-color: var(--title-bg-color);
+        color: var(--title-fg-color);
+      }
+    }
+
+    .search-options {
+      // HACK the component shifts its overlay vertically when filtering
+      top: var(--length-header) !important; /* stylelint-disable-line declaration-no-important */
+      border-radius: 0;
+      border-color: transparent;
+      box-shadow: $box-shadow;
+
+      .ui-dropdown-filter-container {
+        border-bottom-color: transparent;
+      }
+    }
+
+    .ui-dropdown-empty-message {
+      padding-bottom: 1em;
+    }
+  }
+}

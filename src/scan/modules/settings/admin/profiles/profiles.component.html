@@ -1,0 +1,148 @@
+<ng-container *ngIf="dataIsLoaded; else dataIsLoading">
+  <div class="profiles-panel">
+    <p-table #profilesTable [value]="profiles" sortField="nome" sortOrder="1" [globalFilterFields]="fields"
+      [paginator]="true" [rows]="rowsPerPage" dataKey="id" editMode="row">
+      <ng-template pTemplate="caption">
+        <div class="caption-content">
+          <div>
+            <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down"></p-dropdown>
+            <strong style="margin-left: 6px">perfis por página</strong>
+          </div>
+          <div>
+            <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+            <input #filter type="text" pInputText size="50" placeholder="Buscar"
+              (input)="profilesTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let column of columns" [ngSwitch]="column.field" class="{{column.header | toIdentifier}}=column">
+            <div class="filter-header">
+              <i class="fa fa-fw fa-filter"></i>
+              <p-multiSelect #filter *ngSwitchCase="'ativo'" [options]="statuses" [filter]="false" defaultLabel="&nbsp;"
+                dropdownIcon="fa fa-chevron-down" maxSelectedLabels="1" selectedItemsLabel="Seleção: {0}"
+                (onChange)="profilesTable.filter($event.value, column.field, 'in')" class="filter-field"></p-multiSelect>
+              <input #filter *ngSwitchCase="'nome'" pInputText type="text"
+                (input)="profilesTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'nomesFuncionalidades'" pInputText type="text"
+                (input)="profilesTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-multiSelect #filter *ngSwitchCase="'podeSerAlterado'" [options]="editOptions" [filter]="false" defaultLabel="&nbsp;"
+                dropdownIcon="fa fa-chevron-down" maxSelectedLabels="1" selectedItemsLabel="Seleção: {0}"
+                (onChange)="profilesTable.filter($event.value, column.field, 'in')" class="filter-field"></p-multiSelect>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-profile let-editing="editing" let-rowIndex="rowIndex">
+        <tr [pEditableRow]="profile">
+          <td class="status-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input type="radio" name="status" id="yes" value="S" [(ngModel)]="profile.ativo">
+                <label class="status status-S" for="yes">Ativo</label>
+                <input type="radio" name="status" id="no" value="N" [(ngModel)]="profile.ativo">
+                <label class="status status-N" for="no">Inativo</label>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <strong class="status status-{{profile.ativo}}">
+                  {{profile.ativo === 'S' ? 'Ativo' : 'Inativo'}}
+                </strong>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="nome-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="profile.nome" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{profile.nome}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="funcionalidades-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <div style="height: 50vh">
+                  <p-pickList filterBy="nome,descricao,rota" [responsive]="true"
+                    [source]="getAvailableFeatures(profile)" [target]="profile.funcionalidades"
+                    [sourceHeader]="'Disponíveis'" [targetHeader]="'No Perfil'"
+                    [showSourceControls]="false" [showTargetControls]="false">
+                    <ng-template let-feature pTemplate="item">
+                      <div class="feature-item">
+                        <div class="feature-name">{{feature.nome}}</div>
+                        <div class="feature-description">{{feature.descricao}}</div>
+                        <div class="feature-route" [innerHTML]="formattedFeatureRoute(feature.rota)"></div>
+                      </div>
+                    </ng-template>
+                  </p-pickList>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <div style="text-align: center">
+                  <span class="feature-name-tag" *ngFor="let featureName of getFeatureNames(profile)">
+                    {{featureName}}
+                  </span>
+                </div>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="editar-column">
+            <button *ngIf="!editing && profile.podeSerAlterado === 'S'" pButton type="button" pInitEditableRow icon="fa fa-pencil" class="ui-button-info" (click)="onRowEditInit(profile)"></button>
+            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="fa fa-check" class="ui-button-success" (click)="onRowEditSave(profile, rowIndex)"></button>
+            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="fa fa-times" class="ui-button-danger" (click)="onRowEditCancel(profile, rowIndex)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary" let-profile>
+        <div class="summary-content">
+          <button type="button" pButton icon="fa fa-eraser" label="Limpar Filtros" (click)="onResetTable($event, profilesTable)"></button>
+          <button type="button" pButton icon="fa fa-plus" class="ui-button-success" label="Novo Perfil..." (click)="showNewProfileDialog()"></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-template #dataIsLoading>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<p-dialog header="Novo Perfil" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" [style]="{'width': '300px'}">
+  <div class="ui-g ui-fluid" *ngIf="newProfile && !savingProfile">
+    <div class="ui-g-12">
+      <div class="ui-g-4">
+        <label for="name">Nome</label>
+      </div>
+      <div class="ui-g-8">
+        <input pInputText id="name" [(ngModel)]="newProfile.nome" />
+      </div>
+    </div>
+  </div>
+  <p-footer *ngIf="!savingProfile">
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa fa-times" label="Cancelar" class="ui-button-danger"
+        (click)="cancelNewProfile()"></button>
+      <button type="button" pButton icon="fa fa-check" label="Salvar" class="ui-button-success"
+        (click)="saveNewProfile()"></button>
+    </div>
+  </p-footer>
+  <div style="text-align: center" *ngIf="savingProfile">
+    <h1><i class="fa fa-fw fa-spin fa-cog"></i></h1>
+    <strong>Por favor, aguarde</strong>
+  </div>
+</p-dialog>

@@ -1,0 +1,116 @@
+/// Global tree styles ============================================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+
+$component-attributes: (
+  'group': ('color': 'teal', 'tag': 'G'),
+  'subgroup': ('color': 'brown', 'tag': 'S'),
+  'element': ('color': 'indigo', 'tag': 'E')
+);
+
+$portfolio-level-tags: (
+  'grouping': ('shade': 100, 'tag': 'A'),
+  'area-of-interest': ('shade': 50, 'tag': 'I')
+);
+
+body {
+  .ui-tree.component-tree {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+
+    .ui-tree-container {
+      padding: 0;
+      overflow-x: hidden;
+
+      .ui-treenode {
+        padding: 0;
+
+        @each $level, $attributes in $component-attributes {
+          &.#{$level} {
+            $component-tag-color: color-variant(color(map-get($attributes, 'color')), 500);
+            $component-bg-color: color-variant(color(map-get($attributes, 'color')), 100);
+            $component-fg-color: text-color($component-bg-color);
+            --component-tag-color: #{$component-tag-color};
+            --component-bg-color: #{$component-bg-color};
+            --component-fg-color: #{$component-fg-color};
+
+            & .ui-treenode-content .ui-treenode-label::before {
+              content: map-get($attributes, 'tag');
+              background-color: var(--component-tag-color);
+            }
+          }
+        }
+
+        @each $segment, $color in $segment-colors {
+          @each $level, $attributes in $portfolio-level-tags {
+            &.segment-#{$segment}.#{$level} {
+              $component-tag-color: color-variant($color, 500);
+              $component-bg-color: color-variant($color, map-get($attributes, 'shade'));
+              $component-fg-color: text-color($component-bg-color);
+              --component-tag-color: #{$component-tag-color};
+              --component-bg-color: #{$component-bg-color};
+              --component-fg-color: #{$component-fg-color};
+
+              & .ui-treenode-content .ui-treenode-label::before {
+                content: map-get($attributes, 'tag');
+                background-color: var(--component-tag-color);
+              }
+            }
+          }
+        }
+
+        .ui-treenode-content {
+          padding-bottom: 5px;
+          border: none;
+
+          .ui-tree-toggler {
+            display: none;
+            // $arrow-size: 5px;
+            // width: 0;
+            // height: 0;
+            // border-style: solid;
+            // border-color: currentColor transparent transparent;
+            // border-width: $arrow-size $arrow-size 0 $arrow-size;
+          }
+
+          .ui-treenode-label {
+            display: flex;
+            width: 100%;
+            padding-left: 5px;
+            padding-right: 5px;
+            white-space: normal;
+            hyphens: auto;
+            background-color: var(--component-bg-color);
+            color: var(--component-fg-color);
+
+            &::before {
+              position: relative;
+              top: 1px;
+              display: inline-block;
+              flex-shrink: 0;
+              width: 20px;
+              height: 20px;
+              margin-right: 5px;
+              line-height: 19px;
+              text-align: center;
+              font-family: $font-mono;
+              font-weight: bold;
+              border-radius: 50%;
+              background-color: rgba(black, 0.3);
+              color: white;
+              text-shadow: 0 0 2px black;
+            }
+
+            span {
+              line-height: 170%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

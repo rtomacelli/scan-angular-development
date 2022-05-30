@@ -1,0 +1,84 @@
+<div class="cics-panel" *ngIf="isDataLoaded; else dataIsNotLoaded">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <ng-container *ngIf="cicsRecords.length > 0; else dataIsEmpty">
+      <p-table #cicsTable [value]="cicsRecords" sortField="nome" sortOrder="1" [globalFilterFields]="fields"
+        [paginator]="true" [rows]="rowsPerPage" (onPage)="currentPage = $event.page">
+        <ng-template pTemplate="caption">
+          <div class="caption-content">
+            <div>
+              <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down">
+              </p-dropdown>
+              <strong style="margin-left: 6px">registros por página</strong>
+            </div>
+            <div>
+              <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+              <input #filter type="text" pInputText size="50" placeholder="Buscar"
+                (input)="cicsTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+              class="{{column.header | toIdentifier}}-column column">
+              {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+            </th>
+          </tr>
+          <tr>
+            <th *ngFor="let column of columns" class="{{column.header | toIdentifier}}-column column">
+              <div class="filter-header">
+                <i class="fa fa-fw fa-filter"></i>
+                <input type="text" pInputText (input)="cicsTable.filter($event.target.value, column.field, 'contains')"
+                  class="filter-field">
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-record>
+          <tr>
+            <td class="nome-column column">{{record.nome}}</td>
+            <td class="data-movimento-column column">{{record.dataMovimento | date : 'dd/MM/yyyy'}}</td>
+            <td class="nome-imagem-column column">
+              <span class="image-tag" [attr.data-palette-name]="'cluster'"
+                [attr.data-palette-key]="record.image.nomeCluster">
+                <span class="cluster-name">{{record.image.nomeCluster}}</span>
+                <span class="image-name">{{record.image.nome}}</span>
+              </span>
+              <!-- {{record.nomeImagem}} -->
+            </td>
+            <td class="app-column column">
+              <scan-app *ngFor="let app of record.apps" [app]="app" [showName]="true" [showStatus]="true"
+                [showPathOnHover]="true" [nonInteractive]="true">
+              </scan-app>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+              class="{{column.header | toIdentifier}}-column column">
+              {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="column">
+            <em>Mostrando {{recordsOnCurrentPage}} de {{cicsRecords.length}} registros</em>
+          </div>
+        </ng-template>
+      </p-table>
+    </ng-container>
+    <ng-template #dataIsEmpty>
+      <scan-notice-panel [noticeIcon]="'exclamation-circle'" [message]="'Nenhum registro encontrado'">
+      </scan-notice-panel>
+    </ng-template>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [noticeIcon]="'exclamation-circle'" [severity]="'danger'" [message]="errorMessage"
+      [message2]="'Escolha outra data ou tente novamente mais tarde'">
+    </scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <scan-loading-notice></scan-loading-notice>
+</ng-template>

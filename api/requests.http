@@ -1,0 +1,215 @@
+@token = {{registrarUsuario.response.body.$.token}}
+@date = {{$datetime "YYYY-MM-DD"}}
+@apps = [ "AAI", "APF", "APJ", "GFP", "HBK", "IBA", "IBJ", "MOV", "IMA", "VIP" ]
+
+### SECURITY ###################################################################
+
+# @name registrarUsuario
+POST {{restUrl}}/registrarUsuario
+
+{ "matricula": "F1111111" }
+
+###
+
+# @name versaoProjeto
+POST {{restUrl}}/versaoProjeto
+Accept: text/plain
+Authorization: {{token}}
+
+### REFERENCE MATRIX ###########################################################
+
+# @name listarCamadas
+POST {{restUrl}}/listarCamadas
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarMatrizReferenciaCamadaLogica
+POST {{restUrl}}/listarMatrizReferenciaCamadaLogica
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarMatrizReferenciaCamadaFisica
+POST {{restUrl}}/listarMatrizReferenciaCamadaFisica
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarPortfolioDiario
+POST {{restUrl}}/listarPortfolioDiario
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarSiglas
+POST {{restUrl}}/listarSiglas
+Authorization: {{token}}
+Data: {{date}}
+
+### MAP MARKING ################################################################
+
+# @name listarComponentesElementoParaMarcacaoPorInterface
+POST {{restUrl}}/listarComponentesElementoParaMarcacaoPorInterface
+Authorization: {{token}}
+Data: {{date}}
+
+77593
+
+###
+
+# @name listarComponentesElementoParaMarcacaoPorSigla
+POST {{restUrl}}/listarComponentesElementoParaMarcacaoPorSigla
+Authorization: {{token}}
+Data: {{date}}
+
+{{apps}}
+
+### MAP DETAILS - LOGICAL INFRASTRUCTURE #######################################
+
+# @name detalharPerspectivaRede
+POST {{restUrl}}/detalharPerspectivaRede
+Authorization: {{token}}
+Data: {{date}}
+
+77843
+
+###
+
+# @name detalharPerspectivaInterfaceAplicativo
+POST {{restUrl}}/detalharPerspectivaInterfaceAplicativo
+Authorization: {{token}}
+Data: {{date}}
+
+77593
+
+###
+
+# @name detalharProcessamentoCics
+POST {{restUrl}}/detalharProcessamentoCics
+Authorization: {{token}}
+Data: {{date}}
+
+{{apps}}
+
+###
+
+# @name detalharExecucoesJobsProcessamentoBatchPorSiglas
+POST {{restUrl}}/detalharExecucoesJobsProcessamentoBatchPorSiglas
+Authorization: {{token}}
+Data: {{date}}
+
+{{apps}}
+
+###
+
+# @name detalharProcessamentoAdabas
+POST {{restUrl}}/detalharProcessamentoAdabas
+Authorization: {{token}}
+Data: {{date}}
+
+{{apps}}
+
+###
+
+# @name detalharProcessamentoDB2
+POST {{restUrl}}/detalharProcessamentoDB2
+Authorization: {{token}}
+Data: {{date}}
+
+{{apps}}
+
+### MAP DETAILS - PHYSICAL INFRASTRUCTURE ######################################
+
+# @name listarAmbienteDistribuidoDiarioBSB
+POST {{restUrl}}/listarAmbienteDistribuidoDiarioBSB
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarServidoresVirtuaisAmbienteDistribuidoPorServidoresFisicos
+POST {{restUrl}}/listarServidoresVirtuaisAmbienteDistribuidoPorServidoresFisicos
+Authorization: {{token}}
+Data: {{date}}
+
+22030,22047,22029,22031,22032,22050,22049,22052,22048,22051,22053
+
+###
+
+# @name listarMainframeDiario
+POST {{restUrl}}/listarMainframeDiario
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarStorageDiscosDiario
+POST {{restUrl}}/listarStorageDiscosDiario
+Authorization: {{token}}
+Data: {{date}}
+
+###
+
+# @name listarFitotecaDiario
+POST {{restUrl}}/listarFitotecaDiario
+Authorization: {{token}}
+Data: {{date}}
+
+### SETTINGS - ADMINISTRATION ##################################################
+
+# @name listarFuncionalidades
+POST {{restUrl}}/listarFuncionalidades
+Authorization: {{token}}
+
+###
+
+# @name listarPerfis
+POST {{restUrl}}/listarPerfis
+Authorization: {{token}}
+
+###
+
+# @name listarUsuarios
+POST {{restUrl}}/listarUsuarios
+Authorization: {{token}}
+
+###
+
+# @name listarDiretoriasAcesso
+POST {{restUrl}}/listarDiretoriasAcesso
+Authorization: {{token}}
+
+###
+
+# @name listarJobsDiario
+POST {{restUrl}}/listarJobsDiario
+Authorization: {{token}}
+
+### SETTINGS - STATISTICS ######################################################
+
+# @name relatorioAcesso
+POST {{restUrl}}/relatorioAcesso
+Authorization: {{token}}
+
+###
+
+# @name relatorioAcessoFuncionalidades
+POST {{restUrl}}/relatorioAcessoFuncionalidades
+Authorization: {{token}}
+
+###
+
+# @name relatorioJobsDiario
+POST {{restUrl}}/relatorioJobsDiario
+Authorization: {{token}}
+
+###
+
+# @name usuariosAtivos
+POST {{restUrl}}/usuariosAtivos
+Authorization: {{token}}

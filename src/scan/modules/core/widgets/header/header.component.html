@@ -1,0 +1,24 @@
+<p-toolbar styleClass="main-header">
+  <div class="ui-toolbar-group-left">
+    <a routerLink="/">
+      <div class="logo"><img src="../../../assets/images/logo.svg" alt="Logo BB"></div>
+    </a>
+    <a routerLink="/">
+      <div class="title" title="{{timestamp}} ({{timestampAsDate}})">
+        {{title}} <small>{{version}} &ndash; {{environmentName}}</small>
+      </div>
+    </a>
+  </div>
+  <div class="ui-toolbar-group-right" *ngIf="showToolbar">
+    <div class="reference-date-group">
+      <strong>Data de referência:</strong>
+      <p-calendar #calendar [(ngModel)]="referenceDate" dateFormat="dd/mm/yy" [locale]="primeLocalePt" [readonlyInput]="true"
+        [disabled]="isServiceBusy" [minDate]="minimumDate" [defaultDate]="defaultDate" [maxDate]="maximumDate"
+        (onSelect)="onCalendarSelect()" (onTodayClick)="onCalendarSelect()" (onClearClick)="onCalendarReset()"
+        [showButtonBar]="true" class="reference-date-selector" [showIcon]="true" icon="fa fa-calendar">
+      </p-calendar>
+    </div>
+    <scan-tool-button-set [toolButtonSet]="toolButtonSet"></scan-tool-button-set>
+    <scan-user-menu></scan-user-menu>
+  </div>
+</p-toolbar>

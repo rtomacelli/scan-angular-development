@@ -1,0 +1,58 @@
+<nav class="scan-tabs inner" [attr.data-palette-name]="'layer'" [attr.data-palette-key]="layer.id">
+  <div *ngFor="let view of views; index as i" class="scan-tab" [class.active]="activeIndex === i"
+    (click)="activeIndex = i">{{view}}</div>
+</nav>
+<!-- SUMMARY -->
+<div class="tab-panel panel-content inner active" [class.active]="activeIndex === 0">
+  <scan-under-construction></scan-under-construction>
+</div>
+<!-- DIAGRAM -->
+<div class="tab-panel panel-content inner active" [class.active]="activeIndex === 1">
+  <div class="diagram-scroll" [class.with-serviceless-apps]="appPortfolio.servicelessApps.length > 0">
+    <div scanDiagramHighlight class="portfolio-diagram" [class.zoom]="zoom" (click)="diagramClick($event)"
+      [inlineSVG]="'assets/images/portfolio.svg'">
+      <scan-loading-notice [message]="'Carregando diagrama da Arquitetura do Portfólio de Aplicativos'">
+      </scan-loading-notice>
+    </div>
+  </div>
+  <i class="zoom-toggle fa fa-fw" [class.with-serviceless-apps]="appPortfolio.servicelessApps.length > 0"
+    [attr.title]="zoom ? 'Reduzir' : 'Ampliar'" [class.fa-search-minus]="zoom" [class.fa-search-plus]="!zoom"
+    (click)="zoom = !zoom"></i>
+  <ng-container *ngIf="appPortfolio.servicelessApps.length > 0">
+    <ng-template *ngTemplateOutlet="servicelessAppsList"></ng-template>
+  </ng-container>
+</div>
+<!-- SEGMENTOS -->
+<div class="tab-panel panel-content inner" [class.active]="activeIndex === 2">
+  <div class="map-modes" [attr.data-palette-name]="'layer'" [attr.data-palette-key]="layer.id" *ngIf="!!type">
+    <strong>Modo</strong>
+    <input type="radio" name="map-mode={{layer.id}}" id="compact-mode-{{layer.id}}" value="compact" [(ngModel)]="mapMode">
+    <label for="compact-mode-{{layer.id}}" (click)="updateMapMode('compact')"><i class="fa fa-fw fa-cube"></i> Compacto</label>
+    <input type="radio" name="map-mode={{layer.id}}" id="complete-mode-{{layer.id}}" value="complete" [(ngModel)]="mapMode">
+    <label for="complete-mode-{{layer.id}}" (click)="updateMapMode('complete')"><i class="fa fa-fw fa-cubes"></i> Completo</label>
+  </div>
+  <div class="segments" [class.with-serviceless-apps]="appPortfolio.servicelessApps.length > 0">
+    <div class="segment" *ngFor="let segment of appPortfolio.segments">
+      <scan-perspective-header [segment]="segment.codigo" [icon]="segment.icon"
+        [text]="segment.nome" [tip]="segment.codigo + ' - ' + segment.nome"></scan-perspective-header>
+      <div class="content">
+        <scan-tree [nodes]="segmentTrees[segment.codigo]" [segment]="segment.codigo" (nodeClick)="treeClick($event)"
+          [mode]="mapMode">
+        </scan-tree>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="appPortfolio.servicelessApps.length > 0">
+    <ng-template *ngTemplateOutlet="servicelessAppsList"></ng-template>
+  </ng-container>
+</div>
+
+<ng-template #servicelessAppsList>
+  <div class="serviceless-apps">
+    <strong class="header">Siglas sem assunto principal</strong>
+    <div class="serviceless-app-list">
+      <scan-app *ngFor="let app of appPortfolio.servicelessApps" [app]="app" [showStatus]="true" [showPathOnHover]="true"
+        (click)="openAppDetails(app)"></scan-app>
+    </div>
+  </div>
+</ng-template>

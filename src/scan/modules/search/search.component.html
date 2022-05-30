@@ -1,0 +1,47 @@
+<p-toolbar>
+  <div #toolbar class="ui-toolbar-group-left">
+    <p-dropdown #dropdown *ngIf="optionsLoaded && isDataValid" [options]="options" [(ngModel)]="selectedOption"
+      [group]="false" [virtualScroll]="true" itemSize="62" scrollHeight="{{availableHeight}}px" [filter]="true"
+      filterBy="label,value.name,value.tag,value.status,value.typeTag" [resetFilterOnHide]="true"
+      [emptyFilterMessage]="'Nenhum registro encontrado'"
+      placeholder="Selecione uma interface de aplicativo, um assunto ou uma sigla&hellip;" styleClass="search-field"
+      panelStyleClass="search-options" dropdownIcon="fa fa-chevron-down" (onChange)="onOptionChange($event)"
+      (onHide)="clearFilter(dropdown)">
+      <ng-template let-item pTemplate="item" #itemRow>
+        <div class="search-item" (mouseenter)="showPath(item.value, $event)" (mouseleave)="hidePath()">
+          <scan-search-item [item]="item"></scan-search-item>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+</p-toolbar>
+
+<ng-container *ngIf="optionsLoaded; else optionsNotLoaded">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="panel-content">
+      <h1>&hellip;ou comece por um destes mapas:</h1>
+      <div class="suggestions">
+        <div *ngFor="let type of suggestionTypes" class="type {{type}}">
+          <div class="search-item" *ngFor="let suggestion of suggestions[type]"
+            (mouseenter)="showPath(suggestion.value, $event)" (mouseleave)="hidePath()"
+            (click)="onSuggestionClick(suggestion)">
+            <scan-search-item [item]="suggestion"></scan-search-item>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="false" [noticeIcon]="'exclamation-circle'" [severity]="'danger'"
+      [message]="errorMessage" [message2]="'Escolha outra data ou tente novamente mais tarde'">
+    </scan-notice-panel>
+  </ng-template>
+</ng-container>
+<ng-template #optionsNotLoaded>
+  <scan-loading-notice [message]="'Carregando mapas disponíveis'"></scan-loading-notice>
+</ng-template>
+
+<p-overlayPanel #opPath styleClass="path-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-path-overlay *ngIf="hovered" [type]="hovered.type" [path]="hovered.path" [status]="hovered.status">
+  </scan-path-overlay>
+</p-overlayPanel>

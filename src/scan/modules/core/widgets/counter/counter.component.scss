@@ -1,0 +1,12 @@
+/// CounterComponent's private SCSS styles ========================================================
+
+.counter {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+
+  .separator,
+  .total.partial {
+    opacity: 0.66;
+  }
+}

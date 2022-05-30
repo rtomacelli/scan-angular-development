@@ -1,0 +1,79 @@
+/// ProfilesComponent's private SCSS styles =======================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+.profiles-panel {
+  height: $length-panel-inner-tab-height;
+  padding: var(--length-gutter);
+  overflow: hidden auto;
+}
+
+:host ::ng-deep {
+  .funcionalidades-column {
+    width: 65em;
+  }
+
+  .feature-name-tag {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: 2px 8px;
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+    border-radius: var(--length-border-radius);
+
+    & + .feature-name-tag {
+      margin-left: 5px;
+    }
+
+    &:nth-child(odd) {
+      $bg-color: color-variant(color('teal'), 100);
+      $fg-color: text-color($bg-color);
+      --title-bg-color: #{$bg-color};
+      --title-fg-color: #{$fg-color};
+    }
+
+    &:nth-child(even) {
+      $bg-color: color-variant(color('slate'), 100);
+      $fg-color: text-color($bg-color);
+      --title-bg-color: #{$bg-color};
+      --title-fg-color: #{$fg-color};
+    }
+  }
+
+  .ui-picklist {
+    width: 100%;
+    height: 100%;
+
+    .ui-picklist-listwrapper {
+      height: 100%;
+
+      .ui-picklist-list {
+        height: calc(100% - 44px - 34px); // 100% - filterHeight - captionHeight
+
+        .ui-picklist-item {
+          border-bottom: 1px solid color-variant(color('gray'), 50);
+
+          .feature-item {
+            .feature-description {
+              font-style: italic;
+              opacity: 0.66;
+            }
+
+            .feature-route {
+              text-align: right;
+              font-family: $font-mono;
+              font-size: 90%;
+              opacity: 0.54;
+            }
+          }
+        }
+      }
+
+      .ui-picklist-caption + .ui-picklist-list {
+        height: calc(100% - 34px); // 100% - captionHeight
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+export { Deserializable } from './deserializable.model';
+export { Metadata } from './metadata.model';
+export { NOW } from './now.model';
+export { PRIME_LOCALE_PT } from './prime-locales.model';
+export { ScanDate } from './scan-date.model';
+export { ScanDateTime } from './scan-date-time.model';
+export { ScanRoute } from './scan-route.model';
+export { ScanRoutes } from './scan-routes.model';
+export { ScanTime } from './scan-time.model';

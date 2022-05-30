@@ -1,0 +1,45 @@
+/// MapTitleComponent's private SCSS styles =======================================================
+
+@import 'color-palette';
+@import 'functions';
+@import 'global-variables';
+@import 'placeholders';
+
+:host {
+  @extend %flex-row;
+  align-items: center;
+
+  .code {
+    display: inline-block;
+    height: 30px;
+    margin-right: 12px;
+    padding: 0 7px;
+    line-height: 28px;
+    font-family: $font-mono;
+    font-size: 22px;
+    font-weight: bold;
+    background-color: var(--title-bg-color);
+    color: var(--title-fg-color);
+    border: 1px solid var(--system-bg-color);
+    border-radius: var(--length-border-radius);
+  }
+
+  .text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .fa-info-circle {
+    position: relative;
+    top: 1px;
+    margin-left: 7px;
+    cursor: help;
+    opacity: 0.66;
+    transition: $transition;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+<ng-container *ngIf="nonInteractive; then noDirective; else withDirective"></ng-container>
+<ng-template #noDirective>
+  <div class="app" [class.with-status]="showStatus" [attr.data-palette-name]="'segment'"
+    [attr.data-palette-key]="app.path.segment.code" [class.highlight]="isHighlighted" [class.dimmed]="isDimmed">
+    <ng-container *ngTemplateOutlet="appContents"></ng-container>
+  </div>
+</ng-template>
+<ng-template #withDirective>
+  <div [scanRelatedApps]="[app.codigo]" [app]="app" class="app" [class.with-status]="showStatus"
+    [attr.data-palette-name]="'segment'" [attr.data-palette-key]="app.path.segment.code"
+    [class.highlight]="isHighlighted" [class.dimmed]="isDimmed">
+    <ng-container *ngTemplateOutlet="appContents"></ng-container>
+  </div>
+</ng-template>
+
+<p-overlayPanel #opPath styleClass="path-overlay" [appendTo]="'body'">
+  <scan-path-overlay [type]="'app'" [path]="app.path" [status]="app.estado">
+  </scan-path-overlay>
+</p-overlayPanel>
+
+<ng-template #appContents>
+  <div class="events"></div>
+  <div class="app-status-icon {{app.estado | toIdentifier}}" title="{{app.estado}}" *ngIf="showStatus"></div>
+  <div class="code">{{app.codigo}}</div>
+  <div class="name" *ngIf="showName">{{app.nome}}</div>
+</ng-template>

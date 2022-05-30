@@ -1,0 +1,13 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <h1 class="title">Configurações</h1>
+  </div>
+  <div class="ui-toolbar-group-right">
+    <nav>
+      <a [routerLink]="[routes.settings.children.preferences.path]" routerLinkActive="active">{{routes.settings.children.preferences.label}}</a>
+      <a [routerLink]="[routes.settings.children.admin.path]" routerLinkActive="active">{{routes.settings.children.admin.label}}</a>
+      <a [routerLink]="[routes.settings.children.palette.path]" routerLinkActive="active">{{routes.settings.children.palette.label}}</a>
+    </nav>
+  </div>
+</p-toolbar>
+<router-outlet></router-outlet>

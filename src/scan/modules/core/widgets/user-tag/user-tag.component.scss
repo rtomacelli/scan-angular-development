@@ -1,0 +1,38 @@
+/// UserTagComponent's private SCSS styles ========================================================
+
+@import 'color-palette';
+@import 'global-variables';
+@import 'placeholders';
+
+:host {
+  @extend %flex-row;
+  align-items: center;
+  height: 32px;
+
+  .avatar {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    border: 1px solid var(--light-border-color);
+    border-radius: var(--length-border-radius);
+
+    &.fa {
+      font-size: 32px;
+      background-color: var(--light-border-color);
+      color: var(--title-fg-color);
+    }
+  }
+
+  .text {
+    @extend %flex-column;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    .uid {
+      font-family: $font-mono;
+      opacity: 0.66;
+    }
+  }
+}

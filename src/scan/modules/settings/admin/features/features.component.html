@@ -1,0 +1,117 @@
+<ng-container *ngIf="dataIsLoaded; else dataIsLoading">
+  <div class="features-panel">
+    <p-table #featuresTable [value]="features" sortField="rota" sortOrder="1" [globalFilterFields]="fields"
+      [paginator]="true" [rows]="rowsPerPage" dataKey="id" editMode="row">
+      <ng-template pTemplate="caption">
+        <div class="caption-content">
+          <div>
+            <p-dropdown [options]="pageSizes" [(ngModel)]="rowsPerPage" dropdownIcon="fa fa-chevron-down"></p-dropdown>
+            <strong style="margin-left: 6px">funcionalidades por página</strong>
+          </div>
+          <div>
+            <i class="fa fa-fw fa-search" style="margin-right: 6px"></i>
+            <input #filter type="text" pInputText size="50" placeholder="Buscar"
+              (input)="featuresTable.filterGlobal($event.target.value, 'contains')" style="width: auto">
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+        <tr>
+          <th *ngFor="let column of columns" [ngSwitch]="column.field" class="{{column.header | toIdentifier}}-column">
+            <div class="filter-header">
+              <i class="fa fa-fw fa-filter"></i>
+              <p-multiSelect #filter *ngSwitchCase="'ativo'" [options]="statuses" [filter]="false" defaultLabel="&nbsp;"
+                dropdownIcon="fa fa-chevron-down" maxSelectedLabels="1" selectedItemsLabel="Seleção: {0}"
+                (onChange)="featuresTable.filter($event.value, column.field, 'in')" class="filter-field"></p-multiSelect>
+              <input #filter *ngSwitchCase="'rota'" pInputText type="text"
+                (input)="featuresTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'nome'" pInputText type="text"
+                (input)="featuresTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <input #filter *ngSwitchCase="'descricao'" pInputText type="text"
+                (input)="featuresTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-calendar #filter *ngSwitchCase="'dataCadastro'" [(ngModel)]="dateFilter" dateFormat="yy-mm-dd"
+                [locale]="primeLocalePt" [minDate]="minimumDate" [maxDate]="today" showButtonBar="true" [readonlyInput]="true"
+                (onClose)="onCalendarClose(featuresTable)" class="filter-field"></p-calendar>
+              <input #filter *ngSwitchCase="'usuarioAlterador'" pInputText type="text"
+                (input)="featuresTable.filter($event.target.value, column.field, 'contains')" class="filter-field">
+              <p-multiSelect #filter *ngSwitchCase="'podeSerAlterado'" [options]="editOptions" [filter]="false" defaultLabel="&nbsp;"
+                dropdownIcon="fa fa-chevron-down" maxSelectedLabels="1" selectedItemsLabel="Seleção: {0}"
+                (onChange)="featuresTable.filter($event.value, column.field, 'in')" class="filter-field"></p-multiSelect>
+            </div>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-feature let-editing="editing" let-rowIndex="rowIndex">
+        <tr [pEditableRow]="feature">
+          <td class="status-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input type="radio" name="status" id="yes" value="S" [(ngModel)]="feature.ativo">
+                <label class="status status-S" for="yes">Ativa</label>
+                <input type="radio" name="status" id="no" value="N" [(ngModel)]="feature.ativo">
+                <label class="status status-N" for="no">Inativa</label>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <strong class="status status-{{feature.ativo}}">
+                  {{feature.ativo === 'S' ? 'Ativa' : 'Inativa'}}
+                </strong>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="rota-column" [innerHTML]="formattedFeatureRoute(feature.rota)"></td>
+          <td class="nome-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input pInputText type="text" [(ngModel)]="feature.nome" required>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{feature.nome}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="descricao-column">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <textarea pInputText rows="5" [(ngModel)]="feature.descricao"></textarea>
+              </ng-template>
+              <ng-template pTemplate="output">
+                {{feature.descricao}}
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td class="cadastro-column">{{feature.dataCadastro}}</td>
+          <td class="alterada-por-column">
+            <scan-user-tag [uid]="feature.matriculaAlterador" [name]="feature.nomeAlterador" *ngIf="feature.matriculaAlterador"></scan-user-tag>
+          </td>
+          <td class="editar-column">
+            <button *ngIf="!editing && feature.podeSerAlterado === 'S'" pButton type="button" pInitEditableRow icon="fa fa-pencil" class="ui-button-info" (click)="onRowEditInit(feature)"></button>
+            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="fa fa-check" class="ui-button-success" (click)="onRowEditSave(feature, rowIndex)"></button>
+            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="fa fa-times" class="ui-button-danger" (click)="onRowEditCancel(feature, rowIndex)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <th *ngFor="let column of columns" [pSortableColumn]="column.field"
+            class="{{column.header | toIdentifier}}-column">
+            {{column.header}} &nbsp; <p-sortIcon [field]="column.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="summary-content">
+          <button type="button" pButton icon="fa fa-eraser" label="Limpar Filtros" (click)="onResetTable($event, featuresTable)"></button>
+        </div>
+      </ng-template>
+    </p-table>
+  </div>
+</ng-container>
+<ng-template #dataIsLoading>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>

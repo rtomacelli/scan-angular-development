@@ -1,0 +1,74 @@
+<ng-container *ngIf="type === 'element' || type === 'interface'; else elseTemplate">
+  <div class="level layer" [attr.data-palette-name]="'layer'" [attr.data-palette-key]="matrixPath.layer.name | toIdentifier">
+    <div class="tag">
+      <div class="code">C</div>
+      <div class="name">{{matrixPath.layer.name}}</div>
+    </div>
+    <div class="level perspective">
+      <div class="tag">
+        <div class="code">P</div>
+        <div class="name">{{matrixPath.perspective.name}}</div>
+      </div>
+      <div class="level group">
+        <div class="tag">
+          <div class="code">G</div>
+          <div class="name">{{matrixPath.group.name}}</div>
+        </div>
+        <div class="level subgroup">
+          <div class="tag">
+            <div class="code">S</div>
+            <div class="name">{{matrixPath.subgroup.name}}</div>
+          </div>
+          <div class="level element">
+            <div class="tag">
+              <div class="code">E</div>
+              <div class="name">{{matrixPath.element.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #elseTemplate>
+  <div class="level segment" [attr.data-palette-name]="'segment'" [attr.data-palette-key]="portfolioPath.segment.code"
+    *ngIf="portfolioPath.segment.code !== 'G0'; else noSegment">
+    <div class="tag">
+      <div class="code">{{portfolioPath.segment.code}}</div>
+      <div class="name">{{portfolioPath.segment.name}}</div>
+    </div>
+    <div class="level grouping">
+      <div class="tag">
+        <div class="code">{{portfolioPath.grouping.code}}</div>
+        <div class="name">{{portfolioPath.grouping.name}}</div>
+      </div>
+      <div class="level area-of-interest">
+        <div class="tag">
+          <div class="code">{{portfolioPath.areaOfInterest.code}}</div>
+          <div class="name">{{portfolioPath.areaOfInterest.name}}</div>
+        </div>
+        <div class="level business-service">
+          <div class="tag">
+            <div class="code">{{portfolioPath.businessService.code}}</div>
+            <div class="name">{{portfolioPath.businessService.name}}</div>
+          </div>
+          <ng-template *ngTemplateOutlet="appLevel"></ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noSegment>
+    <div class="alert">Assunto principal não encontrado</div>
+    <ng-template *ngTemplateOutlet="appLevel"></ng-template>
+  </ng-template>
+</ng-template>
+
+<ng-template #appLevel>
+  <div class="level app" *ngIf="portfolioPath.app">
+    <div class="tag">
+      <div class="code">{{portfolioPath.app.code}}</div>
+      <div class="name">{{portfolioPath.app.name}}</div>
+    </div>
+    <div class="app-status-text {{status | toIdentifier}}">{{status}}</div>
+  </div>
+</ng-template>

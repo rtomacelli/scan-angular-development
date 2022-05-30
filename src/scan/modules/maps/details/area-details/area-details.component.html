@@ -1,0 +1,50 @@
+<ng-container *ngIf="areaOfInterest; else loadingAreaOfInterest">
+  <div class="area-description" title="{{areaOfInterest.descricao}}">{{areaOfInterest.descricao}}</div>
+  <div class="area-details">
+    <div class="business-services">
+      <div class="business-service" *ngFor="let service of areaOfInterest.businessServices"
+        [class.marked]="isServiceMarked(service)">
+        <div class="business-service-header">
+          <div class="identification">
+            <span class="code">{{service.codigo}}</span>
+            <span class="name">{{service.nome}}</span>
+            <i class="map-link fa fa-fw fa-map" title="Abrir o mapa deste assunto"
+              (click)="goToMap('service', service.codigo)"></i>
+          </div>
+          <div class="service-description">{{service.descricao}}</div>
+        </div>
+        <ng-container *ngIf="service.hasApps; else noApps">
+          <div class="apps">
+            <div class="service-apps primary-apps" *ngIf="service.hasPrimaryApps">
+              <div class="counter">Siglas Principais ({{service.siglasPrincipais.length}})</div>
+              <div class="service-app primary-app" *ngFor="let app of service.primaryApps"
+                (click)="appClick(app)" [class.marked]="isAppMarked(app)" [class.unmarked]="!isAppMarked(app)">
+                <scan-app [app]="app" [showName]="true" [showStatus]="true" [class.marked]="isAppMarked(app)"
+                  [class.unmarked]="!isAppMarked(app)" [nonInteractive]="true"></scan-app>
+                <i class="map-link fa fa-fw fa-map" title="Abrir o mapa desta sigla"
+                  (click)="goToMap('app', app.codigo)"></i>
+              </div>
+            </div>
+            <hr *ngIf="service.hasPrimaryApps && service.hasSecondaryApps">
+            <div class="service-apps secondary-apps" *ngIf="service.hasSecondaryApps">
+              <div class="counter">Siglas Secundárias ({{service.siglasSecundarias.length}})</div>
+              <div class="service-app secondary-app" *ngFor="let app of service.secondaryApps"
+                (click)="appClick(app)" [class.marked]="isAppMarked(app)" [class.unmarked]="!isAppMarked(app)">
+                <scan-app [app]="app" [showName]="true" [showStatus]="true" [class.marked]="isAppMarked(app)"
+                  [class.unmarked]="!isAppMarked(app)" [nonInteractive]="true"></scan-app>
+                <i class="map-link fa fa-fw fa-map" title="Abrir o mapa desta sigla"
+                  (click)="goToMap('app', app.codigo)"></i>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noApps>
+          <div class="notice">Não há sigla ativa que realize este assunto.</div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loadingAreaOfInterest>
+  <scan-loading-notice [message]="'Carregando detalhes da área de interesse'"></scan-loading-notice>
+</ng-template>

@@ -1,0 +1,43 @@
+<ul #tree class="scan-tree {{styleClass}} {{mode}}" [attr.data-palette-name]="'segment'" [attr.data-palette-key]="segment">
+  <ng-container *ngTemplateOutlet="treeNode; context: { nodes: nodes }"></ng-container>
+</ul>
+
+<ng-template #treeNode let-nodes="nodes">
+  <ng-container *ngFor="let node of nodes">
+    <ng-container *ngIf="node.relatedApps && node.relatedApps.length > 0; then withApps; else noApps"></ng-container>
+    <ng-template #withApps>
+      <li class="scan-tree-node node {{node.styleClass}}" [attr.data-id]="node.dataId" [attr.data-palette-name]="'segment'"
+        [attr.data-palette-key]="node.segment" [class.closed]="node.closeable && node.closed"
+        [class.open]="!node.closeable || !node.closed" [class.primary]="node.primary" [class.has-details]="node.hasDetails"
+        [scanRelatedApps]="node.relatedApps">
+        <!-- [class.highlight]="node.highlighted" [class.marked]="node.marked" -->
+        <ng-container *ngTemplateOutlet="treeNodeContent; context: { node: node }"></ng-container>
+      </li>
+    </ng-template>
+    <ng-template #noApps>
+      <li class="scan-tree-node node {{node.styleClass}}" [attr.data-id]="node.dataId"
+        [attr.data-palette-name]="'segment'" [attr.data-palette-key]="node.segment"
+        [class.closed]="node.closeable && node.closed" [class.open]="!node.closeable || !node.closed"
+        [class.marked]="node.marked" [class.primary]="node.primary"
+        [class.has-details]="node.hasDetails">
+        <!-- [class.highlight]="node.highlighted" [class.marked]="node.marked" -->
+        <ng-container *ngTemplateOutlet="treeNodeContent; context: { node: node }"></ng-container>
+      </li>
+    </ng-template>
+  </ng-container>
+</ng-template>
+
+<ng-template #treeNodeContent let-node="node">
+  <div class="scan-tree-node-label" title="{{node.title}}" (click)="nodeClickHandler(node.data)">
+    <span class="scan-tree-node-toggle" *ngIf="node.closeable" [attr.title]="node.closed ? 'Abrir' : 'Fechar'"
+      (click)="node.closed = !node.closed">
+      <i class="fa fa-fw" [class.fa-chevron-down]="!node.closeable || !node.closed"
+        [class.fa-chevron-right]="node.closeable && node.closed"></i>
+    </span>
+    <span class="scan-tree-node-code" *ngIf="node.code">{{node.code}}</span>
+    <span class="scan-tree-node-name">{{node.name}}</span>
+  </div>
+  <ul class="scan-tree" *ngIf="node.children">
+    <ng-container *ngTemplateOutlet="treeNode; context: { nodes: node.children }"></ng-container>
+  </ul>
+</ng-template>

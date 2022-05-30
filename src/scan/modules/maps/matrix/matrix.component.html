@@ -1,0 +1,45 @@
+<div class="outer" *ngIf="isDataLoaded; else dataNotLoaded">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div id="matrix">
+      <p-toolbar>
+        <div class="ui-toolbar-group-left">
+          <span class="subject">{{subject}}</span>
+          <h1 class="title" *ngIf="type">
+            <scan-map-title [target]="target" [type]="type"></scan-map-title>
+          </h1>
+        </div>
+        <div class="ui-toolbar-group-right" *ngIf="layersLoaded">
+          <nav>
+            <div *ngFor="let layer of layers; index as i" (click)="activeIndex = i" class="tab-header"
+              [attr.data-palette-name]="'layer'" [attr.data-palette-key]="layer.id" [class.active]="activeIndex === i">
+              {{layer.name}}
+            </div>
+          </nav>
+        </div>
+      </p-toolbar>
+      <div *ngFor="let layer of layers; index as i; trackBy: layerId" class="tab-panel panel-content layer-{{layer.id}}"
+        [class.active]="activeIndex === i">
+        <ng-container *ngIf="layer.business; else infrastructureLayer">
+          <scan-business-layer [layer]="layer" [mapApps]="mapApps" [type]="type" [mapMode]="mapMode"></scan-business-layer>
+        </ng-container>
+        <ng-template #infrastructureLayer>
+          <scan-infrastructure-layer [layer]="layer" [mapComponentIds]="mapComponentIds" [type]="type" [mapMode]="mapMode">
+          </scan-infrastructure-layer>
+        </ng-template>
+      </div>
+    </div>
+    <scan-app-bar [appPortfolio]="appPortfolio" [apps]="mapApps" [editable]="appBarEditable"></scan-app-bar>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="true" [subject]="subject" [noticeIcon]="'exclamation-circle'" [severity]="'danger'"
+      [message]="errorMessage" [message2]="'Escolha outra data ou tente novamente mais tarde'"></scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataNotLoaded>
+  <p-toolbar>
+    <div class="ui-toolbar-group-left">
+      <span class="subject">Mapa</span>
+    </div>
+  </p-toolbar>
+  <scan-loading-notice [message]="'Carregando mapa'"></scan-loading-notice>
+</ng-template>

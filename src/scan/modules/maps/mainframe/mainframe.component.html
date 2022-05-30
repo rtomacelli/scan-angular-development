@@ -1,0 +1,123 @@
+<div class="outer" *ngIf="isDataLoaded; else dataIsNotLoaded" [class.dialog]="inDynamicDialog">
+  <ng-container *ngIf="isDataValid; else dataIsNotValid">
+    <div class="mainframe-environment">
+      <p-toolbar *ngIf="!inDynamicDialog">
+        <div class="ui-toolbar-group-left">
+          <span class="subject">Ambiente Mainframe</span>
+          <h1 class="title">Processamento {{processingTitle[type]}}</h1>
+        </div>
+      </p-toolbar>
+      <div class="panel-content">
+        <div class="clusters-legend">
+          <ng-container *ngFor="let type of mainframeEnvironment.clusterTypes">
+            <div class="clusters {{type | toIdentifier}}-clusters">
+              <div class="legend">{{type}}</div>
+              <div class="cluster {{type | toIdentifier}}-cluster" *ngFor="let cluster of mainframeEnvironment.clusters[type]"
+                scanClusterHighlight clusterName="{{ cluster }}"
+                [attr.data-palette-name]="'cluster'" [attr.data-palette-key]="cluster">
+                {{cluster}}
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="data-centers">
+          <div class="data-center" *ngFor="let dataCenter of mainframeEnvironment.dataCenters">
+            <div class="name">{{dataCenter.complexo}} &ndash; {{dataCenter.predio}}</div>
+            <div class="mainframes">
+              <div class="mainframe" *ngFor="let mainframe of dataCenter.listaMainframe">
+                <div class="mainframe-header">
+                  <div class="mainframe-id">
+                    <div class="mainframe-name">{{mainframe.nome}}</div>
+                    <div class="mainframe-model">
+                      {{mainframe.modelo}} ({{mainframe.codigoModelo}}) &mdash; {{mainframe.codigoSerie}}
+                    </div>
+                  </div>
+                  <div class="mainframe-specs">
+                    <div class="mainframe-spec">
+                      <div class="mainframe-spec-value">{{mainframe.qtdCapacidadeMips | number}}</div>
+                      <div class="mainframe-spec-tag">MIPS</div>
+                    </div>
+                    <div class="mainframe-spec">
+                      <div class="mainframe-spec-value">{{mainframe.qtdCapacidadeMsu | number}}</div>
+                      <div class="mainframe-spec-tag">MSU</div>
+                    </div>
+                    <div class="mainframe-spec">
+                      <div class="mainframe-spec-tag">Memória:</div>
+                      <div class="mainframe-spec-value">{{mainframe.qtdMemoriaRam | bytes : 'GB'}}</div>
+                    </div>
+                    <div class="mainframe-spec">
+                      <div class="mainframe-spec-tag">Processadores:</div>
+                      <div class="mainframe-spec-value">{{mainframe.qtdProcessadores | number}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lpars">
+                  <ng-container *ngFor="let lpar of mainframe.listaLpar">
+                    <ng-container *ngIf="!!lpar.imagem && lpar.imagem.sistemaOperacional === 'z/OS'; then hasApps; else noApps"></ng-container>
+                    <ng-template #hasApps>
+                      <div class="lpar" [scanRelatedApps]="lpar.apps[type]" scanClusterHighlight clusterName="{{ lpar.imagem.nomeCluster }}"
+                        (click)="showLparMenu(lpar, $event)" (mouseenter)="hoverLpar(lpar, $event)" (mouseleave)="leaveLpar()"
+                        [class.clickable]="isLparMenuAvailable(lpar)" [attr.data-palette-name]="'cluster'"
+                        [attr.data-palette-key]="lpar.imagem.nomeCluster" [attr.data-os]="lpar.imagem.sistemaOperacional">
+                        <ng-container *ngTemplateOutlet="lparContent; context: { lpar: lpar }"></ng-container>
+                      </div>
+                    </ng-template>
+                    <ng-template #noApps>
+                      <div class="lpar" scanClusterHighlight clusterName="{{ lpar.imagem.nomeCluster }}"
+                        (click)="showLparMenu(lpar, $event)" (mouseenter)="hoverLpar(lpar, $event)" (mouseleave)="leaveLpar()"
+                        [class.clickable]="isLparMenuAvailable(lpar)" [attr.data-palette-name]="'cluster'"
+                        [attr.data-palette-key]="lpar.imagem.nomeCluster" [attr.data-os]="lpar.imagem.sistemaOperacional">
+                        <ng-container *ngTemplateOutlet="lparContent; context: { lpar: lpar }"></ng-container>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <scan-app-bar [appPortfolio]="appPortfolio" [editable]="!inInfrastructureMap"></scan-app-bar>
+  </ng-container>
+  <ng-template #dataIsNotValid>
+    <scan-notice-panel [withToolbar]="true" [subject]="'Ambiente Mainframe'"
+      [title]="'Processamento ' + processingTitle[type]" [noticeIcon]="'exclamation-circle'" [severity]="'danger'"
+      [message]="errorMessage" [message2]="''"></scan-notice-panel>
+  </ng-template>
+</div>
+<ng-template #dataIsNotLoaded>
+  <p-toolbar *ngIf="!inDynamicDialog">
+    <div class="ui-toolbar-group-left">
+      <span class="subject">Ambiente Mainframe</span>
+      <h1 class="title">Processamento {{processingTitle[type]}}</h1>
+    </div>
+  </p-toolbar>
+  <scan-loading-notice [message]="'Carregando'"></scan-loading-notice>
+</ng-template>
+
+<ng-template #lparContent let-lpar="lpar">
+  <div class="lpar-name">{{lpar.nome}}</div>
+  <div class="lpar-image">
+    <ng-container *ngIf="lpar.imagem.nome; else noImage">{{lpar.imagem.nome}}</ng-container>
+    <ng-template #noImage>&mdash;</ng-template>
+  </div>
+</ng-template>
+
+<p-menu #lparMenu [popup]="true" [model]="lparMenuItems" [appendTo]="'body'"></p-menu>
+
+<p-overlayPanel #opLpar styleClass="lpar-overlay" [hideTransitionOptions]="'0ms'" [appendTo]="'body'">
+  <scan-overlay-metadata [metadata]="hoveredLparMetadata" *ngIf="hoveredLpar"></scan-overlay-metadata>
+  <scan-interaction [button]="1" [text]="'Mostrar menu'" *ngIf="isLparMenuAvailable(hoveredLpar)"></scan-interaction>
+</p-overlayPanel>
+
+<p-dialog #reportClassesDialog header="{{clickedLpar.imagem.nome}} &ndash; Classes de Relatório"
+  [(visible)]="showReportClasses" [contentStyle]="{'max-width': '50vw'}" [resizable]="false" [dismissableMask]="false"
+  [modal]="false" [minX]="50" [minY]="100" (onHide)="clearClickedLpar()" [attr.data-palette-name]="'cluster'"
+  [attr.data-palette-key]="clickedLpar.imagem.nomeCluster" *ngIf="clickedLpar">
+  <div class="report-classes">
+    <span class="color-coded-tag" *ngFor="let reportClass of clickedLpar.imagem.classesRelatorio">
+      {{reportClass}}
+    </span>
+  </div>
+</p-dialog>

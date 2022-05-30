@@ -1,0 +1,12 @@
+<scan-header [title]="title" [version]="version" [timestamp]="timestamp"
+  [environmentName]="env.name" [showToolbar]="userIsRegistered">
+</scan-header>
+<ng-container *ngIf="userIsRegistered; else userNotRegistered">
+  <scan-sidebar></scan-sidebar>
+  <div id="content">
+    <router-outlet></router-outlet>
+  </div>
+</ng-container>
+<ng-template #userNotRegistered>
+  <scan-loading-notice [message]="'Autenticando'"></scan-loading-notice>
+</ng-template>
